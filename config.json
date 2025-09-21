@@ -5,6 +5,5 @@
     "GMEEK_VERSION":"last",
     "startSite":"09/21/2025",
     "i18n":"CN",
-    "indexStyle":""
-   
+    "indexScript":"<script src='/static/assets/bg.js'></script>"	
 }
