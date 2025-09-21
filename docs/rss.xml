@@ -1,5 +1,136 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>S@Ku_γAのblog</title><link>https://sakuya-sys.github.io</link><description>S@Ku_γAのblog</description><copyright>S@Ku_γAのblog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/178064080?v=4</url><title>avatar</title><link>https://sakuya-sys.github.io</link></image><lastBuildDate>Sun, 21 Sep 2025 03:32:37 +0000</lastBuildDate><managingEditor>S@Ku_γAのblog</managingEditor><ttl>60</ttl><webMaster>S@Ku_γAのblog</webMaster><item><title>test</title><link>https://sakuya-sys.github.io/post/test.html</link><description>## hello world
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>S@Ku_γAのblog</title><link>https://sakuya-sys.github.io</link><description>S@Ku_γAのblog</description><copyright>S@Ku_γAのblog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/178064080?v=4</url><title>avatar</title><link>https://sakuya-sys.github.io</link></image><lastBuildDate>Sun, 21 Sep 2025 04:01:07 +0000</lastBuildDate><managingEditor>S@Ku_γAのblog</managingEditor><ttl>60</ttl><webMaster>S@Ku_γAのblog</webMaster><item><title>test</title><link>https://sakuya-sys.github.io/post/test.html</link><description>&lt;!DOCTYPE html&gt;
+&lt;html lang='zh-CN'&gt;
+&lt;head&gt;
+    &lt;meta charset='UTF-8'&gt;
+    &lt;meta name='viewport' content='width=device-width, initial-scale=1.0'&gt;
+    &lt;title&gt;背景图片设置器&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb') center/cover no-repeat fixed;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            transition: background 0.5s ease;
+        }
+        
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        input[type='text'] {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            background: #4e54c8;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:hover {
+            background: #6a6fd6;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .preview {
+            margin-top: 25px;
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 100%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .preview img {
+            max-width: 100%;
+            display: block;
+        }
+        
+        .credit {
+            margin-top: 20px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class='container'&gt;
+        &lt;h1&gt;背景图片设置器&lt;/h1&gt;
+        
+        &lt;div class='input-group'&gt;
+            &lt;input type='text' id='imageUrl' placeholder='请输入图片URL' 
+                   value='http://47.115.148.182:8000/3be5e450352ac65cdb452f17f7f2b21192138af0.jpg'&gt;
+        &lt;/div&gt;
+        
+        &lt;button onclick='applyBackground()'&gt;应用背景图片&lt;/button&gt;
+        
+        &lt;div class='preview'&gt;
+            &lt;img id='previewImage' src='' alt='图片预览'&gt;
+        &lt;/div&gt;
+        
+        &lt;p class='credit'&gt;输入图片URL后点击按钮即可更改背景&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        function applyBackground() {
+            const imageUrl = document.getElementById('imageUrl').value;
+            if (imageUrl) {
+                document.body.style.backgroundImage = `url('${imageUrl}')`;
+                document.getElementById('previewImage').src = imageUrl;
+            } else {
+                alert('请输入有效的图片URL');
+            }
+        }
+        
+        // 页面加载时显示预览
+        window.onload = function() {
+            const defaultImage = document.getElementById('imageUrl').value;
+            if (defaultImage) {
+                document.getElementById('previewImage').src = defaultImage;
+            }
+        };
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+
+## hello world
 
 ## 123
 ## test
