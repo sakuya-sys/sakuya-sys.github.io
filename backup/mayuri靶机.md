@@ -107,7 +107,7 @@
 <img width="456" height="90" alt="Image" src="https://github.com/user-attachments/assets/00ff0da7-b257-4cda-8133-c1cac1ed9b9f" />
 
 最后拿到root的flag
-```
+
 
 # 关于环境变量提权
 
@@ -135,6 +135,7 @@
 
 来寻找这类命令
 ---
+
 感谢你看到这
 
 ![Image](https://github.com/user-attachments/assets/e541c6aa-f7af-4bcf-add5-7e63bf166bb7)

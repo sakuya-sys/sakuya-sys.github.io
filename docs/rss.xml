@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>S@Ku_γAのblog</title><link>https://sakuya-sys.github.io</link><description>S@Ku_γAのblog</description><copyright>S@Ku_γAのblog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/178064080?v=4</url><title>avatar</title><link>https://sakuya-sys.github.io</link></image><lastBuildDate>Sun, 21 Sep 2025 05:43:19 +0000</lastBuildDate><managingEditor>S@Ku_γAのblog</managingEditor><ttl>60</ttl><webMaster>S@Ku_γAのblog</webMaster><item><title>chat靶机</title><link>https://sakuya-sys.github.io/post/chat-ba-ji.html</link><description># chat靶机
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>S@Ku_γAのblog</title><link>https://sakuya-sys.github.io</link><description>S@Ku_γAのblog</description><copyright>S@Ku_γAのblog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/178064080?v=4</url><title>avatar</title><link>https://sakuya-sys.github.io</link></image><lastBuildDate>Sun, 21 Sep 2025 05:44:02 +0000</lastBuildDate><managingEditor>S@Ku_γAのblog</managingEditor><ttl>60</ttl><webMaster>S@Ku_γAのblog</webMaster><item><title>chat靶机</title><link>https://sakuya-sys.github.io/post/chat-ba-ji.html</link><description># chat靶机
 
 ## 端口信息
 
@@ -219,7 +219,7 @@ scycree可以用ghfs命令先看看后台进程情况
 &lt;img width='456' height='90' alt='Image' src='https://github.com/user-attachments/assets/00ff0da7-b257-4cda-8133-c1cac1ed9b9f' /&gt;
 
 最后拿到root的flag
-```
+
 
 # 关于环境变量提权
 
@@ -247,6 +247,7 @@ scycree可以用ghfs命令先看看后台进程情况
 
 来寻找这类命令
 ---
+
 感谢你看到这
 
 ![Image](https://github.com/user-attachments/assets/e541c6aa-f7af-4bcf-add5-7e63bf166bb7)。</description><guid isPermaLink="true">https://sakuya-sys.github.io/post/mayuri-ba-ji.html</guid><pubDate>Sun, 21 Sep 2025 05:35:46 +0000</pubDate></item><item><title>monitor靶机</title><link>https://sakuya-sys.github.io/post/monitor-ba-ji.html</link><description># monitor靶机
