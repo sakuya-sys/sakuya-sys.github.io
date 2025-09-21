@@ -1,13 +1,3 @@
-<!DOCTYPE html>
-<html>
-    <style>
-        body {
-            margin: 0;
-            background: url('http://47.115.148.182:8000/3be5e450352ac65cdb452f17f7f2b21192138af0.jpg') center/cover no-repeat fixed;
-            height: 100vh;
-        }
-    </style>
-</html>
 
 ## hello world
 
