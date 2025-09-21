@@ -4,5 +4,7 @@
     "avatarUrl":"https://avatars.githubusercontent.com/u/178064080?v=4",
     "GMEEK_VERSION":"last",
     "startSite":"09/21/2025",
-    "i18n":"CN"
+    "i18n":"CN",
+    "indexStyle":"",
+    "script":"<script async src='//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'></script>"
 }
