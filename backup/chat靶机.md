@@ -83,7 +83,7 @@ scycree可以用ghfs命令先看看后台进程情况
 
 <img width="629" height="286" alt="Image" src="https://github.com/user-attachments/assets/a5965aaf-5ce6-47b2-9646-8eba22496c08" />
 
-```
+
 
 ## 关于ssh登录机制
 
@@ -108,5 +108,5 @@ scycree可以用ghfs命令先看看后台进程情况
 ## 简单来说公钥就是关门的（锁） 私钥就是开门的（钥匙）
 
 ---
-
+感谢你看到这
 ![Image](https://github.com/user-attachments/assets/f52bd376-80a8-4586-9f5f-64a59785315a)
