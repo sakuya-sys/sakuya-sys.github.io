@@ -1,5 +1,82 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>S@Ku_γAのblog</title><link>https://sakuya-sys.github.io</link><description>S@Ku_γAのblog</description><copyright>S@Ku_γAのblog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/178064080?v=4</url><title>avatar</title><link>https://sakuya-sys.github.io</link></image><lastBuildDate>Sun, 21 Sep 2025 04:04:32 +0000</lastBuildDate><managingEditor>S@Ku_γAのblog</managingEditor><ttl>60</ttl><webMaster>S@Ku_γAのblog</webMaster><item><title>test</title><link>https://sakuya-sys.github.io/post/test.html</link><description>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>S@Ku_γAのblog</title><link>https://sakuya-sys.github.io</link><description>S@Ku_γAのblog</description><copyright>S@Ku_γAのblog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/178064080?v=4</url><title>avatar</title><link>https://sakuya-sys.github.io</link></image><lastBuildDate>Sun, 21 Sep 2025 05:21:13 +0000</lastBuildDate><managingEditor>S@Ku_γAのblog</managingEditor><ttl>60</ttl><webMaster>S@Ku_γAのblog</webMaster><item><title>paste靶机</title><link>https://sakuya-sys.github.io/post/paste-ba-ji.html</link><description># paste靶机
+
+## 端口信息
+
+先扫一下端口
+
+&lt;img width='1249' height='606' alt='Image' src='https://github.com/user-attachments/assets/62ad3a81-ff3f-469a-af18-67f0b842fee3' /&gt;
+
+主要是http和ftp可能有用
+
+看到ftp的banner信息里面有一个guest:gu
+
+提示我们用这个账号
+
+但是这个banner信息可能不完整
+
+我们去ftp先登录一下
+
+## ftp
+
+&lt;img width='531' height='105' alt='Image' src='https://github.com/user-attachments/assets/b57bb684-3128-416d-9d3e-08696d45e5e3' /&gt;
+
+提示我们用guest:guest登陆
+
+我们这里直接用这个账号去登录ssh试试
+
+## ssh
+
+&lt;img width='597' height='204' alt='Image' src='https://github.com/user-attachments/assets/afa34fbc-16f5-48cd-a414-ab8d8dfdf6c4' /&gt;
+
+直接登上去了
+
+看看home目录有没有flag
+
+发现什么都没有
+
+&lt;img width='192' height='27' alt='Image' src='https://github.com/user-attachments/assets/1c73f5bf-a2ee-49f7-a345-13d0b8b2a1f0' /&gt;
+
+还有一个film用户
+
+我们看看/etc/passwd有没有什么信息
+
+里面也没有什么有用信息
+
+## http
+
+&lt;img width='692' height='681' alt='Image' src='https://github.com/user-attachments/assets/93687863-568e-4bd0-a78d-da0a696d7e96' /&gt;
+
+打开页面
+
+关于描述貌似是一个密码生成器
+
+我们点一下产生密码
+
+猜测这个就是film账号的密码
+
+&lt;img width='276' height='64' alt='Image' src='https://github.com/user-attachments/assets/edf050cc-88f9-4597-8fcf-600f5a7b9170' /&gt;
+
+成功登录film账号
+
+拿完flag看看有什么命令可以执行
+
+&lt;img width='888' height='120' alt='Image' src='https://github.com/user-attachments/assets/845265e9-3827-4bdf-a426-ca77857dfdc6' /&gt;
+
+有个paste命令可以用
+
+去网上查查这个命令有什么用
+
+最后发现paste可以直接读取文件
+
+于是root用户没必要登录 可以直接读取任意文件
+
+&lt;img width='389' height='64' alt='Image' src='https://github.com/user-attachments/assets/b2cacab3-c710-46a1-84e1-f28aa8ebce46' /&gt;
+
+---
+感谢你看到这
+
+![Image](https://github.com/user-attachments/assets/09688eb0-1df9-4c9f-ad83-1c47aee66423)。</description><guid isPermaLink="true">https://sakuya-sys.github.io/post/paste-ba-ji.html</guid><pubDate>Sun, 21 Sep 2025 05:15:57 +0000</pubDate></item><item><title>test</title><link>https://sakuya-sys.github.io/post/test.html</link><description>
 ## hello world
 
 ## 123
