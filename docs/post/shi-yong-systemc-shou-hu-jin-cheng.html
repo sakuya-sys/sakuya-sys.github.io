@@ -88,23 +88,21 @@ lsof +D /DIR/ 同上，但是会搜索目录下的所有目录，时间相对较
 
 lsof -d FD 显示指定文件描述符的进程
 
-lsof -n 不将IP转换为[[hostname](https://baike.baidu.com/item/hostname/812870?fromModule=lemma_inlink)](https://baike.baidu.com/item/hostname/812870?fromModule=lemma_inlink)，缺省是不加上-n参数
+lsof -n 不将IP转换为hostname
 
 lsof -i 用以显示符合条件的进程情况
 
-lsof -i[46] [protocol][@[[host](https://baike.baidu.com/item/host/3758959?fromModule=lemma_inlink)](https://baike.baidu.com/item/host/3758959?fromModule=lemma_inlink)name|hostaddr][:service|port]
+lsof -i[46] [protocol][@[[host][name|hostaddr][:service|port]
 
-46 --＞ IPv4 or [[IPv6](https://baike.baidu.com/item/IPv6/172297?fromModule=lemma_inlink)](https://baike.baidu.com/item/IPv6/172297?fromModule=lemma_inlink)
-
-protocol --＞ TCP or [[UDP](https://baike.baidu.com/item/UDP/571511?fromModule=lemma_inlink)](https://baike.baidu.com/item/UDP/571511?fromModule=lemma_inlink)
+46 --＞ IPv4 or IPv6
 
 hostname --＞ Internet host name
 
-hostaddr --＞ [[IPv4地址](https://baike.baidu.com/item/IPv4%E5%9C%B0%E5%9D%80/16742558?fromModule=lemma_inlink)](https://baike.baidu.com/item/IPv4%E5%9C%B0%E5%9D%80/16742558?fromModule=lemma_inlink)
+hostaddr --＞ [IPv4地址]
 
 service --＞ /etc/service中的 service name (可以不只一个)
 
-port --＞ [[端口号](https://baike.baidu.com/item/%E7%AB%AF%E5%8F%A3%E5%8F%B7/10883658?fromModule=lemma_inlink)](https://baike.baidu.com/item/%E7%AB%AF%E5%8F%A3%E5%8F%B7/10883658?fromModule=lemma_inlink) (可以不只一个)
+port --＞ [端口号] (可以不只一个)
 
 lsof -i :4000
 
@@ -288,23 +286,21 @@ lsof +D /DIR/ 同上，但是会搜索目录下的所有目录，时间相对较
 
 lsof -d FD 显示指定文件描述符的进程
 
-lsof -n 不将IP转换为[[hostname](https://baike.baidu.com/item/hostname/812870?fromModule=lemma_inlink)](https://baike.baidu.com/item/hostname/812870?fromModule=lemma_inlink)，缺省是不加上-n参数
+lsof -n 不将IP转换为hostname
 
 lsof -i 用以显示符合条件的进程情况
 
-lsof -i[46] [protocol][@[[host](https://baike.baidu.com/item/host/3758959?fromModule=lemma_inlink)](https://baike.baidu.com/item/host/3758959?fromModule=lemma_inlink)name|hostaddr][:service|port]
+lsof -i[46] [protocol][@[[host][name|hostaddr][:service|port]
 
-46 --＞ IPv4 or [[IPv6](https://baike.baidu.com/item/IPv6/172297?fromModule=lemma_inlink)](https://baike.baidu.com/item/IPv6/172297?fromModule=lemma_inlink)
-
-protocol --＞ TCP or [[UDP](https://baike.baidu.com/item/UDP/571511?fromModule=lemma_inlink)](https://baike.baidu.com/item/UDP/571511?fromModule=lemma_inlink)
+46 --＞ IPv4 or IPv6
 
 hostname --＞ Internet host name
 
-hostaddr --＞ [[IPv4地址](https://baike.baidu.com/item/IPv4%E5%9C%B0%E5%9D%80/16742558?fromModule=lemma_inlink)](https://baike.baidu.com/item/IPv4%E5%9C%B0%E5%9D%80/16742558?fromModule=lemma_inlink)
+hostaddr --＞ [IPv4地址]
 
 service --＞ /etc/service中的 service name (可以不只一个)
 
-port --＞ [[端口号](https://baike.baidu.com/item/%E7%AB%AF%E5%8F%A3%E5%8F%B7/10883658?fromModule=lemma_inlink)](https://baike.baidu.com/item/%E7%AB%AF%E5%8F%A3%E5%8F%B7/10883658?fromModule=lemma_inlink) (可以不只一个)
+port --＞ [端口号] (可以不只一个)
 
 lsof -i :4000
 
@@ -511,15 +507,14 @@ WantedBy=multi-user.target</p>
 <p>lsof +d /DIR/ 显示目录下被进程打开的文件</p>
 <p>lsof +D /DIR/ 同上，但是会搜索目录下的所有目录，时间相对较长</p>
 <p>lsof -d FD 显示指定文件描述符的进程</p>
-<p>lsof -n 不将IP转换为[<a href="https://baike.baidu.com/item/hostname/812870?fromModule=lemma_inlink" rel="nofollow">hostname</a>](<a href="https://baike.baidu.com/item/hostname/812870?fromModule=lemma_inlink)%EF%BC%8C%E7%BC%BA%E7%9C%81%E6%98%AF%E4%B8%8D%E5%8A%A0%E4%B8%8A-n%E5%8F%82%E6%95%B0" rel="nofollow">https://baike.baidu.com/item/hostname/812870?fromModule=lemma_inlink)，缺省是不加上-n参数</a></p>
+<p>lsof -n 不将IP转换为hostname</p>
 <p>lsof -i 用以显示符合条件的进程情况</p>
-<p>lsof -i[46] [protocol][@[<a href="https://baike.baidu.com/item/host/3758959?fromModule=lemma_inlink" rel="nofollow">host</a>](https://baike.baidu.com/item/host/3758959?fromModule=lemma_inlink)name|hostaddr][:service|port]</p>
-<p>46 --＞ IPv4 or [<a href="https://baike.baidu.com/item/IPv6/172297?fromModule=lemma_inlink" rel="nofollow">IPv6</a>](<a href="https://baike.baidu.com/item/IPv6/172297?fromModule=lemma_inlink" rel="nofollow">https://baike.baidu.com/item/IPv6/172297?fromModule=lemma_inlink</a>)</p>
-<p>protocol --＞ TCP or [<a href="https://baike.baidu.com/item/UDP/571511?fromModule=lemma_inlink" rel="nofollow">UDP</a>](<a href="https://baike.baidu.com/item/UDP/571511?fromModule=lemma_inlink" rel="nofollow">https://baike.baidu.com/item/UDP/571511?fromModule=lemma_inlink</a>)</p>
+<p>lsof -i[46] [protocol][@[[host][name|hostaddr][:service|port]</p>
+<p>46 --＞ IPv4 or IPv6</p>
 <p>hostname --＞ Internet host name</p>
-<p>hostaddr --＞ [<a href="https://baike.baidu.com/item/IPv4%E5%9C%B0%E5%9D%80/16742558?fromModule=lemma_inlink" rel="nofollow">IPv4地址</a>](<a href="https://baike.baidu.com/item/IPv4%E5%9C%B0%E5%9D%80/16742558?fromModule=lemma_inlink" rel="nofollow">https://baike.baidu.com/item/IPv4%E5%9C%B0%E5%9D%80/16742558?fromModule=lemma_inlink</a>)</p>
+<p>hostaddr --＞ [IPv4地址]</p>
 <p>service --＞ /etc/service中的 service name (可以不只一个)</p>
-<p>port --＞ [<a href="https://baike.baidu.com/item/%E7%AB%AF%E5%8F%A3%E5%8F%B7/10883658?fromModule=lemma_inlink" rel="nofollow">端口号</a>](<a href="https://baike.baidu.com/item/%E7%AB%AF%E5%8F%A3%E5%8F%B7/10883658?fromModule=lemma_inlink)%C2%A0(%E5%8F%AF%E4%BB%A5%E4%B8%8D%E5%8F%AA%E4%B8%80%E4%B8%AA" rel="nofollow">https://baike.baidu.com/item/%E7%AB%AF%E5%8F%A3%E5%8F%B7/10883658?fromModule=lemma_inlink) (可以不只一个</a>)</p>
+<p>port --＞ [端口号] (可以不只一个)</p>
 <p>lsof -i :4000</p>
 <p>查找端口号为4000的进程服务</p>
 <h2>kill可以杀死进程</h2>
