@@ -1,5 +1,23 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>S@Ku_γAのblog</title><link>https://sakuya-sys.github.io</link><description>S@Ku_γAのblog</description><copyright>S@Ku_γAのblog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/178064080?v=4</url><title>avatar</title><link>https://sakuya-sys.github.io</link></image><lastBuildDate>Sun, 21 Sep 2025 06:01:11 +0000</lastBuildDate><managingEditor>S@Ku_γAのblog</managingEditor><ttl>60</ttl><webMaster>S@Ku_γAのblog</webMaster><item><title>使用systemc守护进程</title><link>https://sakuya-sys.github.io/post/shi-yong-systemc-shou-hu-jin-cheng.html</link><description>## 使用systemd维护进程
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>S@Ku_γAのblog</title><link>https://sakuya-sys.github.io</link><description>S@Ku_γAのblog</description><copyright>S@Ku_γAのblog</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://avatars.githubusercontent.com/u/178064080?v=4</url><title>avatar</title><link>https://sakuya-sys.github.io</link></image><lastBuildDate>Tue, 23 Sep 2025 13:33:20 +0000</lastBuildDate><managingEditor>S@Ku_γAのblog</managingEditor><ttl>60</ttl><webMaster>S@Ku_γAのblog</webMaster><item><title>代理搭建</title><link>https://sakuya-sys.github.io/post/dai-li-da-jian.html</link><description># 搭建代理
+
+&lt;img width='1758' height='604' alt='Image' src='https://github.com/user-attachments/assets/5220391b-2f7d-480d-af01-5c2339b4cf11' /&gt;
+
+工具:vshell
+
+chisel
+
+stowaway
+
+搭建代理：
+
+## chisel
+
+vps上: ``./chisel server -p 6666 --reverse``
+
+在vps上使用chisel建立代理服务器 监听端口6666 允许反向代理
+
+ `--reverse` 允许客户端反过来请求服务器开通端口给它用。</description><guid isPermaLink="true">https://sakuya-sys.github.io/post/dai-li-da-jian.html</guid><pubDate>Tue, 23 Sep 2025 13:32:52 +0000</pubDate></item><item><title>使用systemc守护进程</title><link>https://sakuya-sys.github.io/post/shi-yong-systemc-shou-hu-jin-cheng.html</link><description>## 使用systemd维护进程
 
 使用systemd可以将服务注册为系统守护进程，使得服务可以长时间运作，断开ssh连接继续执行
 
