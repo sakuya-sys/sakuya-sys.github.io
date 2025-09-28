@@ -1,0 +1,819 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"en":"Copy successfully (*^▽^*)"},"fail":{"en":"Copy failed (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = 'All articles on this blog are licensed under the BY-NC-SA license agreement unless otherwise stated. Please indicate the source when reprinting!';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    使用systemd维护进程 |
+    
+    S@Ku_yA的blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="使用systemd维护进程使用systemd可以将服务注册为系统守护进程，使得服务可以长时间运作，断开ssh连接继续执行  创建&#x2F;etc&#x2F;systemd&#x2F;system&#x2F;服务名称.service 并改写配置  [Unit]Description&#x3D;Hexo Image ServerAfter&#x3D;network.target [Service]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用systemd维护进程">
+<meta property="og:url" content="http://example.com/2025/09/28/%E4%BD%BF%E7%94%A8systemd%E7%BB%B4%E6%8A%A4%E8%BF%9B%E7%A8%8B/index.html">
+<meta property="og:site_name" content="S@Ku_yA的blog">
+<meta property="og:description" content="使用systemd维护进程使用systemd可以将服务注册为系统守护进程，使得服务可以长时间运作，断开ssh连接继续执行  创建&#x2F;etc&#x2F;systemd&#x2F;system&#x2F;服务名称.service 并改写配置  [Unit]Description&#x3D;Hexo Image ServerAfter&#x3D;network.target [Service]">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2025-09-28T15:20:38.000Z">
+<meta property="article:modified_time" content="2025-09-28T16:12:04.888Z">
+<meta property="article:author" content="S@Ku_yA">
+<meta name="twitter:card" content="summary">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="S@Ku_yA的blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+           M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg>
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">Loading...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var loaderEl = document.getElementById('loader');
+    var startLoading = () => {
+      time = Date.now();
+      loaderEl.classList.remove("loading");
+    }
+    var hideLoader = () => {
+      document.body.style.overflow = 'auto';
+      loader.classList.add('loading');
+    };
+
+    var endLoading = () => {
+      if (!time) {
+        hideLoader();
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          hideLoader();
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    loaderEl.addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip"></div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav" aria-label="Primary navigation">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/">Home</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/archives">Archives</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/about">About</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/friend">Friend</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon" aria-label="Toggle navigation" role="button"></a>
+  </nav>
+  <nav id="sub-nav" aria-label="Secondary navigation">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" aria-label="RSS Feed" target="_blank"></a>
+    
+    
+  </nav>
+  
+</div>
+<header id="header" aria-label="Site header">
+  
+    
+      
+        <picture>
+          
+        </picture>
+        
+          <img  fetchpriority="high" src="/images/banner.webp" alt="使用systemd维护进程">
+        
+      
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <span id="logo">
+            <h1 data-aos="slide-up">使用systemd维护进程</h1>
+          </span>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" aria-label="Page content"  class="sidebar-right" >
+          <aside id="sidebar" aria-label="Sidebar">
+  
+  <div class="sidebar-wrapper-container sticky">
+  
+    
+    
+  
+ 
+  <div class="sidebar-wrapper">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><h3 class="toc-title">Contents</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+  
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8systemd%E7%BB%B4%E6%8A%A4%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">使用systemd维护进程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95"><span class="toc-number">1.1.</span> <span class="toc-text">指定工作目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7"><span class="toc-number">1.2.</span> <span class="toc-text">使用普通用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%91%BD%E4%BB%A4%EF%BC%9A%E6%B7%BB%E5%8A%A0%E7%BB%91%E5%AE%9A%E5%9C%B0%E5%9D%80%E5%92%8C%E6%AD%A3%E7%A1%AE%E7%AB%AF%E5%8F%A3"><span class="toc-number">1.3.</span> <span class="toc-text">修复命令：添加绑定地址和正确端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E7%AD%96%E7%95%A5"><span class="toc-number">1.4.</span> <span class="toc-text">重启策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E9%99%90%E5%88%B6%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">安全限制（可选）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lsof%E5%91%BD%E4%BB%A4%E5%8F%AF%E4%BB%A5%E6%9F%A5%E6%89%BE%E8%BF%9B%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">lsof命令可以查找进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#kill%E5%8F%AF%E4%BB%A5%E6%9D%80%E6%AD%BB%E8%BF%9B%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">kill可以杀死进程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E4%B8%93%E7%94%A8%E7%94%A8%E6%88%B7"><span class="toc-number"></span> <span class="toc-text">使用专用用户</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number"></span> <span class="toc-text">设置环境变量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95%E5%92%8C%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4"><span class="toc-number"></span> <span class="toc-text">工作目录和启动命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E7%AD%96%E7%95%A5-1"><span class="toc-number"></span> <span class="toc-text">重启策略</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E8%AE%BE%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">安全设置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95%EF%BC%88%E5%9B%BE%E7%89%87%E6%89%80%E5%9C%A8%E7%9B%AE%E5%BD%95%EF%BC%89"><span class="toc-number"></span> <span class="toc-text">指定工作目录（图片所在目录）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7%EF%BC%88%E9%9D%9Eroot%E6%9B%B4%E5%AE%89%E5%85%A8%EF%BC%89"><span class="toc-number"></span> <span class="toc-text">使用普通用户（非root更安全）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%91%BD%E4%BB%A4%EF%BC%9A%E6%B7%BB%E5%8A%A0%E7%BB%91%E5%AE%9A%E5%9C%B0%E5%9D%80%E5%92%8C%E6%AD%A3%E7%A1%AE%E7%AB%AF%E5%8F%A3-1"><span class="toc-number"></span> <span class="toc-text">修复命令：添加绑定地址和正确端口</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E7%AD%96%E7%95%A5-2"><span class="toc-number"></span> <span class="toc-text">重启策略</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E9%99%90%E5%88%B6%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89-1"><span class="toc-number"></span> <span class="toc-text">安全限制（可选）</span></a>
+  
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="S@Ku_yA" class="lazyload">
+  <div class="sidebar-author-name">S@Ku_yA</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">9</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">Home</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">Archives</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">About</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">Friend</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+  
+  <div class="sidebar-widget">
+  
+  </div>
+  
+  </div>
+  
+</aside>
+
+          <section id="main" aria-label="Main content"><article id="post-使用systemd维护进程" class="h-entry article" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link icon-calendar" data-aos="zoom-in">
+    <time datetime="2025-09-28T15:20:38.000Z" itemprop="datePublished">2025-09-28</time>
+    <time style="display: none;" id="post-update-time">2025-09-29</time>
+  </span>
+  
+</div>
+
+      
+
+    </div>
+    
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h2 id="使用systemd维护进程"><a href="#使用systemd维护进程" class="headerlink" title="使用systemd维护进程"></a>使用systemd维护进程</h2><p>使用systemd可以将服务注册为系统守护进程，使得服务可以长时间运作，断开ssh连接继续执行</p>
+<hr>
+<p>创建&#x2F;etc&#x2F;systemd&#x2F;system&#x2F;服务名称.service</p>
+<p>并改写配置</p>
+<hr>
+<p>[Unit]<br>Description&#x3D;Hexo Image Server<br>After&#x3D;network.target</p>
+<p>[Service]</p>
+<h3 id="指定工作目录"><a href="#指定工作目录" class="headerlink" title="指定工作目录"></a>指定工作目录</h3><p>WorkingDirectory&#x3D;工作路径(在哪里启动)</p>
+<h3 id="使用普通用户"><a href="#使用普通用户" class="headerlink" title="使用普通用户"></a>使用普通用户</h3><p>User&#x3D;your_username<br>Group&#x3D;your_group</p>
+<h3 id="修复命令：添加绑定地址和正确端口"><a href="#修复命令：添加绑定地址和正确端口" class="headerlink" title="修复命令：添加绑定地址和正确端口"></a>修复命令：添加绑定地址和正确端口</h3><p>ExecStart&#x3D;二进制程序的绝对路径</p>
+<h3 id="重启策略"><a href="#重启策略" class="headerlink" title="重启策略"></a>重启策略</h3><p>Restart&#x3D;on-failure<br>RestartSec&#x3D;5s</p>
+<h3 id="安全限制（可选）"><a href="#安全限制（可选）" class="headerlink" title="安全限制（可选）"></a>安全限制（可选）</h3><p>NoNewPrivileges&#x3D;yes<br>PrivateTmp&#x3D;yes</p>
+<p>[Install]<br>WantedBy&#x3D;multi-user.target</p>
+<hr>
+<p>保存配置之后</p>
+<p>sudo systemctl daemon-reload（重载配置信息）</p>
+<p>sudo systemctl start 服务名</p>
+<p>sudo systemctl status 服务名</p>
+<p>正常情况下就可以正常运行了</p>
+<p>sudo systemctl enable 服务名</p>
+<p>开机自动启动</p>
+<hr>
+<h2 id="lsof命令可以查找进程"><a href="#lsof命令可以查找进程" class="headerlink" title="lsof命令可以查找进程"></a>lsof命令可以查找进程</h2><p>lsof filename 显示打开指定文件的所有进程</p>
+<p>lsof -a 表示两个参数都必须满足时才显示结果</p>
+<p>lsof -c string 显示COMMAND列中包含指定字符的进程所有打开的文件</p>
+<p>lsof -u username 显示所属user进程打开的文件</p>
+<p>lsof -g gid 显示归属gid的进程情况</p>
+<p>lsof +d &#x2F;DIR&#x2F; 显示目录下被进程打开的文件</p>
+<p>lsof +D &#x2F;DIR&#x2F; 同上，但是会搜索目录下的所有目录，时间相对较长</p>
+<p>lsof -d FD 显示指定文件描述符的进程</p>
+<p>lsof -n 不将IP转换为<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/hostname/812870?fromModule=lemma_inlink">hostname</a>，缺省是不加上-n参数</p>
+<p>lsof -i 用以显示符合条件的进程情况</p>
+<p>lsof -i[46] [protocol][@<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/host/3758959?fromModule=lemma_inlink">host</a>name|hostaddr][:service|port]</p>
+<p>46 –＞ IPv4 or <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/IPv6/172297?fromModule=lemma_inlink">IPv6</a></p>
+<p>protocol –＞ TCP or <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/UDP/571511?fromModule=lemma_inlink">UDP</a></p>
+<p>hostname –＞ Internet host name</p>
+<p>hostaddr –＞ <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/IPv4%E5%9C%B0%E5%9D%80/16742558?fromModule=lemma_inlink">IPv4地址</a></p>
+<p>service –＞ &#x2F;etc&#x2F;service中的 service name (可以不只一个)</p>
+<p>port –＞ <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%AB%AF%E5%8F%A3%E5%8F%B7/10883658?fromModule=lemma_inlink">端口号</a> (可以不只一个)</p>
+<p>lsof -i :4000</p>
+<p>查找端口号为4000的进程服务</p>
+<h2 id="kill可以杀死进程"><a href="#kill可以杀死进程" class="headerlink" title="kill可以杀死进程"></a>kill可以杀死进程</h2><p>-l  信号，若果不加信号的编号参数，则使用“-l”参数会列出全部的信号名称</p>
+<p>-a  当处理当前进程时，不限制命令名和进程号的对应关系</p>
+<p>-p  指定kill 命令只打印相关进程的进程号，而不发送任何信号</p>
+<p>-s  指定发送信号</p>
+<p>-u  指定用户</p>
+<p>kill 9 &lt;PID&gt;</p>
+<p>杀死进程号为pid的进程</p>
+<p>hexo</p>
+<p>[Unit]</p>
+<p>Description&#x3D;Hexo Blog Server</p>
+<p>After&#x3D;network.target</p>
+<p>[Service]</p>
+<h1 id="使用专用用户"><a href="#使用专用用户" class="headerlink" title="使用专用用户"></a>使用专用用户</h1><p>User&#x3D;root</p>
+<h1 id="设置环境变量"><a href="#设置环境变量" class="headerlink" title="设置环境变量"></a>设置环境变量</h1><p>Environment&#x3D;”NODE_ENV&#x3D;production”</p>
+<p>Environment&#x3D;”PATH&#x3D;&#x2F;usr&#x2F;nodejs&#x2F;bin:&#x2F;usr&#x2F;local&#x2F;sbin:&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;bin”</p>
+<h1 id="工作目录和启动命令"><a href="#工作目录和启动命令" class="headerlink" title="工作目录和启动命令"></a>工作目录和启动命令</h1><p>WorkingDirectory&#x3D;&#x2F;usr&#x2F;blog</p>
+<p>ExecStart&#x3D;&#x2F;usr&#x2F;nodejs&#x2F;bin&#x2F;hexo server -p 80  # 改用高位端口</p>
+<h1 id="重启策略-1"><a href="#重启策略-1" class="headerlink" title="重启策略"></a>重启策略</h1><p>Restart&#x3D;always</p>
+<p>RestartSec&#x3D;5</p>
+<p>StartLimitIntervalSec&#x3D;60</p>
+<p>StartLimitBurst&#x3D;3</p>
+<h1 id="安全设置"><a href="#安全设置" class="headerlink" title="安全设置"></a>安全设置</h1><p>NoNewPrivileges&#x3D;yes</p>
+<p>PrivateTmp&#x3D;yes</p>
+<p>[Install]</p>
+<p>WantedBy&#x3D;multi-user.target</p>
+<p>im</p>
+<p>[Unit]</p>
+<p>Description&#x3D;Hexo Image Server</p>
+<p>After&#x3D;network.target</p>
+<p>[Service]</p>
+<h1 id="指定工作目录（图片所在目录）"><a href="#指定工作目录（图片所在目录）" class="headerlink" title="指定工作目录（图片所在目录）"></a>指定工作目录（图片所在目录）</h1><p>WorkingDirectory&#x3D;&#x2F;usr&#x2F;blog&#x2F;source&#x2F;_data&#x2F;images</p>
+<h1 id="使用普通用户（非root更安全）"><a href="#使用普通用户（非root更安全）" class="headerlink" title="使用普通用户（非root更安全）"></a>使用普通用户（非root更安全）</h1><p>User&#x3D;hexouser</p>
+<h1 id="修复命令：添加绑定地址和正确端口-1"><a href="#修复命令：添加绑定地址和正确端口-1" class="headerlink" title="修复命令：添加绑定地址和正确端口"></a>修复命令：添加绑定地址和正确端口</h1><p>ExecStart&#x3D;&#x2F;usr&#x2F;bin&#x2F;python3 -m http.server –bind 0.0.0.0 65532</p>
+<h1 id="重启策略-2"><a href="#重启策略-2" class="headerlink" title="重启策略"></a>重启策略</h1><p>Restart&#x3D;on-failure</p>
+<p>RestartSec&#x3D;5s</p>
+<h1 id="安全限制（可选）-1"><a href="#安全限制（可选）-1" class="headerlink" title="安全限制（可选）"></a>安全限制（可选）</h1><p>NoNewPrivileges&#x3D;yes</p>
+<p>PrivateTmp&#x3D;yes</p>
+<p>[Install]</p>
+<p>WantedBy&#x3D;multi-user.target</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap left">
+        
+          
+          
+            <img data-src="/covers/53031871_p0.jpg" data-sizes="auto" alt="team靶机" class="lazyload">
+          
+        
+        <a href="/2025/09/28/team%E9%9D%B6%E6%9C%BA/" aria-label="Prev: team靶机" title="Prev: team靶机"></a>
+        <div class="article-nav-caption">Prev</div>
+        <h3 class="article-nav-title">
+          
+            team靶机
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap right">
+      
+        
+        
+          <img data-src="/covers/62637904_p0.jpg" data-sizes="auto" alt="paste靶机" class="lazyload">
+        
+      
+      <a href="/2025/09/28/paste%E9%9D%B6%E6%9C%BA/" aria-label="Next: paste靶机"  title="Next: paste靶机"></a>
+      <div class="article-nav-caption">Next</div>
+      <h3 class="article-nav-title">
+        
+          paste靶机
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+
+</section>
+        </div>
+        <footer id="footer" aria-label="Site footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2020-2025
+      
+      <span class="footer-info-sep rotate"></span>
+      S@Ku_yA
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        4.3k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        00:22
+      </div>
+    
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav" aria-label="Mobile navigation">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><h3 class="toc-title">Contents</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+  
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8systemd%E7%BB%B4%E6%8A%A4%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">使用systemd维护进程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95"><span class="toc-number">1.1.</span> <span class="toc-text">指定工作目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7"><span class="toc-number">1.2.</span> <span class="toc-text">使用普通用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%91%BD%E4%BB%A4%EF%BC%9A%E6%B7%BB%E5%8A%A0%E7%BB%91%E5%AE%9A%E5%9C%B0%E5%9D%80%E5%92%8C%E6%AD%A3%E7%A1%AE%E7%AB%AF%E5%8F%A3"><span class="toc-number">1.3.</span> <span class="toc-text">修复命令：添加绑定地址和正确端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E7%AD%96%E7%95%A5"><span class="toc-number">1.4.</span> <span class="toc-text">重启策略</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E9%99%90%E5%88%B6%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">安全限制（可选）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lsof%E5%91%BD%E4%BB%A4%E5%8F%AF%E4%BB%A5%E6%9F%A5%E6%89%BE%E8%BF%9B%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">lsof命令可以查找进程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#kill%E5%8F%AF%E4%BB%A5%E6%9D%80%E6%AD%BB%E8%BF%9B%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">kill可以杀死进程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E4%B8%93%E7%94%A8%E7%94%A8%E6%88%B7"><span class="toc-number"></span> <span class="toc-text">使用专用用户</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number"></span> <span class="toc-text">设置环境变量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95%E5%92%8C%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4"><span class="toc-number"></span> <span class="toc-text">工作目录和启动命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E7%AD%96%E7%95%A5-1"><span class="toc-number"></span> <span class="toc-text">重启策略</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E8%AE%BE%E7%BD%AE"><span class="toc-number"></span> <span class="toc-text">安全设置</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95%EF%BC%88%E5%9B%BE%E7%89%87%E6%89%80%E5%9C%A8%E7%9B%AE%E5%BD%95%EF%BC%89"><span class="toc-number"></span> <span class="toc-text">指定工作目录（图片所在目录）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7%EF%BC%88%E9%9D%9Eroot%E6%9B%B4%E5%AE%89%E5%85%A8%EF%BC%89"><span class="toc-number"></span> <span class="toc-text">使用普通用户（非root更安全）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%91%BD%E4%BB%A4%EF%BC%9A%E6%B7%BB%E5%8A%A0%E7%BB%91%E5%AE%9A%E5%9C%B0%E5%9D%80%E5%92%8C%E6%AD%A3%E7%A1%AE%E7%AB%AF%E5%8F%A3-1"><span class="toc-number"></span> <span class="toc-text">修复命令：添加绑定地址和正确端口</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E7%AD%96%E7%95%A5-2"><span class="toc-number"></span> <span class="toc-text">重启策略</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E9%99%90%E5%88%B6%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89-1"><span class="toc-number"></span> <span class="toc-text">安全限制（可选）</span></a>
+  
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="S@Ku_yA" class="lazyload">
+  <div class="sidebar-author-name">S@Ku_yA</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Post</div>
+    <div class="sidebar-state-number">9</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Category</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tag</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">Home</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">Archives</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">About</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">Friend</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "S@Ku_yA",
+          title: "使用systemd维护进程",
+          url: "http://example.com/2025/09/28/%E4%BD%BF%E7%94%A8systemd%E7%BB%B4%E6%8A%A4%E8%BF%9B%E7%A8%8B/",
+          excerpt: "",
+          description: "",
+          stripContent: "使用systemd维护进程使用systemd可以将服务注册为系统守护进程，使得服务可以长时间运作，断开ssh连接继续执行  创建&amp;#x2F;etc&amp;#x2F;systemd&amp;#x2F;system&amp;#x2F;服务名称.service 并改写配置  [Unit]Description&amp;#x3D;Hexo Image ServerAfter&amp;#x3D;network.target [Service] 指定工作目录WorkingDirectory&amp;#x3D;工作路径(在哪里启动) 使用普通用户User",
+          date: "Sun Sep 28 2025 23:20:38 GMT+0800",
+          updated: "Mon Sep 29 2025 00:12:04 GMT+0800",
+          cover: "/images/banner.webp",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.10.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+
