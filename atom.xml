@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>S@Ku_yA的blog</title>
+  
+  <subtitle>车车人的笔记</subtitle>
+  <link href="http://example.com/atom.xml" rel="self"/>
+  
+  <link href="http://example.com/"/>
+  <updated>2025-09-29T03:41:41.204Z</updated>
+  <id>http://example.com/</id>
+  
+  <author>
+    <name>S@Ku_yA</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>chat靶机</title>
+    <link href="http://example.com/2025/09/28/chat%E9%9D%B6%E6%9C%BA/"/>
+    <id>http://example.com/2025/09/28/chat%E9%9D%B6%E6%9C%BA/</id>
+    <published>2025-09-28T15:58:20.000Z</published>
+    <updated>2025-09-29T03:41:41.204Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="chat靶机"><a href="#chat靶机" class="headerlink" title="chat靶机"></a>chat靶机</h1><h2 id="端口信息"><a href="#端口信息" class="headerlink" title="端口信息"></a>端口信息</h2><p><img src="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/1.png" alt="1"></p><p>主要是22 2222 8000端口</p><h2 id="http"><a href="#http" class="headerlink" title="http"></a>http</h2><p><img src="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/2.png" alt="2"></p><p>打开是某个用户的目录</p><p>没法超越目录只能在这个目录下查看</p><p><img src="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/3.png" alt="3"></p><p>.ssh里面有私钥</p><p>可以尝试用私钥来免密登录</p><p>公钥里面泄露了用户名称</p><p><img src="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/4.png" alt="4"></p><h2 id="ssh-chat"><a href="#ssh-chat" class="headerlink" title="ssh chat"></a>ssh chat</h2><p>这个端口开放的服务是一个匿名聊天室</p><p><img src="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/5.png" alt="5"></p><p>用户名可以随便输入</p><p>尝试多次并没有什么可以攻击的地方</p><h2 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h2><p>使用私钥来尝试ssh免密登录</p><p><img src="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/6.png" alt="6"></p><p>虽然使用了私钥 但是并没有提示私钥是否正确 或者 权限问题 所以这个用户没法用私钥登录</p><p>在之前的ssh chat也出现过todd</p><p>可以进行尝试用todd和scycree去爆破密码</p><p><img src="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/7.png" alt="7"></p><p>这里猜测todd:todd也是比较抽象（todd是群里的大佬）</p><p>但是成功了</p><p><img src="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/8.png" alt="8"></p><p>确实有scycree用户</p><p>各自home目录下面都没有user的flag这个靶机可能只有root的flag了</p><p>在scycree下面也确实有.ssh文件那么现在可以知道了，在网站里面的目录就是scycree的home目录映射出的</p><p><img src="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/9.png" alt="9"></p><p><code>cat /etc/ssh/sshd_config</code></p><p>查看有关ssh的配置文件可以知道确实scycree被ban掉了 没法用私钥直接免密登录</p><p><code>sudo -l</code></p><p>也没有什么可以用的命令</p><p>那么现在只能爆破scycree的密码了</p><p><img src="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/10.png" alt="10"></p><p>在本地开一个服务</p><p>然后再靶机下载字典和工具</p><p>suForce是一个可以在本地去爆破密码的工具</p><p>suForce -u scycree -w 字典</p><p>最后爆出来密码是welcome</p><p><img src="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/11.png" alt="11"></p><p>scycree可以用ghfs命令</p><p>先看看后台进程情况</p><p><img src="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/12.png" alt="12"></p><p>看到这个地方就可以知道这个命令是干啥的了</p><p>这个命令可以映射本地目录</p><p>具体可以用法什么的可以去看看帮助手册</p><p><img src="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/13.png" alt="13"></p><p>这里直接将root目录做了映射</p><p><img src="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/14.png" alt="14"></p><p>这里就可以直接读root的flag了</p><p>但是这里并没有登录root</p><h3 id="该怎么登录root呢"><a href="#该怎么登录root呢" class="headerlink" title="该怎么登录root呢"></a>该怎么登录root呢</h3><p><img src="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/15.png" alt="15"></p><p>在root下面也有.ssh文件</p><p>那么可以将自己的公钥部署在靶机上面实现免密登录root</p><p>回到帮助手册里面</p><p><img src="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/16.png" alt="16"></p><p>这一行里面可以实现文件上传</p><p><code>sudo ghfs -l 9000 -r /root -p /root</code></p><p><img src="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/17.png" alt="17"></p><p>最后只需把公钥部署在.ssh里面就可以免密登录了</p><p><img src="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/18.png" alt="18"></p><hr><h2 id="关于ssh登录机制"><a href="#关于ssh登录机制" class="headerlink" title="关于ssh登录机制"></a>关于ssh登录机制</h2><p><img src="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/19.png" alt="19"></p><h2 id="配置密钥与私钥"><a href="#配置密钥与私钥" class="headerlink" title="配置密钥与私钥"></a>配置密钥与私钥</h2><p>生成密钥对</p><p><code>ssh-keygen -t rsa -b 4096 -f ~/.ssh</code></p><p>部署公钥</p><p><code>ssh-copy-id -i ~/.ssh/rsa_id.pub user@server</code></p><p>完成后公钥会自动添加到 <code>~/.ssh/authorized_keys</code></p><p>也可以手动配置公钥</p><p>直接将公钥内容写到authorized_keys里面就可以了</p><h2 id="简单来说公钥就是关门的（锁）-私钥就是开门的（钥匙）"><a href="#简单来说公钥就是关门的（锁）-私钥就是开门的（钥匙）" class="headerlink" title="简单来说公钥就是关门的（锁） 私钥就是开门的（钥匙）"></a>简单来说公钥就是关门的（锁） 私钥就是开门的（钥匙）</h2>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;chat靶机&quot;&gt;&lt;a href=&quot;#chat靶机&quot; class=&quot;headerlink&quot; title=&quot;chat靶机&quot;&gt;&lt;/a&gt;chat靶机&lt;/h1&gt;&lt;h2 id=&quot;端口信息&quot;&gt;&lt;a href=&quot;#端口信息&quot; class=&quot;headerlink&quot; title=&quot;端</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>team靶机</title>
+    <link href="http://example.com/2025/09/28/team%E9%9D%B6%E6%9C%BA/"/>
+    <id>http://example.com/2025/09/28/team%E9%9D%B6%E6%9C%BA/</id>
+    <published>2025-09-28T15:33:12.000Z</published>
+    <updated>2025-09-29T03:40:43.569Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="team靶机"><a href="#team靶机" class="headerlink" title="team靶机"></a>team靶机</h1><h2 id="端口信息"><a href="#端口信息" class="headerlink" title="端口信息"></a>端口信息</h2><p><img src="/2025/09/28/team%E9%9D%B6%E6%9C%BA/1.png" alt="1"></p><p>开了两个http分别访问一下</p><h2 id="http"><a href="#http" class="headerlink" title="http"></a>http</h2><p><img src="/2025/09/28/team%E9%9D%B6%E6%9C%BA/2.png" alt="2"></p><p>80端口的web服务就只是一个静态页面没有用</p><p><img src="/2025/09/28/team%E9%9D%B6%E6%9C%BA/3.png" alt="3"></p><p>8000端口的web服务是一个登录框通过目录扫描可以扫到一个api接口目录</p><p><img src="/2025/09/28/team%E9%9D%B6%E6%9C%BA/4.png" alt="4"></p><p><img src="/2025/09/28/team%E9%9D%B6%E6%9C%BA/5.png" alt="4"></p><p>经过测试 这里面的接口即使是能用的也没有什么有用的信息所以现在只能尝试爆破密码了从常见的用户名 admin root user guest test去爆破看看经过一通爆破</p><p><img src="/2025/09/28/team%E9%9D%B6%E6%9C%BA/6.png" alt="6"></p><p>最后发现有账号root:password123</p><p><img src="/2025/09/28/team%E9%9D%B6%E6%9C%BA/7.png" alt="7"></p><p>进去看是一个仪表盘翻了一下并没有什么可以直接getshell的点但是在密钥存储这里有点线索</p><p><img src="/2025/09/28/team%E9%9D%B6%E6%9C%BA/8.png" alt="8"></p><p>猜测todd和ssh有关可能是账号我们直接hydra爆破一下</p><p><img src="/2025/09/28/team%E9%9D%B6%E6%9C%BA/9.png" alt="9"></p><p>爆破出来是todd:password123找到在ll104567目录下有user.txt拿到user的flag</p><p><img src="/2025/09/28/team%E9%9D%B6%E6%9C%BA/10.png" alt="10"></p><h2 id="root"><a href="#root" class="headerlink" title="root"></a>root</h2><p>老规矩先看看后台进程情况</p><p><img src="/2025/09/28/team%E9%9D%B6%E6%9C%BA/11.png" alt="11"></p><p>绝大部分都是root干的www-data只是开启了一个apache服务可以猜测如果拿到刚刚后台网站的shell就直接拿到root用户了</p><p><img src="/2025/09/28/team%E9%9D%B6%E6%9C%BA/12.png" alt="12"></p><p>我们可以在仓库里面新建一个仓库url写入我们的github仓库然后再github指定的仓库里面写上反弹shell最后制定一个模板任务就可以反弹shell了</p><p><img src="/2025/09/28/team%E9%9D%B6%E6%9C%BA/13.png" alt="13"></p><p>最后成功拿shell</p><p><img src="/2025/09/28/team%E9%9D%B6%E6%9C%BA/14.png" alt="14"></p><h2 id="有关web服务的启动"><a href="#有关web服务的启动" class="headerlink" title="有关web服务的启动"></a>有关web服务的启动</h2><p>启动web服务最好是创建一个专门的用户</p><p>在这个情况下即使被拿到shell</p><p>也比直接拿到root权限好</p><p>做了一手防护</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;team靶机&quot;&gt;&lt;a href=&quot;#team靶机&quot; class=&quot;headerlink&quot; title=&quot;team靶机&quot;&gt;&lt;/a&gt;team靶机&lt;/h1&gt;&lt;h2 id=&quot;端口信息&quot;&gt;&lt;a href=&quot;#端口信息&quot; class=&quot;headerlink&quot; title=&quot;端</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>使用systemd维护进程</title>
+    <link href="http://example.com/2025/09/28/%E4%BD%BF%E7%94%A8systemd%E7%BB%B4%E6%8A%A4%E8%BF%9B%E7%A8%8B/"/>
+    <id>http://example.com/2025/09/28/%E4%BD%BF%E7%94%A8systemd%E7%BB%B4%E6%8A%A4%E8%BF%9B%E7%A8%8B/</id>
+    <published>2025-09-28T15:20:38.000Z</published>
+    <updated>2025-09-29T03:41:08.478Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="使用systemd维护进程"><a href="#使用systemd维护进程" class="headerlink" title="使用systemd维护进程"></a>使用systemd维护进程</h2><p>使用systemd可以将服务注册为系统守护进程，使得服务可以长时间运作，断开ssh连接继续执行</p><hr><p>创建&#x2F;etc&#x2F;systemd&#x2F;system&#x2F;服务名称.service</p><p>并改写配置</p><hr><p>[Unit]<br>Description&#x3D;Hexo Image Server<br>After&#x3D;network.target</p><p>[Service]</p><h3 id="指定工作目录"><a href="#指定工作目录" class="headerlink" title="指定工作目录"></a>指定工作目录</h3><p>WorkingDirectory&#x3D;工作路径(在哪里启动)</p><h3 id="使用普通用户"><a href="#使用普通用户" class="headerlink" title="使用普通用户"></a>使用普通用户</h3><p>User&#x3D;your_username<br>Group&#x3D;your_group</p><h3 id="修复命令：添加绑定地址和正确端口"><a href="#修复命令：添加绑定地址和正确端口" class="headerlink" title="修复命令：添加绑定地址和正确端口"></a>修复命令：添加绑定地址和正确端口</h3><p>ExecStart&#x3D;二进制程序的绝对路径</p><h3 id="重启策略"><a href="#重启策略" class="headerlink" title="重启策略"></a>重启策略</h3><p>Restart&#x3D;on-failure<br>RestartSec&#x3D;5s</p><h3 id="安全限制（可选）"><a href="#安全限制（可选）" class="headerlink" title="安全限制（可选）"></a>安全限制（可选）</h3><p>NoNewPrivileges&#x3D;yes<br>PrivateTmp&#x3D;yes</p><p>[Install]<br>WantedBy&#x3D;multi-user.target</p><hr><p>保存配置之后</p><p>sudo systemctl daemon-reload（重载配置信息）</p><p>sudo systemctl start 服务名</p><p>sudo systemctl status 服务名</p><p>正常情况下就可以正常运行了</p><p>sudo systemctl enable 服务名</p><p>开机自动启动</p><hr><h2 id="lsof命令可以查找进程"><a href="#lsof命令可以查找进程" class="headerlink" title="lsof命令可以查找进程"></a>lsof命令可以查找进程</h2><p>lsof filename 显示打开指定文件的所有进程</p><p>lsof -a 表示两个参数都必须满足时才显示结果</p><p>lsof -c string 显示COMMAND列中包含指定字符的进程所有打开的文件</p><p>lsof -u username 显示所属user进程打开的文件</p><p>lsof -g gid 显示归属gid的进程情况</p><p>lsof +d &#x2F;DIR&#x2F; 显示目录下被进程打开的文件</p><p>lsof +D &#x2F;DIR&#x2F; 同上，但是会搜索目录下的所有目录，时间相对较长</p><p>lsof -d FD 显示指定文件描述符的进程</p><p>lsof -n 不将IP转换为<a href="https://baike.baidu.com/item/hostname/812870?fromModule=lemma_inlink">hostname</a>，缺省是不加上-n参数</p><p>lsof -i 用以显示符合条件的进程情况</p><p>lsof -i[46] [protocol][@<a href="https://baike.baidu.com/item/host/3758959?fromModule=lemma_inlink">host</a>name|hostaddr][:service|port]</p><p>46 –＞ IPv4 or <a href="https://baike.baidu.com/item/IPv6/172297?fromModule=lemma_inlink">IPv6</a></p><p>protocol –＞ TCP or <a href="https://baike.baidu.com/item/UDP/571511?fromModule=lemma_inlink">UDP</a></p><p>hostname –＞ Internet host name</p><p>hostaddr –＞ <a href="https://baike.baidu.com/item/IPv4%E5%9C%B0%E5%9D%80/16742558?fromModule=lemma_inlink">IPv4地址</a></p><p>service –＞ &#x2F;etc&#x2F;service中的 service name (可以不只一个)</p><p>port –＞ <a href="https://baike.baidu.com/item/%E7%AB%AF%E5%8F%A3%E5%8F%B7/10883658?fromModule=lemma_inlink">端口号</a> (可以不只一个)</p><p>lsof -i :4000</p><p>查找端口号为4000的进程服务</p><h2 id="kill可以杀死进程"><a href="#kill可以杀死进程" class="headerlink" title="kill可以杀死进程"></a>kill可以杀死进程</h2><p>-l  信号，若果不加信号的编号参数，则使用“-l”参数会列出全部的信号名称</p><p>-a  当处理当前进程时，不限制命令名和进程号的对应关系</p><p>-p  指定kill 命令只打印相关进程的进程号，而不发送任何信号</p><p>-s  指定发送信号</p><p>-u  指定用户</p><p>kill 9 &lt;PID&gt;</p><p>杀死进程号为pid的进程</p><p>hexo</p><p>[Unit]</p><p>Description&#x3D;Hexo Blog Server</p><p>After&#x3D;network.target</p><p>[Service]</p><h1 id="使用专用用户"><a href="#使用专用用户" class="headerlink" title="使用专用用户"></a>使用专用用户</h1><p>User&#x3D;root</p><h1 id="设置环境变量"><a href="#设置环境变量" class="headerlink" title="设置环境变量"></a>设置环境变量</h1><p>Environment&#x3D;”NODE_ENV&#x3D;production”</p><p>Environment&#x3D;”PATH&#x3D;&#x2F;usr&#x2F;nodejs&#x2F;bin:&#x2F;usr&#x2F;local&#x2F;sbin:&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;bin”</p><h1 id="工作目录和启动命令"><a href="#工作目录和启动命令" class="headerlink" title="工作目录和启动命令"></a>工作目录和启动命令</h1><p>WorkingDirectory&#x3D;&#x2F;usr&#x2F;blog</p><p>ExecStart&#x3D;&#x2F;usr&#x2F;nodejs&#x2F;bin&#x2F;hexo server -p 80  # 改用高位端口</p><h1 id="重启策略-1"><a href="#重启策略-1" class="headerlink" title="重启策略"></a>重启策略</h1><p>Restart&#x3D;always</p><p>RestartSec&#x3D;5</p><p>StartLimitIntervalSec&#x3D;60</p><p>StartLimitBurst&#x3D;3</p><h1 id="安全设置"><a href="#安全设置" class="headerlink" title="安全设置"></a>安全设置</h1><p>NoNewPrivileges&#x3D;yes</p><p>PrivateTmp&#x3D;yes</p><p>[Install]</p><p>WantedBy&#x3D;multi-user.target</p><p>im</p><p>[Unit]</p><p>Description&#x3D;Hexo Image Server</p><p>After&#x3D;network.target</p><p>[Service]</p><h1 id="指定工作目录（图片所在目录）"><a href="#指定工作目录（图片所在目录）" class="headerlink" title="指定工作目录（图片所在目录）"></a>指定工作目录（图片所在目录）</h1><p>WorkingDirectory&#x3D;&#x2F;usr&#x2F;blog&#x2F;source&#x2F;_data&#x2F;images</p><h1 id="使用普通用户（非root更安全）"><a href="#使用普通用户（非root更安全）" class="headerlink" title="使用普通用户（非root更安全）"></a>使用普通用户（非root更安全）</h1><p>User&#x3D;hexouser</p><h1 id="修复命令：添加绑定地址和正确端口-1"><a href="#修复命令：添加绑定地址和正确端口-1" class="headerlink" title="修复命令：添加绑定地址和正确端口"></a>修复命令：添加绑定地址和正确端口</h1><p>ExecStart&#x3D;&#x2F;usr&#x2F;bin&#x2F;python3 -m http.server –bind 0.0.0.0 65532</p><h1 id="重启策略-2"><a href="#重启策略-2" class="headerlink" title="重启策略"></a>重启策略</h1><p>Restart&#x3D;on-failure</p><p>RestartSec&#x3D;5s</p><h1 id="安全限制（可选）-1"><a href="#安全限制（可选）-1" class="headerlink" title="安全限制（可选）"></a>安全限制（可选）</h1><p>NoNewPrivileges&#x3D;yes</p><p>PrivateTmp&#x3D;yes</p><p>[Install]</p><p>WantedBy&#x3D;multi-user.target</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;使用systemd维护进程&quot;&gt;&lt;a href=&quot;#使用systemd维护进程&quot; class=&quot;headerlink&quot; title=&quot;使用systemd维护进程&quot;&gt;&lt;/a&gt;使用systemd维护进程&lt;/h2&gt;&lt;p&gt;使用systemd可以将服务注册为系统守护进程，使得</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>paste靶机</title>
+    <link href="http://example.com/2025/09/28/paste%E9%9D%B6%E6%9C%BA/"/>
+    <id>http://example.com/2025/09/28/paste%E9%9D%B6%E6%9C%BA/</id>
+    <published>2025-09-28T15:20:01.000Z</published>
+    <updated>2025-09-29T03:41:07.048Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="paste靶机"><a href="#paste靶机" class="headerlink" title="paste靶机"></a>paste靶机</h1><h2 id="端口信息"><a href="#端口信息" class="headerlink" title="端口信息"></a>端口信息</h2><p>先扫一下端口</p><p><img src="/2025/09/28/paste%E9%9D%B6%E6%9C%BA/2025-08-05-15-57-50-image.png" alt="2025-08-05-15-57-50-image"></p><p>主要是http和ftp可能有用</p><p>看到ftp的banner信息里面有一个guest:gu</p><p>提示我们用这个账号</p><p>但是这个banner信息可能不完整</p><p>我们去ftp先登录一下</p><h2 id="ftp"><a href="#ftp" class="headerlink" title="ftp"></a>ftp</h2><p><img src="/2025/09/28/paste%E9%9D%B6%E6%9C%BA/2025-08-05-16-01-21-image.png" alt="2025-08-05-16-01-21-image"></p><p>提示我们用guest:guest登陆</p><p>我们这里直接用这个账号去登录ssh试试</p><h2 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h2><p><img src="/2025/09/28/paste%E9%9D%B6%E6%9C%BA/2025-08-05-16-03-25-image.png" alt="2025-08-05-16-03-25-image"></p><p>直接登上去了</p><p>看看home目录有没有flag</p><p>发现什么都没有</p><p><img src="/2025/09/28/paste%E9%9D%B6%E6%9C%BA/2025-08-05-16-04-13-image.png" alt="2025-08-05-16-04-13-image"></p><p>还有一个film用户</p><p>我们看看&#x2F;etc&#x2F;passwd有没有什么信息</p><p>里面也没有什么有用信息</p><h2 id="http"><a href="#http" class="headerlink" title="http"></a>http</h2><p><img src="/2025/09/28/paste%E9%9D%B6%E6%9C%BA/2025-08-05-16-05-51-image.png" alt="2025-08-05-16-05-51-image"></p><p>打开页面</p><p>关于描述貌似是一个密码生成器</p><p>我们点一下产生密码</p><p>猜测这个就是film账号的密码</p><p><img src="/2025/09/28/paste%E9%9D%B6%E6%9C%BA/2025-08-05-16-07-07-image.png" alt="2025-08-05-16-07-07-image"></p><p>成功登录film账号</p><p>拿完flag看看有什么命令可以执行</p><p><img src="/2025/09/28/paste%E9%9D%B6%E6%9C%BA/2025-08-05-16-07-58-image.png" alt="2025-08-05-16-07-58-image"></p><p>有个paste命令可以用</p><p>去网上查查这个命令有什么用</p><p>最后发现paste可以直接读取文件</p><p>于是root用户没必要登录 可以直接读取任意文件</p><p><img src="/2025/09/28/paste%E9%9D%B6%E6%9C%BA/2025-08-05-16-09-21-image.png" alt="2025-08-05-16-09-21-image"></p><hr>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;paste靶机&quot;&gt;&lt;a href=&quot;#paste靶机&quot; class=&quot;headerlink&quot; title=&quot;paste靶机&quot;&gt;&lt;/a&gt;paste靶机&lt;/h1&gt;&lt;h2 id=&quot;端口信息&quot;&gt;&lt;a href=&quot;#端口信息&quot; class=&quot;headerlink&quot; titl</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>monitor靶机</title>
+    <link href="http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/"/>
+    <id>http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/</id>
+    <published>2025-09-28T15:19:54.000Z</published>
+    <updated>2025-09-29T03:40:33.113Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="monitor靶机"><a href="#monitor靶机" class="headerlink" title="monitor靶机"></a>monitor靶机</h1><h2 id="端口信息"><a href="#端口信息" class="headerlink" title="端口信息"></a>端口信息</h2><p>搜索端口信息</p><p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/1.png" alt="1"></p><p>有个web服务</p><h2 id="web网页"><a href="#web网页" class="headerlink" title="web网页"></a>web网页</h2><p>访问过去是一个登录框</p><p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/2.png" alt="2"></p><p>随便尝试几个密码</p><p>admin:admin登进去</p><p>发现没有可以用的点</p><p>就是个静态页面</p><p>用Tscan工具爆破一下目录</p><p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/3.png" alt="3"></p><p>找到zabbix的后台页面</p><p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/4.png" alt="4"></p><p>网上搜索一下zabbix的默认密码</p><p>找到Admin:zabbix</p><p>成功登录</p><p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/5.png" alt="5"></p><p>在这个后台找了一下功能点</p><p>有一个文件上传和一个执行脚本</p><p>一开始一直在尝试文件上传</p><p>发现并没有漏洞点</p><p>来到执行脚本这里</p><p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/6.png" alt="6"></p><p>我们把命令改成弹shell</p><p>然后执行命令</p><p>点击ping</p><p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/7.png" alt="7"></p><p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/8.png" alt="8"></p><p>成功拿到shell</p><p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/9.png" alt="9"></p><p>切到home目录有个hyh账号</p><p>成功拿到user的flag</p><h2 id="root"><a href="#root" class="headerlink" title="root"></a>root</h2><p>查找可以以sudo执行的命令</p><p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/10.png" alt="10"></p><p>并没有可以执行的命令</p><p>这里直接去找hyh的密码</p><p>通过一顿翻找</p><p>最后在配置文件中发现不知道是什么账号的密码</p><p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/11.png" alt="11"></p><p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/12.png" alt="12"></p><p>尝试密码 发现是hyh的密码</p><p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/13.png" alt="13"></p><p>看看这个账号有没有可以以sudo执行的命令</p><p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/14.png" alt="14"></p><p>有一个mount命令</p><p>查找有关信息</p><p>发现我们可以挂载文件</p><p>于是</p><p><code>sudo mount -o /bin/bash /bin/mount</code></p><p><code>sudo mount</code></p><p>拿到root权限</p><p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/15.png" alt="15"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;monitor靶机&quot;&gt;&lt;a href=&quot;#monitor靶机&quot; class=&quot;headerlink&quot; title=&quot;monitor靶机&quot;&gt;&lt;/a&gt;monitor靶机&lt;/h1&gt;&lt;h2 id=&quot;端口信息&quot;&gt;&lt;a href=&quot;#端口信息&quot; class=&quot;headerli</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>mayuri靶机</title>
+    <link href="http://example.com/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/"/>
+    <id>http://example.com/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/</id>
+    <published>2025-09-28T15:19:44.000Z</published>
+    <updated>2025-09-29T03:43:23.195Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Mayuri靶机"><a href="#Mayuri靶机" class="headerlink" title="Mayuri靶机"></a>Mayuri靶机</h1><h2 id="端口信息"><a href="#端口信息" class="headerlink" title="端口信息"></a>端口信息</h2><p>先扫一下端口信息</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/1.png" alt="1"></p><p>开了2个web服务</p><h2 id="http"><a href="#http" class="headerlink" title="http"></a>http</h2><p>先看看80端口</p><p>是一个查询价格的网站</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/2.png" alt="2"></p><p>输入数字编号会回显数据</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/3.png" alt="3"></p><p>试试输入别的东西看看回显情况</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/4.png" alt="4"></p><p>输入字母回显了报错信息</p><p>我们把报错信息给ai帮我们看看这是什么数据库</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/5.png" alt="5"></p><p>是cypher数据库</p><p>在网上搜一下有关这个数据库的注入方法</p><p><a href="https://blog.csdn.net/Che_ng/article/details/145965471https://blog.csdn.net/Che_ng/article/details/145965471">https://blog.csdn.net/Che_ng/article/details/145965471https://blog.csdn.net/Che_ng/article/details/145965471</a></p><p>找到这篇文章写了有关cypher注入的内容</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/6.png" alt="6"></p><p>先丢了一个测试的payload</p><p>成功回显所以道具的价格</p><p>那么就可以确认确实有注入漏洞</p><p>这个时候我们别忘了再去看看那个8080端口web服务是干什么的</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/7.png" alt="7"></p><p>是一个登录框 猜测80端口可以爆出来我们想要的账号密码</p><p>回到80端口 爆出节点标签</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/8.png" alt="8"></p><p>确认节点标签有个User</p><p>那么直接爆这个节点的数据就行</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/9.png" alt="9"></p><p>最后得到账号密码</p><p>OOOkkkaaabbbeee:Okabe</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/10.png" alt="10"></p><p>登进去直接有命令行可以用了 直接弹shell登上去看看</p><h2 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h2><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/11.png" alt="11"></p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/12.png" alt="12"></p><p>成功登上去</p><p>home目录有个kyoma的账户</p><p>直接先读取user的flag 看看user.txt有没有读的权限</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/13.png" alt="13"></p><p>这里kyoma文件夹没法被读取 但是可以被执行 文件也刚好可以被读</p><p>这里刚好就直接读出来了 也是比较凑巧的</p><h2 id="root"><a href="#root" class="headerlink" title="root"></a>root</h2><p>经过一顿翻找并没有什么可用的东西</p><p>最后在环境变量中找到疑似密码的数字</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/14.png" alt="14"></p><p>根据之前web网页上面的内容可以知道这个靶机neta了命运石之门</p><p>看过命运石之门的都知道1.129848这个数值就是世界线变动率</p><p>其实没看过的话 pass这个也应该想到可能是password</p><p>我们用这个密码登上去试试</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/15.png" alt="15"></p><p>成功登录kyoma的账号</p><p>我们看看有没有可以用的命令</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/16.png" alt="16"></p><p>并没有可以用的命令</p><p>我们再去找找有suid的命令</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/17.png" alt="17"></p><p>发现叫TimeMachine的程序有suid 还就在home目录下</p><p>其home目录下还有邮件</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/172.png" alt="172"></p><p>邮件内容提示我们要去使用时间机器</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/173.png" alt="173"></p><p>使用完之后一开始并没有什么特别的变化</p><p>多次使用后发现那个时间戳一直和真实时间是同步的</p><p>猜测可能调用了什么命令</p><p>把TimeMachine拿到ida里面看看</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/18.png" alt="18"></p><p>发现在这个函数里面有调用一个命令</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/19.png" alt="19"></p><p>调用了timedatectl这个命名</p><p>那么提权思路就清楚了</p><p>我们构造一个同名的timedatectl命令 但是实际上是bash 然后把这个同名的timedatectl命令的路径的优先级排到最前面 使得我们自己构造的同名的timedatectl命令被优先执行</p><p>直接写一个shell脚本拿root</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/21.png" alt="21"></p><p>在改一下这个shell脚本的权限然后执行就可以拿到root了</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/2.png" alt="22"></p><p>这里的shell是个哑shell 没有交互 但是没有大碍</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/23.png" alt="23"></p><p>最后拿到root的flag</p><hr><h1 id="关于环境变量提权"><a href="#关于环境变量提权" class="headerlink" title="关于环境变量提权"></a>关于环境变量提权</h1><p>主要来自于这篇文章</p><p><a href="https://www.cnblogs.com/1vxyz/articles/17659773.html">Linux-环境变量提权 - 1vxyz - 博客园</a></p><p>命名的执行是根据环境变量中的目录去寻找命令的</p><p>简单来说通过环境变量去提权 就是劫持命令 去执行我们自己构造的同名命令</p><p>从而提权</p><p>当然前提是这个最开始执行的命令是有suid的</p><h2 id="suid"><a href="#suid" class="headerlink" title="suid"></a>suid</h2><p>是一种linux中特殊权限</p><p>允许命令可以暂时以特殊权限去执行此命令</p><p>可以通过</p><p><code>find / -type f -perm -4000 2&gt;/dev/null</code></p><p>来寻找这类命令</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Mayuri靶机&quot;&gt;&lt;a href=&quot;#Mayuri靶机&quot; class=&quot;headerlink&quot; title=&quot;Mayuri靶机&quot;&gt;&lt;/a&gt;Mayuri靶机&lt;/h1&gt;&lt;h2 id=&quot;端口信息&quot;&gt;&lt;a href=&quot;#端口信息&quot; class=&quot;headerlink&quot; </summary>
+      
+    
+    
+    
+    
+    <category term="adsa" scheme="http://example.com/tags/adsa/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>资产收集</title>
+    <link href="http://example.com/2025/09/28/%E8%B5%84%E4%BA%A7%E6%94%B6%E9%9B%86/"/>
+    <id>http://example.com/2025/09/28/%E8%B5%84%E4%BA%A7%E6%94%B6%E9%9B%86/</id>
+    <published>2025-09-28T12:00:54.000Z</published>
+    <updated>2025-09-29T03:40:57.723Z</updated>
+    
+    <content type="html"><![CDATA[<p>本人因为是学生所以主要挖的是edusrc</p><p>edusrc的审核感觉也是比较快的（现在的速度基本上是一天一审）</p><h2 id="资产收集"><a href="#资产收集" class="headerlink" title="资产收集"></a>资产收集</h2><p>大部分情况挖洞都是在屏幕前点来点去</p><p>过程也是相当的枯燥</p><p>出货的时刻总是占一小部分</p><p>一天没找到或者是没通过都是正常的</p><p>所以找对一个好的资产收集方式可以大大的节约我们的时间</p><p>以下讲的都是个人觉得比较高效的</p><p>一些比较复杂的就不做推荐了</p><hr><h2 id="从域名下手"><a href="#从域名下手" class="headerlink" title="从域名下手"></a>从域名下手</h2><p>因为挖的是edu的</p><p>所以基本上所有学校都在范围之内</p><p>每个学校基本都有一个主域名</p><p>如果想一天就猛猛干一个大学的话</p><p>可以试试在小蓝本或者爱企查上面先搜集一手学校信息</p><p>然后使用一些域名爆破的工具</p><p>subfinder one for all等</p><p>或者可以使用一些被动搜集域名的工具</p><p>fofa hunter 360等网络空间资产引擎</p><hr><h2 id="从fofa的title下手"><a href="#从fofa的title下手" class="headerlink" title="从fofa的title下手"></a>从fofa的title下手</h2><p>说实话从域名下手的话还是太大众化了（如果就想挖证书大学的话还是要先仔细搜集一下绝大部分域名的）</p><p>而且大部分都被搞过了</p><p>除非有一些新上线的资产可以细细挖掘一手</p><p>如果从域名下手的话确实资产无一例外都是学校的</p><p>除非是新资产 不然大概率已经被干过了</p><p>本人也是比较懒的那种所以就喜欢用<strong>fofa</strong>之类</p><p>本人自认为从fofa或者hunter这类的网络空间资产引擎上面通过title去搜索大学资产是比较快捷的且高效的</p><p>就拿fofa举例</p><p>title&#x3D;”xx大学”</p><p><img src="/2025/09/28/%E8%B5%84%E4%BA%A7%E6%94%B6%E9%9B%86/2025-09-23-23-15-35-image.png" alt="2025-09-23-23-15-35-image"></p><p>fofa这些都是通过爬虫去爬取网站信息</p><p>每天通过fofa搜集到的信息都不同</p><p>有一定概率就找到了以往都没被人找到过的资产或者就是学校的新资产</p><p>这样搜集的话有部分的网站可能就不是学校资产的</p><p>有些是一眼就可以出来的</p><p>有些的话是存疑就可以去试试看</p><p><strong>现在本人挖到的证书都是直接通过title&#x3D;”xx大学”的方式找到的</strong></p><hr><h2 id="从教育网段下手"><a href="#从教育网段下手" class="headerlink" title="从教育网段下手"></a>从教育网段下手</h2><p>大部分资产其实就没发直接通过域名去搜集</p><p>一些就是内部人员用的就不会去绑一个域名</p><p>所以这个时候通过网段就是比较好的方法</p><p>fofa的话就直接先随便搜一个学校然后点一下组织那里就可以了</p><p><img src="/2025/09/28/%E8%B5%84%E4%BA%A7%E6%94%B6%E9%9B%86/2025-09-23-23-16-28-image.png" alt="2025-09-23-23-16-28-image"></p><p>教育网段配上title就可以开始一天的挖洞之旅了（笑）</p><hr><h2 id="从icon下手"><a href="#从icon下手" class="headerlink" title="从icon下手"></a>从icon下手</h2><p>被用烂的框架都有一个固定的favicon</p><p>我们可以把favicon下下来然后放到这个网站上</p><p><img src="/2025/09/28/%E8%B5%84%E4%BA%A7%E6%94%B6%E9%9B%86/2025-09-23-23-20-27-image.png" alt="2025-09-23-23-20-27-image"></p><p>就可以得到favicon的MD5或者是hash</p><p>然后通过icon_hash&#x3D;””的语法去搜集使用这个框架的网站</p><p>一些常用的框架都有一些弱密码</p><p>要是闲着没事干又不想认真挖 就可以直接找个框架的favicon然后开启一天的挖洞之旅了(笑)</p><p><img src="/2025/09/28/%E8%B5%84%E4%BA%A7%E6%94%B6%E9%9B%86/83F007C8A1389B273ABA2C2ED1A090FF.gif" alt="83F007C8A1389B273ABA2C2ED1A090FF"></p><hr><h2 id="叠甲环节"><a href="#叠甲环节" class="headerlink" title="叠甲环节"></a>叠甲环节</h2><p>文章来自作者日常积累，未经许可严禁转载，转载需联系本人。文中内容仅限学习交流，严禁用于商业及非法用途，涉及网络安全相关未经授权不得测试，违规使用后果自负，与作者及本文无关 。（都别乱搞哈）</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;本人因为是学生所以主要挖的是edusrc&lt;/p&gt;
+&lt;p&gt;edusrc的审核感觉也是比较快的（现在的速度基本上是一天一审）&lt;/p&gt;
+&lt;h2 id=&quot;资产收集&quot;&gt;&lt;a href=&quot;#资产收集&quot; class=&quot;headerlink&quot; title=&quot;资产收集&quot;&gt;&lt;/a&gt;资产收集&lt;/</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>test</title>
+    <link href="http://example.com/2025/09/23/test/"/>
+    <id>http://example.com/2025/09/23/test/</id>
+    <published>2025-09-23T12:46:43.000Z</published>
+    <updated>2025-09-29T02:56:19.277Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/2025/09/23/test/1.png" alt="1"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;/2025/09/23/test/1.png&quot; alt=&quot;1&quot;&gt;&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>
