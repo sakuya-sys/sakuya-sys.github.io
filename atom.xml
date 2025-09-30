@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2025-09-30T02:49:53.881Z</updated>
+  <updated>2025-09-30T03:12:05.677Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,11 +17,38 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>从js到命令执行</title>
+    <link href="http://example.com/2025/09/30/%E4%BB%8Ejs%E5%88%B0%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/"/>
+    <id>http://example.com/2025/09/30/%E4%BB%8Ejs%E5%88%B0%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/</id>
+    <published>2025-09-30T02:57:49.000Z</published>
+    <updated>2025-09-30T03:12:05.677Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="资产收集"><a href="#资产收集" class="headerlink" title="资产收集"></a>资产收集</h2><p>首先通过fofa找到某学校实训平台</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/image-20250930110132733.png" alt="image-20250930110132733"></p><p>访问ip</p><h2 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h2><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/image-20250930110250794.png" alt="image-20250930110250794"></p><p>直接f12看看js文件里面有没有泄露什么密码</p><p>翻着翻着就找到密钥对了</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/image-20250930110552994.png" alt="image-20250930110552994"></p><p>我们登上去看看</p><p>成功拿到专家账号</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/image-20250930110717069.png" alt="image-20250930110717069"></p><p>随便在平台里面点点</p><p>发现直接就有地方可以执行代码</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/image-20250930110807992.png" alt="image-20250930110807992"></p><p>这个平台专门用来词语分析的</p><p>有一个可以直接执行代码的地方</p><p>那还说啥</p><p>直接就命令执行试试</p><p>成功命令执行</p><p>还是root用户</p><p><img src="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/image-20250930111003902.png" alt="image-20250930111003902"></p><p>成功拿下</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;资产收集&quot;&gt;&lt;a href=&quot;#资产收集&quot; class=&quot;headerlink&quot; title=&quot;资产收集&quot;&gt;&lt;/a&gt;资产收集&lt;/h2&gt;&lt;p&gt;首先通过fofa找到某学校实训平台&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/2025/09/28/mayuri%E9%9D%B6</summary>
+      
+    
+    
+    
+    <category term="挖洞记录" scheme="http://example.com/categories/%E6%8C%96%E6%B4%9E%E8%AE%B0%E5%BD%95/"/>
+    
+    
+    <category term="知识" scheme="http://example.com/tags/%E7%9F%A5%E8%AF%86/"/>
+    
+    <category term="挖洞" scheme="http://example.com/tags/%E6%8C%96%E6%B4%9E/"/>
+    
+  </entry>
+  
+  <entry>
     <title>paste2靶机</title>
     <link href="http://example.com/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/"/>
     <id>http://example.com/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/</id>
     <published>2025-09-30T02:14:17.000Z</published>
-    <updated>2025-09-30T02:49:53.881Z</updated>
+    <updated>2025-09-30T02:51:41.768Z</updated>
     
     <content type="html"><![CDATA[<h1 id="paste2靶机"><a href="#paste2靶机" class="headerlink" title="paste2靶机"></a>paste2靶机</h1><h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><p><img src="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/image-20250930102104529.png" alt="image-20250930102104529"></p><p>访问80端口</p><p><img src="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/image-20250930102132127.png" alt="image-20250930102132127"></p><p>查看源代码</p><p><img src="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/image-20250930102150761.png" alt="image-20250930102150761"></p><p>有一串字符串</p><p>可能后面会用到</p><h2 id="目录扫描"><a href="#目录扫描" class="headerlink" title="目录扫描"></a>目录扫描</h2><p><img src="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/image-20250930102405069.png" alt="image-20250930102405069"></p><h2 id="user"><a href="#user" class="headerlink" title="user"></a>user</h2><p>有个&#x2F;4567的路由</p><p><img src="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/image-20250930102434768.png" alt="image-20250930102434768"></p><p>有一个网站</p><p>访问一下这个网站</p><p><img src="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/image-20250930102524238.png" alt="image-20250930102524238"></p><p>有一个搜索框</p><p>我们把刚刚的奇怪字符串拿去搜索一下</p><p><img src="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/image-20250930102601782.png" alt="image-20250930102601782"></p><p>找到某人写的这个字符串</p><p>这串字符串和此时的url的字符串有点相似</p><p>一开始我还以为是什么base64</p><p>但是都没发解出来</p><p>查看api</p><p><img src="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/image-20250930102755254.png" alt="image-20250930102755254"></p><p>发现路由都是跟上一个key</p><p>可能一开始给的字符串就是一个key</p><p>用那个奇怪的字符串当路由试试</p><p><img src="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/image-20250930102845658.png" alt="image-20250930102845658"></p><p>发现密钥对</p><p>猜测这就是ssh的账号密码</p><p>成功登录</p><p><img src="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/image-20250930103529834.png" alt="image-20250930103529834"></p><p>拿到user flag</p><p><img src="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/image-20250930103606904.png" alt="image-20250930103606904"></p><h2 id="root"><a href="#root" class="headerlink" title="root"></a>root</h2><p>查看可执行的sudo</p><p><img src="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/image-20250930103715390.png" alt="image-20250930103715390"></p><p>有一个可以执行的脚本</p><p>看一下内容</p><p><img src="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/image-20250930103805042.png" alt="image-20250930103805042"></p><p>bash会去执行404.html中的内容</p><p>只要把提权的脚本写入404.html即可</p><p>我们去网站目录下面看看</p><p><img src="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/image-20250930103902876.png" alt="image-20250930103902876"></p><p>目录里面有个路由</p><p><img src="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/image-20250930104050735.png" alt="image-20250930104050735"></p><p>里面的文件写着一句话木马</p><p>由于html目录是www-data的权限</p><p>我们要先拿到www-data的账户</p><p>我们回到那个80端口使用这个木马弹shell</p><p><img src="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/image-20250930104230321.png" alt="image-20250930104230321"></p><p><img src="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/image-20250930104320070.png" alt="image-20250930104320070"></p><p>拿到www-data的用户了</p><p>我们去写404.html</p><p><img src="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/image-20250930104509447.png" alt="image-20250930104509447"></p><p>写入</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">chmod +s /bin/bash</span><br></pre></td></tr></table></figure><p>然后让yi用户执行那个脚本就可以了</p><p><img src="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/image-20250930104645839.png" alt="image-20250930104645839"></p><p>成功提权</p>]]></content>
     
