@@ -240,15 +240,15 @@
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>文章</div>
-    <div class="sidebar-state-number">14</div>
+    <div class="sidebar-state-number">16</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
-    <div class="sidebar-state-number">4</div>
+    <div class="sidebar-state-number">5</div>
   </div>
   <div class="sidebar-state-tag">
     <div>标签</div>
-    <div class="sidebar-state-number">6</div>
+    <div class="sidebar-state-number">9</div>
   </div>
 </div>
 <div class="sidebar-social">
@@ -321,6 +321,115 @@
       <div class="post-wrapper">
   <div class="post-wrap left" data-aos="fade-up">
     
+      <a class="post-link" href="/2025/10/25/pwn%E9%A2%98%E8%AE%B0%E5%BD%952/" aria-label="pwn题记录2" title="pwn题记录2"></a>
+    
+    
+    <div class="post-cover left">
+      
+        
+        
+          <img data-src="/covers/52984721_p0.png" data-sizes="auto" alt="pwn题记录2" class="lazyload">
+        
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-10-25</span>
+        
+        <span><span class="icon-pencil"></span>615 字</span>
+        <span><span class="icon-clock"></span>3 分钟</span>
+      </div>
+      <h2 class="post-title">pwn题记录2</h2>
+      <article class="post-article">
+        
+          polar平台 x64保护全关
+我们有可写可读可执行的权限
+
+拖进ida
+
+查看主函数
+有个function函数
+
+明显存在栈溢出
+
+我们查看函数栏中没有明显的后门函数
+但是可以调用system函数
+
+我们shift+f12查看字符串
+
+有&amp;#x2F;bin&amp;#x2F;sh字符串
+那么我们可以劫持gadget来实现rop攻击
+exp:
+12345678from pwn import *p=remote(&amp;#x27;1.95.36.136&amp;#x27;,2143)shell_addr=0x4006B6rdi_add=0x4007e3bin_sh_add=0x601060payload=b&amp;#x27
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap right" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/10/23/pwn%E9%A2%98%E8%AE%B0%E5%BD%951/" aria-label="pwn题记录1" title="pwn题记录1"></a>
+    
+    
+    <div class="post-cover right">
+      
+        
+        
+          <img data-src="/covers/62637904_p0.jpg" data-sizes="auto" alt="pwn题记录1" class="lazyload">
+        
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-10-23</span>
+        
+        <span><span class="icon-pencil"></span>1.1k 字</span>
+        <span><span class="icon-clock"></span>5 分钟</span>
+      </div>
+      <h2 class="post-title">pwn题记录1</h2>
+      <article class="post-article">
+        
+          polar靶场 sandbox使用checksec看看保护
+存在栈溢出保护与数据段保护
+ 
+附件直接丢到ida里面看看
+
+f5查看伪代码
+
+有一个box函数
+跟进一下
+
+这个函数会读取buf字符串数组
+但是会匹配到某些特定字符
+那么简单来说就是有一些限制的rce
+我们直接nc连接
+然后用单引号绕过即可
+
+polar平台 creeper存在数据段保护
+
+附件 拖到ida里面看看
+
+
+有个game函数 跟进一下
+
+这个程序会读取0x100个字符 存在缓冲区溢出
+但是这道题也不需要利用这个漏洞
+我们只需要让buf字符串数组的长度为15即可
+exp:
+12345from pwn import*p=re
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap left" data-aos="fade-up">
+    
       <a class="post-link" href="/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/" aria-label="Ronos靶机复现" title="Ronos靶机复现"></a>
     
     
@@ -328,7 +437,7 @@
       
         
         
-          <img data-src="/covers/0e4f7c8ca26cc1f740f68a525c4815dc.png" data-sizes="auto" alt="Ronos靶机复现" class="lazyload">
+          <img data-src="/covers/98827563_p0.jpg" data-sizes="auto" alt="Ronos靶机复现" class="lazyload">
         
       
     </div>
@@ -379,7 +488,7 @@ root该如何提权呢
       
         
         
-          <img data-src="/covers/44061344_p0.jpg" data-sizes="auto" alt="logi靶机" class="lazyload">
+          <img data-src="/covers/99283483_p0.png" data-sizes="auto" alt="logi靶机" class="lazyload">
         
       
     </div>
@@ -442,7 +551,7 @@ ame:jiayouachunyu
       
         
         
-          <img data-src="/covers/95686713_p0.jpg" data-sizes="auto" alt="从js到命令执行" class="lazyload">
+          <img data-src="/covers/illust_49403203_20210531_064613.jpg" data-sizes="auto" alt="从js到命令执行" class="lazyload">
         
       
     </div>
@@ -495,7 +604,7 @@ ame:jiayouachunyu
       
         
         
-          <img data-src="/covers/99283483_p0.png" data-sizes="auto" alt="paste2靶机" class="lazyload">
+          <img data-src="/covers/69F6E1D2CEAC5779071C5336C11EDD8C.jpg" data-sizes="auto" alt="paste2靶机" class="lazyload">
         
       
     </div>
@@ -564,7 +673,7 @@ ba
       
         
         
-          <img data-src="/covers/100243555_p0.png" data-sizes="auto" alt="记一次别样的文件上传" class="lazyload">
+          <img data-src="/covers/51402039_p0_master1200.jpg" data-sizes="auto" alt="记一次别样的文件上传" class="lazyload">
         
       
     </div>
@@ -616,7 +725,7 @@ ba
       
         
         
-          <img data-src="/covers/illust_41599635_20210531_064647.jpg" data-sizes="auto" alt="使用hexo搭建blog所遇到的问题" class="lazyload">
+          <img data-src="/covers/Gr8dC-LXoAARCi1.jpg" data-sizes="auto" alt="使用hexo搭建blog所遇到的问题" class="lazyload">
         
       
     </div>
@@ -652,7 +761,7 @@ https://arcsin2.cloud/2023/02/23/Hexo-%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95%E6%98
       
         
         
-          <img data-src="/covers/Image_1719707491177.jpg" data-sizes="auto" alt="chat靶机" class="lazyload">
+          <img data-src="/covers/101213277_p0.jpg" data-sizes="auto" alt="chat靶机" class="lazyload">
         
       
     </div>
@@ -705,7 +814,7 @@ ssh使用私钥来尝试ssh免密登录
       
         
         
-          <img data-src="/covers/Image_1719707500972.jpg" data-sizes="auto" alt="team靶机" class="lazyload">
+          <img data-src="/covers/109273957_p0_master1200.jpg" data-sizes="auto" alt="team靶机" class="lazyload">
         
       
     </div>
@@ -736,103 +845,6 @@ http
 猜测todd和ssh有关可能是账号我们直接hydra爆破一下
 
 爆破出来是todd:pass
-        
-      </article>
-    </div>
-  </div>
-</div>
-      
-    
-      <div class="post-wrapper">
-  <div class="post-wrap left" data-aos="fade-up">
-    
-      <a class="post-link" href="/2025/09/28/%E4%BD%BF%E7%94%A8systemd%E7%BB%B4%E6%8A%A4%E8%BF%9B%E7%A8%8B/" aria-label="使用systemd维护进程" title="使用systemd维护进程"></a>
-    
-    
-    <div class="post-cover left">
-      
-        
-        
-          <img data-src="/covers/52984721_p0.png" data-sizes="auto" alt="使用systemd维护进程" class="lazyload">
-        
-      
-    </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2025-09-28</span>
-        
-        <span><span class="icon-pencil"></span>808 字</span>
-        <span><span class="icon-clock"></span>4 分钟</span>
-      </div>
-      <h2 class="post-title">使用systemd维护进程</h2>
-      <article class="post-article">
-        
-          使用systemd维护进程使用systemd可以将服务注册为系统守护进程，使得服务可以长时间运作，断开ssh连接继续执行
-
-创建&amp;#x2F;etc&amp;#x2F;systemd&amp;#x2F;system&amp;#x2F;服务名称.service
-并改写配置
-
-[Unit]Description&amp;#x3D;Hexo Image ServerAfter&amp;#x3D;network.target
-[Service]
-指定工作目录WorkingDirectory&amp;#x3D;工作路径(在哪里启动)
-使用普通用户User&amp;#x3D;your_usernameGroup&amp;#x3D;your_group
-修复命令：添加绑定
-        
-      </article>
-    </div>
-  </div>
-</div>
-      
-    
-      <div class="post-wrapper">
-  <div class="post-wrap right" data-aos="fade-up">
-    
-      <a class="post-link" href="/2025/09/28/paste%E9%9D%B6%E6%9C%BA/" aria-label="paste靶机" title="paste靶机"></a>
-    
-    
-    <div class="post-cover right">
-      
-        
-        
-          <img data-src="/covers/101190520_p0.jpg" data-sizes="auto" alt="paste靶机" class="lazyload">
-        
-      
-    </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2025-09-28</span>
-        
-        <span><span class="icon-pencil"></span>261 字</span>
-        <span><span class="icon-clock"></span>1 分钟</span>
-      </div>
-      <h2 class="post-title">paste靶机</h2>
-      <article class="post-article">
-        
-          paste靶机端口信息先扫一下端口
-
-主要是http和ftp可能有用
-看到ftp的banner信息里面有一个guest:gu
-提示我们用这个账号
-但是这个banner信息可能不完整
-我们去ftp先登录一下
-ftp
-提示我们用guest:guest登陆
-我们这里直接用这个账号去登录ssh试试
-ssh
-直接登上去了
-看看home目录有没有flag
-发现什么都没有
-
-还有一个film用户
-我们看看&amp;#x2F;etc&amp;#x2F;passwd有没有什么信息
-里面也没有什么有用信息
-http
-打开页面
-关于描述貌似是一个密码生成器
-我们点一下产生密码
-猜测这个就是film账号的密码
-
-成功登录film账号
         
       </article>
     </div>
@@ -876,10 +888,10 @@ http
     
       <div>
         <span class="icon-brush"></span>
-        7.6k
+        9.3k
         &nbsp;|&nbsp;
         <span class="icon-coffee"></span>
-        00:36
+        00:44
       </div>
     
     
@@ -916,15 +928,15 @@ http
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>文章</div>
-    <div class="sidebar-state-number">14</div>
+    <div class="sidebar-state-number">16</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
-    <div class="sidebar-state-number">4</div>
+    <div class="sidebar-state-number">5</div>
   </div>
   <div class="sidebar-state-tag">
     <div>标签</div>
-    <div class="sidebar-state-number">6</div>
+    <div class="sidebar-state-number">9</div>
   </div>
 </div>
 <div class="sidebar-social">
