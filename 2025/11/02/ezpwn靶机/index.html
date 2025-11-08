@@ -35,21 +35,46 @@
 
   
   
-    <meta name="description" content="Here&#39;s something encrypted, password is required to continue reading.">
+    <meta name="description" content="ezpwn靶机端口扫描通过tscan扫描出以下端口  发现有二个6538和9999端口 查看6538端口  溢出漏洞发现有一个文件 结合靶机名应该是elf文件  确实是一个elf文件 保护全关了 我们把他拖到ida里面看看  我们跟进一下start()函数  gets(a)这里存在溢出漏洞 start函数里面要求b[1]要等于115 也就是s c[1]要求等于112 也就是p 查看port()函数">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ezpwn靶机">
 <meta property="og:url" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/index.html">
 <meta property="og:site_name" content="S@Ku_yA的blog">
-<meta property="og:description" content="Here&#39;s something encrypted, password is required to continue reading.">
+<meta property="og:description" content="ezpwn靶机端口扫描通过tscan扫描出以下端口  发现有二个6538和9999端口 查看6538端口  溢出漏洞发现有一个文件 结合靶机名应该是elf文件  确实是一个elf文件 保护全关了 我们把他拖到ida里面看看  我们跟进一下start()函数  gets(a)这里存在溢出漏洞 start函数里面要求b[1]要等于115 也就是s c[1]要求等于112 也就是p 查看port()函数">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102171455225.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102171509661.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102174729765.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102171438363.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102171423797.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102171409051.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102171614261.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102171650841.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102172030341.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102172245595.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102172302295.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102172349279.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102172500322.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102172520182.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102172544866.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102172613740.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102172809882.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102173117604.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102173424546.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102173444683.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102173547900.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102173911471.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102174245773.png">
+<meta property="og:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102174341596.png">
 <meta property="article:published_time" content="2025-11-02T08:45:44.000Z">
-<meta property="article:modified_time" content="2025-11-02T10:13:49.975Z">
+<meta property="article:modified_time" content="2025-11-05T09:35:12.877Z">
 <meta property="article:author" content="S@Ku_yA">
 <meta property="article:tag" content="mazesec">
 <meta property="article:tag" content="wp">
 <meta property="article:tag" content="打靶">
 <meta property="article:tag" content="知识">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102171455225.png">
   
   
     <link rel="alternate" href="/atom.xml" title="S@Ku_yA的blog" type="application/atom+xml">
@@ -243,7 +268,7 @@
       
         
           <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
-<div class="sidebar-toc-wrapper toc-div-class" style="display: none" >
+<div class="sidebar-toc-wrapper toc-div-class" >
   
     <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ezpwn%E9%9D%B6%E6%9C%BA"><span class="toc-number">1.</span> <span class="toc-text">ezpwn靶机</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.1.</span> <span class="toc-text">端口扫描</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%A2%E5%87%BA%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.2.</span> <span class="toc-text">溢出漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%8D%E6%AC%A1%E6%89%AB%E6%8F%8F%E7%AB%AF%E5%8F%A3"><span class="toc-number">1.3.</span> <span class="toc-text">再次扫描端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ret2text"><span class="toc-number">1.4.</span> <span class="toc-text">ret2text</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#root"><span class="toc-number">1.5.</span> <span class="toc-text">root</span></a></li></ol></li></ol>
   
@@ -257,7 +282,7 @@
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>文章</div>
-    <div class="sidebar-state-number">18</div>
+    <div class="sidebar-state-number">20</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
@@ -344,7 +369,7 @@
       <div class="article-date">
   <span class="article-date-link icon-calendar" data-aos="zoom-in">
     <time datetime="2025-11-02T08:45:44.000Z" itemprop="datePublished">2025-11-02</time>
-    <time style="display: none;" id="post-update-time">2025-11-02</time>
+    <time style="display: none;" id="post-update-time">2025-11-05</time>
   </span>
   
 </div>
@@ -363,18 +388,94 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
       
-        <div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
-  <script id="hbeData" type="hbeData" data-hmacdigest="9c17cb6726dd11140678ea12f459343e5cfeda5acf4643a6ebe38cd731caa472">84e6a87c8d4c1c8d9aa2501a49ea6007a751ca48e9579e6da53d4b436deab348a3a8db87e18b3d4011f1c907eac8bef76089100cff6df70c5a600c856556530161b1e95913299df4a18f360e96f145e6e323a481552a295330952e96c6a7804412be910ac537718718656eff3f91af68968792798b3abdb3d5a14f8007a80b82f7f606447297fee579c2a89bb50e8ea8ba59be5bdcbcdcf7c340eca98ce27bcdda78af9fb5d1b7fd3c04212e312a4d9728b98f7cf68855906ea0822765077a47b2f8123800485ba51ea5a29a76efd1cc2f602a5347cd38486d7531aa5463b81d17da6cfcee17ab95279220195a2cad2631db75f115cd71887ed5901b18fdac58515e4b4bfeb7352344cc22bd6a8e1f1ee0dc4f4506723eceaa165d44ff548ca6e6be5724cbfabdef7089345b304425a9eb7bdb018a69ed86082026ca81589587d92c64e0992026aebd5f8614135ec3c0fc55dfc1bbdf2b827f4757173573284bbbf79fde79f441dcc6e7ea62770f3d4bca95e42c1500f43d91b7fdbdc6e364823b21550261160251879e7691cfc585041ec9c6bf69fb1208d2772b8d663c85467e0df36b78a9b8b406c5416467e4a0d0339f049ad7aa475ee3e6e259119f9ee8cf0813984c491f8cd598a0d0b0a2ffc59e6156e666de4a677fcad00fae09a257ebfb9e599305811201358cb1fd75fc02f453a7c6fb37ec430a0d63dec4f6cd2e6f6ef97834684403d24b2677c47280aa319065e29810d3c87bc1cdb5338e09744da012ea5e2ceafffb0ee7df61d1485e95ce89603b63cd53a1b8162b8297ec8d4c3347d048306efab5fb82ff2c77267c865eb7a01efd13ff8322db1625a247ddc984c449a938b4289c21d911d62d760c72588ab1ddbc9f3d2971dafc42418e9259538682d13c09ad779cac1ad209d594b2c4118ab1857f2310d7c1d448a0633415f52f67af6ef83c9e244f7c2c31b4624c5aba3200691cf1b26ccc6e82089c1e2d64ff9bc4a476eb72ccedc92c8ed3c1944d7ab00eb2bf92c69f2a09c7391bec72369e2b8e41efc1bcf17226cfa630a33df3ba6d1079123364c8de62d05b278d7d380f80c7a66d238f2eeffb3a461bfb534109da5e4c8abec32cdec4f5dc25152468db4ffe799f66d23d539c0ff948ba5b4ce44c1130d5ebb5e92c35fc6b81f4a7724524fc1a51420b819bd9ddb5958a5def4417e5e4c8016860ac41e02c1c1162d1b5674bde459d968d53de4a002d1e88cae4823cef73662dd51ce0725ce51a0ed9e77b5679fdb07b28043560293254aa3f276eef160e175a35393b8a5a58d67082807e2a6ce5f5578d3a682b39bef92912102ca428445dff1f0a5cea2146a3dab3b59d849535f4dff34501dff3f29c413df51865007f3993f7b85ef8b7387379aa83a887aa340b3783eaae3ff27a3499a6432bf2b9166374302c8827db345fa6916de690a44a95db2fc85b5d7eebd97a22efaf8918c12a9b4d56c03e18ae67307e68f262295cb1059547f81920e80d365512c9a39c3449c4f66ec6fd6e216ccf3662485b6d85de1dbc14baa34ca994a9719c8740b7fd89bbc54d466ea218f31f946fd38b9f6ff671c4e64bf4f540fd91772179c56918de620da831effced5614af4699b0d19c6fb77f27115c76890902f27e5391f6135b5135a8a57db39f55f6d3b3aa24fbfa46f78e1ff2d25b85ea464fe555f91785b920083541ea119ef551c20d40426f2db67b5c45cabc02bcaaee4c76e943701c403b9cf9de5a0843c6cff67ba5c4fbf4f0e8113d762c8a0238bddc7c987b8f1d909d5120e910d167b1762ffe3b892771901b344591b165b36fafff4a18a96d9592da846a194352aff7cb08036ab192827a55794fd5d90c2e13f6e4246dfa9c58e2c4eb7d50b8fc46094642f6848f12d589a6d3d3ff0538ff257a84c87a448c6cde99a82ceb1e37df203c88fe751120340663cae748ecb05358dbdaa719d9b3548dbff31c52be6cab39b84c893c9e3baf097c573ecd0f09975439ea7d3f8cd7c0e716c8f02cdbf5cac876a07b6e003e3e2f73342ff69c6c5951e907dc2ea5874f41b5af9f4bbc12a99079dd9ab0d315170f9aa5c1570ad40255914710b54d48b0455ef88fc2152cafbe60f864bbaeac679ef1a31222c7ad6a85a3036ff9cfd7187fb06c14a8f8659cced5b2a0e607e4188b6c3f3361e7254438897421ea69dbaf5e90b3cdb3123940dc2b89369abdb8b00cb6d0babc8d18418475f86cb349114f391743e269cb473e8304ecb0ff2d92651cf8c49a73aa0698a45b48aec76994f59bca0310747330a171f4875356a916197b25709cdff23fd51ca18b0a94a48bdc30f506d4ca2edc7f7c6ba37c1eb304fc4d2d18049ce8dd0d10a471503855f49591fcbaed3ab74ba2d0f05b52ccca1f2538e8d6b5d8e2a51353390fe51242794466a88ca0aeb55f93a33f0fed16f44a991844d3875753be70407bc42e9d31e085f85d5ca437d00adef10fce51806e9584258a7213a8d5fc7bdc97d6584bddad7b4be5812a27de83c6db83066b35de2b17cdd5190531db3786ceede732cdd13ca4a8b9276c634e7e2b5d89e5706749e04022f965f39dd16b1b357ff0ca88fcf519f4929974345a239a0cc68cb1caf72d05d47d89df5f8a4e609050fee07a96b714abdc31852b6b467159bf1ad79dafc098f3a231a93056dca678ae28feefb1b2da9da244d8457ded52233dd6657416924a63307e1d9a45b4351989c414d932490150235c35a1d709a7f07c03f3806ba68155c2752ab003478d9795cf681a70d1a9eb6a9935638e7c6cd2741e5ed436f0499c2488121f9e0c0b36d046daa816996f0ead19ef87289dbae091ce0183a6b3fe52d503e8901f11548b5d8a3977564d6ff5ab2614da9045acf7e8226aaf8da7ca2b4d007b3c1b988fe471afd6939b1006ca5acb91c4985817a82d255b477fe2c3303cbfd42ef2ddca84bddb11045cf310658b60ec7110e5f56455069a85ad3be360726e81be420c0d7db1dddd08c510e0f6cedebfb0ea71c5ebc84c981b998d5ff2888c3df7ed7e5baab4eacadbb53d0853ceb7a3a5057240eded9ea9f1db01cf126795010d2338e41ace2e11587b50aceca4ca3af92b9e7f4f90a424efcfd09c19199fcc403d68e94a9002fab7f7a01c33eb50d28aa5184ca49fe04afca191a25cc6d240dcd03f0d974a3624de4c0363cb995c62f30137f89fdeab78108f65e2f97e4db6c4cf080a9af8bd53dd00797ddf6347229ce09343b6f7f90133abf4e53a92c412a0e277eeb511e6777d3ab04d8d32dbf135ff448c518112aa453fe7a6ce4a3ee9e53e4917f84bb72d81f5fd8f2e22cf6fbaa93bcdca4e6e4d3c70645f93c2f7fb9138783d4b2923d3d6ff6f9fc430a949973347be804aca67141fd8747230577b2a8ca88e552ce95e48f5b63e7e30a4894d1fea989276c71ffcfa16de74b0331b2e312fab7638d62d0588d23ee8b873e7daf9e6c9311ac68f473742d22317fbffb649d6f16197a380351ffcc62425f5f758c1a336447be45ec08441e7d385827a0f9ca2547715235c126c7f326545d54c8ed0900d612017563b36569d00dc46d1a75958d476bcdc826b05840f39a8c38e6eceb169ef3f907377ea712323fde9765e6b71013b42e44978f60ee897fbd25146ab5f6e42e88b51e71bae5a88259577f165290563d2ac03e6d9569e53f67cba35439827aea087174c25b268a189d5aaa49b04828d5327daa22a9aaa50776b01edd711e8a367bb7623027307135be2e1c89b5c937f56bc033db4445184e53afb9c0c7d9a0450368b0f894b93e1bd05aabeb9e262db0911e6326f69f41eca15afaabb559dde70925c78f5a7661015bb36b685cec123415b0dfea3e53fd86d4980df0c72e0973e068e43903d5bebf2cb2b677e4ae734ec09ba48077914570fdf49d7fe0ec3e116aa9d773c2b50cc7a89f3725ac863884401428ad19d77caee11cd68f2702b8c7a258cd68214fb093a07e684156c4e640a14818394bd02c438cfdbc451b04cd2f5e7fd5eef2f411a82dbefab31993ccc73a3ff62f05a468278d029ea5495d39e6a3ade905120023a7c972433959e2f8fc4476e8ed026c11cdf2f12224a1237873dbd1847e2fdbb410789c2c56ae9f72d4357e713811e20424b42638a3eff6124f4f8e584194ffbe2208de705db17e6f37f3bed4153e8b7be9be055b60bf3779f05a41ec044ad9ce1f5c9df7ccfd60954e6c1ade15c8957cdd894e6b41e5478f51b6c37080ca6137cc74e26ac22842922a1470f9cddad8dcb043e53325fd351ec6ca958045bf679b6ff79246d5db6b65e42f88e71923a944e12a27b57f96d2f7c6a06b005c2123e6cfb89916ab3a02ec3194a9e8d8c8a36e5b83290010542f9a0debc5baa96b62c0b279bad83757bf79003931e3725109fd63f768fc4b52d098da685e1044ecd0ff302acb977e4d6221177fc1645ec6950ef91ec445e360f61c7561cca3796805f91e0fa98292ebb4f52a6a2d6bc086194a7bac6e99375d6ef566e144380a1f4c5699053c0dcb5d343d909f9c37fbe2bcdb3bf19735c0bb9721ab0df3d96646c5ced72edd1ca3c2d0c3bf6c1a7f92964c6634edbeec0eacb29be0890bd192d6a987eb454411ea591826e0ae8117abc9dd35bc1aba6da15198d7ef0377c9048c6a012cb0637b3ae4a50847dfa3ebdabae427b2b54b82084395cc2d46855261be82c10bf1bf6d695ddd12c3a3844cfdba58a14fe2e389936ad7bbcd20288b3aa2b8dc778786212c93dc92c6e816184088a7255104f560d99cda9eaf3678b3ac12d1a036e55ea48b0de5aa28ffa7e6b9ad58cacf43d14d5a75524a9806a3d974d049802da5948e82752b8a9c8c8643bbaac708dea813b028f552c6808bc79444514bf2aadec6620c02ceef0f15be00cb08bd19c81a589b57edb54c3047a1ab4276bdda5bab4e7192a9200f047067f7de5338e2a8a452cfb1dd9c84b2e547b2c317a095c93e30b360a2ede1bce9e80305f996608dfa9778c4931ec802f2b915e0f9fc48261537cec809c77e4f1d729934f7cace18e189758465bc34616dd5e1ed50fa9eb4bd322a8394d513c52a81ed6918faf8af7696736638cea619fc8515371de262d8bb7715c76cac78a602de9529d6f6c664c4918ab3654bfbac9c6ce77c7283e999de1d190f8332057e2927ab75a64d3698b8e67ad44fec6d113924811efec25732c896c09bd4aad0722438822b4f22448f9b587de5852802f55c0ffbeecc25f0dc054da91c2dbb90ae1d03066961a2f826a3130d911f2469130cae405aee334381d822718139a5089344a7c6786a92afa7df3cfd6aba71d247a93b1e9a0ac079d49b41204b98f5f76c6440f06502380c933939767b2d6ae1485dcec431dbac9f2741323a8131a6ab27fb4472f66b6b272cfd52a37b7077dcfbaa4d160895eda7acb4dd0c188862ac613c8cdfac21b67e47e9662c374fa4cd07ffebc37c8da73413cbd216fab2233873c1e2e6b80520ba72ded390288bb43ee6f0f8166be73186f6bfb2df581f00864906e98e44f49f4533f35382c555a58835a028dc0511b5a3cbf79868734e865a7a2dcf0d98f8f43c487ab117ff81ad18b02feb1496e4ac87945a5b773baaebe98f1178b57ebb96ea49570a7ff4d435122b4c48364eadcfc65cbd314a5afb56b9b20ccb9ef9d1e179544b3e67b6c8be7b624f649fa3081644ecf0aa575aa2ea0e2f4c1cb933a8680a12ec4d4c3feb5bb1fadb115e3fc94b395360d89bb153795a7ddc1e77b024ecb1c5f39152899a10e2e535bb181ba54b20c401da61b3e954c3548cced5757ee0b9dc46cc59f3e8c17ac47b26f333c7c2d2417c114a5ca220bb188f4a43eacd6127e92d9f6dc71a5116e03c99275998f0bbe45528ae2ce6065008eaed25d1ad1d555c6427635de414e3a2f73296143e2dd7df14a9f5713f8c3b5ab1f5bc3cb57de1708ca8886b7e17af5a21553cef374ebebbaac644735db9065e394b71ec32d90e9b6e906a554167d828f29321d362602330ab86bd6f4cbcf5966ec282ed05dab45f29aa07f07043baf4b5ac8145d1f833effee6c9d4a737a35b0202ec3378fbee5c82017b400f015f6527eb57566fa69ba43f6f079ea657e092169d3d6dfe67fdb8175a1f2a843cda3cd285744d3542aa2fdbc8ebaefa1cb7dd245073a7983dae4dcc06b6c5cded93578719906182ba72f8138c9aecb00439333f5109fe60517c804a005040753a0b972ad4d82e33a7d0bdd817f0ddd27d00e260a4d38142c081cab77cf7e2dd2c4ad400c0d8098568764ab64c24b7f9ff46e65cad3754b5f5f6d4d7dca4ea1834b247caaca61ba6e748253c3a4db44ca373e41d11089e810711951d048e3c07a424c3a82f9089f5861582652970c30dcfef1135eed4322af887204441abed877cf3693b23ee0c4aea4b06411ce1936f209d23042da11464d716d677662e7f73740a569c03f4bbf75db1676bd30a59070035f8260aa410021d374d788ca2b20a3c56ffad1ba6cba28f7865a0d484972c594a3b1f5f2aa6d1d4fee6c4c080bfe4bff51dd556b278be2946833851b658c3ed16fdf895e7ed7565b0e7612f6c7a83e52a3e2014e8aa09e0182f183d3f49aa82f36e85d8c365b022c12f2b56318e8e722e69f84ef5bade17921733ec736455d7372dbda1f01c1c83a916ae6cc6aacc2713374344dca1e7adb4dff188407eeeb71692a7c80084af219616e2d088bf7c6609eff7e059bf7ce219445ce20ef8158b229dc46d343848694e967c985e567853065b022258cd729be7ab6462e118d584274e640ad38d53c71f49ff7e2d08082936e71ed90500ea7bdb4c9af62ef6234bad1403b62c720ea7d0a71f941ed9c2be8d893b70404c9dd972e5089abbbf140a948cdd2ca55e692b2b49a57bb2be5d83f90b738570b91b749a2126d50957faedca15493928b1f61eb6957cf895e99d61dadb9fe16a31e1efd0a316c2090e95a5264b0558e4306649e6a583dd71f8de5da797462edcf3de94086e39d0c7141de32a0e953f591cedf0c370d929bccc70869a535fd4cc50c2348203d0e5aa11bf2c3aacb25ba0df7134521c1bee7bca2d0394516ef4d7a3aecb1fb0a836a038f5c14ae12ba8fe8d7d3d809dbef2e16af62b8b91361154ecb073544b16814f0b3b464e14265b1da6d14bf9d7aa8e3bead6bafe069c3a5df9d0e5fb8ea986bc3c89e67918093bcd47c6668be6a98be5517de100f00e667a6d15e12368d45346509304ffcbec78d4c9cd4c19169bd7e89c6f1f63b5e0d8b5ec898ab3ff23bb7f9fc34fbc012b87cc6a166000e630da27cf976db95276861d462d195ed7944ec7d0973b49cf19e2d85de7c515505d2e8f71ba7d1fa63d2647ed57d520bdae7ad9fb713f279f4af51d87d1f3aebe41211c15108f31a85f117c8874a95c1a819d3719cb82b749aaf4d95d300d23cfa6caa0a7f289ca843bdf57f2f58404b01944f86efbdea094a55e55e23fd460c5d2c876b1fdda88ceb3ca87f904e0b67903c230c9aa0ed1319a6fdac6ff543e44f2aea4cbf59fb5ccb8b8b2a8e0f8fda8e2ea00c3833b44f12c31abd6472c14853f2e7e366e6182592a371a2455f957e3e9c798e58cccee868f6c394065d0c7b2714817b0cb8eb364d1c1a3e8416ec8ea78103cd92e72c452c33b31faf3a92f8d04d841a332684b17d6e9e6fd8acc0c3914c375efbb53077b4e76b36b424065f4bf1e6d81488a7163025316cdfebac56ab370057ea1a01276b536094e7bb1ca22dc4f33dc6d4e262131b0cb2a3d0a860ac81f5aa31e2361424d389f9532a6ebde4711f4d0a014c9c63f7cae9ef368bb36845acba9ecff264944edfbd246e35064ca548397c01809629aaee4a14cd144bd2f48a80f51da0ed712ffd49e4e8e9a647017bfafded7d84ec5f69de03c7a9ee40bcb31be44c1bc5da6c64d4db4d5ed7c27d11b56a440f1bd8e0be7e8109d048b94c6451d9f9f88815d701c50d01b19c6ce4afe24e8e8eeeeb2af84c668a710e99101754910de9d14863523a151a5023692c0e062804c48fd151097382fa3b5f846d9870f74d0e452fc894fdcf3dbe07f6f3a984a8e4ef3a68f7a10d8bd3eed4188d808c8bbf4617950c4df2cdbb50d0fc36a9008fbafd797d14dcb47c83b93693cae83c8eb4dff46ef7038f356efa915433cbcf1aeaf202c21261ff7dec9a7af0255bc74305f27809c9470020b7da5d635747e6a028365be4fad7234d37203ccad53845b79a5034df28f4c5dff77288857936c5ac0ca1b52dcfc1e5c33b417aa334b2872b73868348c3acf94a556ccd768fad648b1d961abf8ff43ed01c0fe57507594ae00b9f3301d9fae10734282518f9635d7aa52c63dee21d371415cd3a3b8ddb1bb45b94e8b454349381a85d1ae96e4beab4883ad8d5bd4e7d55b2f12d91f1106dbed7e5a2f97ad6bc7948f22adf3676d2dc33c8ef273235c95a98a4e12ba36c49dfee580ff7e86d68bbb8c7b14fd1602fd9803466ef0156d572b24da1ec53dc54b08fd6cb1d9a5b368dba93636f62e35b67fbf811e011a8b4a3eff9ed19ed8bd0a5e3bc2794114f8be4e954e694aa62dfdf6dabba226d74c0c382e0271e2b8107bcfe2673aab7fd0d8397df7040505cb8e2bff8342af28d8a03ce35f213e1f282f1aee28f137550972ea55aef4f227a1f0bfcbcde047826e2fc3b52cf62b392645d0749d71ca6a1cac82f1191cd0c0497e14fefb249f5f12ee159648a74b71a4fda8c51ababc80d82ee2c292a739d5603346bce5be92ba4220f504063c2ecadcb8672d54eba675a705a6dc9a2fea336fc79ef8e6d5ae4bbd36d28083ea42e180127a61c8213e37082740df1f63e187485e2178a335336aeac13d35edc929b8e49ecdf1de6593922c19f8ae260cf0d607d8f32470c302f1533f7f36ec035090ecb4d4517b00e9b4184047f35039cbc0aa888273be52a5fcede528a767bf383a20ebd38d91d1e433a788db7d4137770dbf38f30c5a54f5b1fb5889223f2b4a23a41bb2da044fb17937783b38836983a12d8b6df2798a3404d5b28c4c09c1295d47085834c097c75e8dc0a38f6501c5d166c3205749c4fee8eac2ff4476b9fd94fb918ddf9678e448cabc39615b6db8100959775f0cb68b1b68e803e9156d95c77d845d087217753414b48c327f31328db14dfa799a68cce0de924eb6c5da7dfe6eb3a776ab43a5579538bb8e36ea6296b8697067767599e5443e3adf40639d1d3ffae2114d9ee14bab40b3fd24eae381ead3471aa95f0ede3593423ca329d3820ce3e82bd854e22e9d4fbd927283f090e50477e18e7ce7266257a37d11090898e4f72c1f2a14f1aaca1bb0046f98b8f1ef1b0512838ca544a522172863aec52787b41f1052d1bed66baa66c08fd1656327da5dee6ad4fc20b64ace6135c15f76d1930661f49030448d28ca22ea5df75b3513d187ca29149a932200847482bd7f0cc7aa8bfde5c5d7bc8ac0366a9c5c741ce18493336db0f7909d5ebd3360fcf15a1950d5e2422b15233c95049635b398676420a3d2c68e89df719b101396d45168484b5c3574c82cd4c0ef67ce1d0f6f11661ac0d7c2007a6548f6bd82b4e62cb3b15de2156f024cadc275d7b66320c2be70470ae97</script>
-  <div class="hbe hbe-content">
-    <div class="hbe hbe-input hbe-input-default">
-      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
-      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
-        <span class="hbe hbe-input-label-content hbe-input-label-content-default">Hey, password is required here.</span>
-      </label>
-    </div>
-  </div>
-</div>
-<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">
+        <h1 id="ezpwn靶机"><a href="#ezpwn靶机" class="headerlink" title="ezpwn靶机"></a>ezpwn靶机</h1><h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><p>通过tscan扫描出以下端口</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102171455225.png" alt="image-20251102171455225"></p>
+<p>发现有二个6538和9999端口</p>
+<p>查看6538端口</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102171509661.png" alt="image-20251102171509661"></p>
+<h2 id="溢出漏洞"><a href="#溢出漏洞" class="headerlink" title="溢出漏洞"></a>溢出漏洞</h2><p>发现有一个文件</p>
+<p>结合靶机名应该是elf文件</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102174729765.png" alt="image-20251102174729765"></p>
+<p>确实是一个elf文件</p>
+<p>保护全关了</p>
+<p>我们把他拖到ida里面看看</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102171438363.png" alt="image-20251102171438363"></p>
+<p>我们跟进一下start()函数</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102171423797.png" alt="image-20251102171423797"></p>
+<p>gets(a)这里存在溢出漏洞</p>
+<p>start函数里面要求b[1]要等于115 也就是s</p>
+<p>c[1]要求等于112 也就是p</p>
+<p>查看port()函数</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102171409051.png" alt="image-20251102171409051"></p>
+<p>会执行一个shell脚本</p>
+<p>还会输出一段文字</p>
+<p>但是文字这里乱码了</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102171614261.png" alt="image-20251102171614261"></p>
+<p>回到start()函数这里</p>
+<p>查看start函数栈结构</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102171650841.png" alt="image-20251102171650841"></p>
+<p>我们结合这个函数栈结构</p>
+<p>我们可以写出这个溢出漏洞的exp从而触发port函数</p>
+<p>9999端口上的服务猜测就是这个程序被绑上去了</p>
+<p>exp:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from pwn import *</span><br><span class="line">p=remote(&#x27;192.168.1.166&#x27;,9999)</span><br><span class="line">payload=b&#x27;p&#x27;*(0x11-0x3)+b&#x27;s&#x27;*(0x3)</span><br><span class="line">p.sendline(payload)</span><br><span class="line">p.interactive()</span><br></pre></td></tr></table></figure>
+
+<p>成功执行</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102172030341.png" alt="image-20251102172030341"></p>
+<h2 id="再次扫描端口"><a href="#再次扫描端口" class="headerlink" title="再次扫描端口"></a>再次扫描端口</h2><p>输出了刚刚我们看不到的文字</p>
+<p>提示我们有新的端口开放了</p>
+<p>我们再次扫描端口</p>
+<p>此时多了一个11450的端口</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102172245595.png" alt="image-20251102172245595"></p>
+<p>访问11450</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102172302295.png" alt="image-20251102172302295"></p>
+<p>有一个hint和ret2text文件</p>
+<p>hint里面有提示</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102172349279.png" alt="image-20251102172349279"></p>
+<p>貌似提示我们密码和账号在这个程序之中</p>
+<p>密码下面还有一个offset</p>
+<p>可能指的是偏移量</p>
+<h2 id="ret2text"><a href="#ret2text" class="headerlink" title="ret2text"></a>ret2text</h2><p>下载ret2text并拖入ida中</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102172500322.png" alt="image-20251102172500322"></p>
+<p>也有一个start()函数</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102172520182.png" alt="image-20251102172520182"></p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102172544866.png" alt="image-20251102172544866"></p>
+<p>也是会输出一段文字 也是乱码了</p>
+<p>旁边函数栏有个shell()函数</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102172613740.png" alt="image-20251102172613740"></p>
+<p>是个后门函数</p>
+<p>我们把ret2text文件放到linux里面执行看看会输出什么</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102172809882.png" alt="image-20251102172809882"></p>
+<p>这个a和上个程序里面执行port.sh的路径中的home目录下面的一个账号目录同名</p>
+<p>猜测a就是账号名</p>
+<p>离shell还有多远呢与hint里面的offset(偏移量)有关</p>
+<p>可能密码就是a到达栈溢出处的ret的距离</p>
+<p>回到函数栈结构中查看</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102173117604.png" alt="image-20251102173117604"></p>
+<p>猜测密码就是0xa+0x8的这个长度</p>
+<p>即0x12</p>
+<p>我们试试18或者0x12去登录a账号</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102173424546.png" alt="image-20251102173424546"></p>
+<p>使用0x12 成功登录</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102173444683.png" alt="image-20251102173444683"></p>
+<p>拿到user的flag</p>
+<h2 id="root"><a href="#root" class="headerlink" title="root"></a>root</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -l</span><br></pre></td></tr></table></figure>
+
+<p>看看可以执行什么命令</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102173547900.png" alt="image-20251102173547900"></p>
+<p>发现可以执行file命令</p>
+<p>我们现在可以任意读文件</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102173911471.png" alt="image-20251102173911471"></p>
+<p>发现root账号配置了ssh密钥登录</p>
+<p>猜测可能可以使用密钥登录root账号</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo file -f /root/.ssh/id_rsa &gt; a</span><br><span class="line">cat a|awk -F&#x27;`&#x27; &#x27;&#123;print $2&#125;&#x27;|cut -d\&#x27; -f1 &gt; id2 #这行命令是sublarge教的</span><br></pre></td></tr></table></figure>
+
+<p>整理一下格式</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102174245773.png" alt="image-20251102174245773"></p>
+<p>拿着密钥登录试试</p>
+<p><img src="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/image-20251102174341596.png" alt="image-20251102174341596"></p>
+<p>成功提权</p>
+
       
     </div>
     <footer class="article-footer">
@@ -395,13 +496,30 @@
   
   <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
     
+      
+      <div class="article-nav-link-wrap left">
+        
+          
+          
+            <img data-src="/covers/39386491_p0.jpg" data-sizes="auto" alt="红日靶场1" class="lazyload">
+          
+        
+        <a href="/2025/11/05/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA1/" aria-label="前一篇: 红日靶场1" title="前一篇: 红日靶场1"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">
+          
+            红日靶场1
+          
+        </h3>
+      </div>
+    
     
     
     <div class="article-nav-link-wrap right">
       
         
         
-          <img data-src="/covers/247d98cad1c8a786248ecb676b09c93d71cf5091.jpg" data-sizes="auto" alt="靶机制作" class="lazyload">
+          <img data-src="/covers/104923326_p0.png" data-sizes="auto" alt="靶机制作" class="lazyload">
         
       
       <a href="/2025/11/02/%E9%9D%B6%E6%9C%BA%E5%88%B6%E4%BD%9C/" aria-label="后一篇: 靶机制作"  title="后一篇: 靶机制作"></a>
@@ -480,10 +598,10 @@
     
       <div>
         <span class="icon-brush"></span>
-        9.5k
+        10.4k
         &nbsp;|&nbsp;
         <span class="icon-coffee"></span>
-        00:47
+        00:52
       </div>
     
     
@@ -514,7 +632,7 @@
     
       
         <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
-<div class="sidebar-toc-wrapper toc-div-class" style="display: none" >
+<div class="sidebar-toc-wrapper toc-div-class" >
   
     <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ezpwn%E9%9D%B6%E6%9C%BA"><span class="toc-number">1.</span> <span class="toc-text">ezpwn靶机</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.1.</span> <span class="toc-text">端口扫描</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%A2%E5%87%BA%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.2.</span> <span class="toc-text">溢出漏洞</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%8D%E6%AC%A1%E6%89%AB%E6%8F%8F%E7%AB%AF%E5%8F%A3"><span class="toc-number">1.3.</span> <span class="toc-text">再次扫描端口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ret2text"><span class="toc-number">1.4.</span> <span class="toc-text">ret2text</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#root"><span class="toc-number">1.5.</span> <span class="toc-text">root</span></a></li></ol></li></ol>
   
@@ -528,7 +646,7 @@
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>文章</div>
-    <div class="sidebar-state-number">18</div>
+    <div class="sidebar-state-number">20</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
@@ -694,11 +812,11 @@
           author: "S@Ku_yA",
           title: "ezpwn靶机",
           url: "http://example.com/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/",
-          excerpt: "Here&#39;s something encrypted, password is required to continue reading.",
+          excerpt: "",
           description: "",
-          stripContent: "   84e6a87c8d4c1c8d9aa2501a49ea6007a751ca48e9579e6da53d4b436deab348a3a8db87e18b3d4011f1c907eac8bef76089100cff6df70c5a600c856556530161b1e95913299df4a18f360e96f145e6e323a481552a295330952e96c6a7804412be910ac537718718656eff3f91af68968792798b3abdb3d5a14f8",
+          stripContent: "ezpwn靶机端口扫描通过tscan扫描出以下端口  发现有二个6538和9999端口 查看6538端口  溢出漏洞发现有一个文件 结合靶机名应该是elf文件  确实是一个elf文件 保护全关了 我们把他拖到ida里面看看  我们跟进一下start()函数  gets(a)这里存在溢出漏洞 start函数里面要求b[1]要等于115 也就是s c[1]要求等于112 也就是p 查看port()函数  会执行一个shell脚本 还会输出一段文字 但是文字这里乱码了  回到start()函数这里 查",
           date: "Sun Nov 02 2025 16:45:44 GMT+0800",
-          updated: "Sun Nov 02 2025 18:13:49 GMT+0800",
+          updated: "Wed Nov 05 2025 17:35:12 GMT+0800",
           cover: "/images/banner.webp",
         };
       </script>
