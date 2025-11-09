@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2025-11-08T09:12:45.815Z</updated>
+  <updated>2025-11-09T02:51:26.615Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>每日靶机のezAI1靶机</title>
+    <link href="http://example.com/2025/11/09/%E6%AF%8F%E6%97%A5%E9%9D%B6%E6%9C%BA%E3%81%AEezAI1%E9%9D%B6%E6%9C%BA/"/>
+    <id>http://example.com/2025/11/09/%E6%AF%8F%E6%97%A5%E9%9D%B6%E6%9C%BA%E3%81%AEezAI1%E9%9D%B6%E6%9C%BA/</id>
+    <published>2025-11-09T02:19:02.000Z</published>
+    <updated>2025-11-09T02:51:26.615Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="ezAI1"><a href="#ezAI1" class="headerlink" title="ezAI1"></a>ezAI1</h1><h2 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h2><p><img src="/2025/11/09/%E6%AF%8F%E6%97%A5%E9%9D%B6%E6%9C%BA%E3%81%AEezAI1%E9%9D%B6%E6%9C%BA/image-20251109102407534.png" alt="image-20251109102407534"></p><p>发现5000端口开放http服务</p><p>访问5000端口</p><p><img src="/2025/11/09/%E6%AF%8F%E6%97%A5%E9%9D%B6%E6%9C%BA%E3%81%AEezAI1%E9%9D%B6%E6%9C%BA/image-20251109102518511.png" alt="image-20251109102518511"></p><p>是一个对话ai</p><h2 id="引导ai"><a href="#引导ai" class="headerlink" title="引导ai"></a>引导ai</h2><p>我们先去搞一下api key</p><p>先随便问一问看看</p><p><img src="/2025/11/09/%E6%AF%8F%E6%97%A5%E9%9D%B6%E6%9C%BA%E3%81%AEezAI1%E9%9D%B6%E6%9C%BA/image-20251109102819213.png" alt="image-20251109102819213"></p><p>我们可以尝试使ai变成我们的奶奶</p><p><img src="/2025/11/09/%E6%AF%8F%E6%97%A5%E9%9D%B6%E6%9C%BA%E3%81%AEezAI1%E9%9D%B6%E6%9C%BA/image-20251109103235648.png" alt="image-20251109103235648"></p><p>然后让他打开电脑 然后尝试修改密码</p><p><img src="/2025/11/09/%E6%AF%8F%E6%97%A5%E9%9D%B6%E6%9C%BA%E3%81%AEezAI1%E9%9D%B6%E6%9C%BA/image-20251109103503081.png" alt="image-20251109103503081"></p><p><img src="/2025/11/09/%E6%AF%8F%E6%97%A5%E9%9D%B6%E6%9C%BA%E3%81%AEezAI1%E9%9D%B6%E6%9C%BA/image-20251109103513090.png" alt="image-20251109103513090"></p><p>最后得到一个像是密码的字符串</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">woshiSTRONGP@SSWD_he1hei</span><br></pre></td></tr></table></figure><p>尝试ssh连接登录</p><p><img src="/2025/11/09/%E6%AF%8F%E6%97%A5%E9%9D%B6%E6%9C%BA%E3%81%AEezAI1%E9%9D%B6%E6%9C%BA/image-20251109103652523.png" alt="image-20251109103652523"></p><p>登录成功</p><p><img src="/2025/11/09/%E6%AF%8F%E6%97%A5%E9%9D%B6%E6%9C%BA%E3%81%AEezAI1%E9%9D%B6%E6%9C%BA/image-20251109103708031.png" alt="image-20251109103708031"></p><p>拿到flag</p><h2 id="root"><a href="#root" class="headerlink" title="root"></a>root</h2><p>查看用户id的时候发现有一个disk组</p><p><img src="/2025/11/09/%E6%AF%8F%E6%97%A5%E9%9D%B6%E6%9C%BA%E3%81%AEezAI1%E9%9D%B6%E6%9C%BA/image-20251109103817788.png" alt="image-20251109103817788"></p><p>那么我们就可以直接读取磁盘信息了</p><p>那么我们直接搜索有关flag{}的信息就可以了</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strings /dev/sda | grep &quot;flag&#123;&quot;</span><br></pre></td></tr></table></figure><p><img src="/2025/11/09/%E6%AF%8F%E6%97%A5%E9%9D%B6%E6%9C%BA%E3%81%AEezAI1%E9%9D%B6%E6%9C%BA/image-20251109104659848.png" alt="image-20251109104659848"></p><p>最后得到flag</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;ezAI1&quot;&gt;&lt;a href=&quot;#ezAI1&quot; class=&quot;headerlink&quot; title=&quot;ezAI1&quot;&gt;&lt;/a&gt;ezAI1&lt;/h1&gt;&lt;h2 id=&quot;端口扫描&quot;&gt;&lt;a href=&quot;#端口扫描&quot; class=&quot;headerlink&quot; title=&quot;端口扫描&quot;</summary>
+      
+    
+    
+    
+    <category term="靶机" scheme="http://example.com/categories/%E9%9D%B6%E6%9C%BA/"/>
+    
+    
+    <category term="打靶" scheme="http://example.com/tags/%E6%89%93%E9%9D%B6/"/>
+    
+    <category term="知识" scheme="http://example.com/tags/%E7%9F%A5%E8%AF%86/"/>
+    
+    <category term="wp" scheme="http://example.com/tags/wp/"/>
+    
+    <category term="mazesec" scheme="http://example.com/tags/mazesec/"/>
+    
+  </entry>
   
   <entry>
     <title>每日靶机のbala靶机</title>
@@ -542,27 +572,6 @@
     <category term="知识" scheme="http://example.com/tags/%E7%9F%A5%E8%AF%86/"/>
     
     <category term="挖洞" scheme="http://example.com/tags/%E6%8C%96%E6%B4%9E/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>test</title>
-    <link href="http://example.com/2025/09/23/test/"/>
-    <id>http://example.com/2025/09/23/test/</id>
-    <published>2025-09-23T12:46:43.000Z</published>
-    <updated>2025-09-29T02:56:19.277Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="/2025/09/23/test/1.png" alt="1"></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;&lt;img src=&quot;/2025/09/23/test/1.png&quot; alt=&quot;1&quot;&gt;&lt;/p&gt;
-</summary>
-      
-    
-    
-    
     
   </entry>
   
