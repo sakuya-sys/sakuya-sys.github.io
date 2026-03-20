@@ -240,15 +240,15 @@
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>文章</div>
-    <div class="sidebar-state-number">26</div>
+    <div class="sidebar-state-number">29</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
-    <div class="sidebar-state-number">6</div>
+    <div class="sidebar-state-number">7</div>
   </div>
   <div class="sidebar-state-tag">
     <div>标签</div>
-    <div class="sidebar-state-number">15</div>
+    <div class="sidebar-state-number">19</div>
   </div>
 </div>
 <div class="sidebar-social">
@@ -321,14 +321,168 @@
       <div class="post-wrapper">
   <div class="post-wrap left" data-aos="fade-up">
     
-      <a class="post-link" href="/2025/10/25/pwn%E9%A2%98%E8%AE%B0%E5%BD%952/" aria-label="pwn题记录2" title="pwn题记录2"></a>
+      <a class="post-link" href="/2025/11/05/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA1/" aria-label="红日靶场1" title="红日靶场1"></a>
     
     
     <div class="post-cover left">
       
         
         
-          <img data-src="/covers/2323.gif" data-sizes="auto" alt="pwn题记录2" class="lazyload">
+          <img data-src="/covers/CB383AC6ACEE4AED3D216ADAAB3BFBCB.jpg" data-sizes="auto" alt="红日靶场1" class="lazyload">
+        
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-11-05</span>
+        
+        <span><span class="icon-pencil"></span>2.1k 字</span>
+        <span><span class="icon-clock"></span>8 分钟</span>
+      </div>
+      <h2 class="post-title">红日靶场1</h2>
+      <article class="post-article">
+        
+          红日靶场1先从网站在下载下来靶机
+1http://vulnstack.qiyuanxuetang.net/vuln/detail/2/
+
+
+下下来是3台主机
+一台是win7是dmz区的一台外网主机
+其他两台分别是winserver08和win2k3
+前者是dc域控主机后者是域成员主机
+
+配置主机win7需要配置2个网卡
+一个作为外网的网卡
+直接使用nat模式即可
+另一个要作为内网的网卡
+
+我们点击左上的编辑点击虚拟网络设置
+
+
+随便点击一个网卡然后点击右下角的更改设置
+
+首先点击添加网络
+点击仅主机模式
+然后设置子网ip为192.168.52.0
+然后点击dhcp设置
+起始的ip的b段要设置为
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap right" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/11/02/ezpwn%E9%9D%B6%E6%9C%BA/" aria-label="ezpwn靶机" title="ezpwn靶机"></a>
+    
+    
+    <div class="post-cover right">
+      
+        
+        
+          <img data-src="/covers/50492988_p0.jpg" data-sizes="auto" alt="ezpwn靶机" class="lazyload">
+        
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-11-02</span>
+        
+        <span><span class="icon-pencil"></span>645 字</span>
+        <span><span class="icon-clock"></span>3 分钟</span>
+      </div>
+      <h2 class="post-title">ezpwn靶机</h2>
+      <article class="post-article">
+        
+          ezpwn靶机端口扫描通过tscan扫描出以下端口
+
+发现有二个6538和9999端口
+查看6538端口
+
+溢出漏洞发现有一个文件
+结合靶机名应该是elf文件
+
+确实是一个elf文件
+保护全关了
+我们把他拖到ida里面看看
+
+我们跟进一下start()函数
+
+gets(a)这里存在溢出漏洞
+start函数里面要求b[1]要等于115 也就是s
+c[1]要求等于112 也就是p
+查看port()函数
+
+会执行一个shell脚本
+还会输出一段文字
+但是文字这里乱码了
+
+回到start()函数这里
+查看start函数栈结构
+
+我们结合这个函数栈结构
+我们可以写出这个溢出漏洞的exp从而触发port函
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap left" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/11/02/%E9%9D%B6%E6%9C%BA%E5%88%B6%E4%BD%9C/" aria-label="靶机制作" title="靶机制作"></a>
+    
+    
+    <div class="post-cover left">
+      
+        
+        
+          <img data-src="/covers/39386491_p0.jpg" data-sizes="auto" alt="靶机制作" class="lazyload">
+        
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-11-02</span>
+        
+        <span><span class="icon-pencil"></span>350 字</span>
+        <span><span class="icon-clock"></span>2 分钟</span>
+      </div>
+      <h2 class="post-title">靶机制作</h2>
+      <article class="post-article">
+        
+          修改密码1passwd username
+
+创建账号1useradd -s -m /bin/bash username
+
+删除账号1userdel -r -f username
+
+修改sudoers12vim /etc/sudoersusername   ALL=(ALL) /usr/bin/file(命令绝对路径)
+
+生成ssh密钥对123456ssh-keygen -t rsa -b 4096 ssh-keygen -t ed25519#加密方式可以选择其他类型的#之后都按enter键选择默认选项就可以了#密钥对都保存在~/.ssh/这个文件里面 公钥与私钥#要保证公钥已经写入author
+        
+      </article>
+    </div>
+  </div>
+</div>
+      
+    
+      <div class="post-wrapper">
+  <div class="post-wrap right" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/10/25/pwn%E9%A2%98%E8%AE%B0%E5%BD%952/" aria-label="pwn题记录2" title="pwn题记录2"></a>
+    
+    
+    <div class="post-cover right">
+      
+        
+        
+          <img data-src="/covers/91AAD43D4205529C43AFC7915906B5D0.jpg" data-sizes="auto" alt="pwn题记录2" class="lazyload">
         
       
     </div>
@@ -369,16 +523,16 @@ exp:
       
     
       <div class="post-wrapper">
-  <div class="post-wrap right" data-aos="fade-up">
+  <div class="post-wrap left" data-aos="fade-up">
     
       <a class="post-link" href="/2025/10/23/pwn%E9%A2%98%E8%AE%B0%E5%BD%951/" aria-label="pwn题记录1" title="pwn题记录1"></a>
     
     
-    <div class="post-cover right">
+    <div class="post-cover left">
       
         
         
-          <img data-src="/covers/Gz1J3jfaoAABGOV.jpg" data-sizes="auto" alt="pwn题记录1" class="lazyload">
+          <img data-src="/covers/52984721_p0.png" data-sizes="auto" alt="pwn题记录1" class="lazyload">
         
       
     </div>
@@ -428,16 +582,16 @@ exp:
       
     
       <div class="post-wrapper">
-  <div class="post-wrap left" data-aos="fade-up">
+  <div class="post-wrap right" data-aos="fade-up">
     
       <a class="post-link" href="/2025/10/09/Ronos%E9%9D%B6%E6%9C%BA%E5%A4%8D%E7%8E%B0/" aria-label="Ronos靶机复现" title="Ronos靶机复现"></a>
     
     
-    <div class="post-cover left">
+    <div class="post-cover right">
       
         
         
-          <img data-src="/covers/Gr8dC-LXoAARCi1.jpg" data-sizes="auto" alt="Ronos靶机复现" class="lazyload">
+          <img data-src="/covers/2341663_p0.jpg" data-sizes="auto" alt="Ronos靶机复现" class="lazyload">
         
       
     </div>
@@ -479,16 +633,16 @@ root该如何提权呢
       
     
       <div class="post-wrapper">
-  <div class="post-wrap right" data-aos="fade-up">
+  <div class="post-wrap left" data-aos="fade-up">
     
       <a class="post-link" href="/2025/10/01/logi%E9%9D%B6%E6%9C%BA/" aria-label="logi靶机" title="logi靶机"></a>
     
     
-    <div class="post-cover right">
+    <div class="post-cover left">
       
         
         
-          <img data-src="/covers/98827563_p0.jpg" data-sizes="auto" alt="logi靶机" class="lazyload">
+          <img data-src="/covers/GNNIPWUbAAA3gqy.jpg" data-sizes="auto" alt="logi靶机" class="lazyload">
         
       
     </div>
@@ -542,16 +696,16 @@ ame:jiayouachunyu
       
     
       <div class="post-wrapper">
-  <div class="post-wrap left" data-aos="fade-up">
+  <div class="post-wrap right" data-aos="fade-up">
     
       <a class="post-link" href="/2025/09/30/%E4%BB%8Ejs%E5%88%B0%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" aria-label="从js到命令执行" title="从js到命令执行"></a>
     
     
-    <div class="post-cover left">
+    <div class="post-cover right">
       
         
         
-          <img data-src="/covers/99283483_p0.png" data-sizes="auto" alt="从js到命令执行" class="lazyload">
+          <img data-src="/covers/2475639_p0.jpg" data-sizes="auto" alt="从js到命令执行" class="lazyload">
         
       
     </div>
@@ -598,16 +752,16 @@ ame:jiayouachunyu
       
     
       <div class="post-wrapper">
-  <div class="post-wrap right" data-aos="fade-up">
+  <div class="post-wrap left" data-aos="fade-up">
     
       <a class="post-link" href="/2025/09/30/paste2%E9%9D%B6%E6%9C%BA/" aria-label="paste2靶机" title="paste2靶机"></a>
     
     
-    <div class="post-cover right">
+    <div class="post-cover left">
       
         
         
-          <img data-src="/covers/101213277_p0.jpg" data-sizes="auto" alt="paste2靶机" class="lazyload">
+          <img data-src="/covers/100064507_p0_master1200.jpg" data-sizes="auto" alt="paste2靶机" class="lazyload">
         
       
     </div>
@@ -667,16 +821,16 @@ ba
       
     
       <div class="post-wrapper">
-  <div class="post-wrap left" data-aos="fade-up">
+  <div class="post-wrap right" data-aos="fade-up">
     
       <a class="post-link" href="/2025/09/29/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%88%AB%E6%A0%B7%E7%9A%84%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" aria-label="记一次别样的文件上传" title="记一次别样的文件上传"></a>
     
     
-    <div class="post-cover left">
+    <div class="post-cover right">
       
         
         
-          <img data-src="/covers/80278148_p0_master1200.jpg" data-sizes="auto" alt="记一次别样的文件上传" class="lazyload">
+          <img data-src="/covers/27281935_p0_master1200.jpg" data-sizes="auto" alt="记一次别样的文件上传" class="lazyload">
         
       
     </div>
@@ -710,143 +864,6 @@ ba
 但是绝大部分都已经被找到了
 
 也是喜提3个重
-        
-      </article>
-    </div>
-  </div>
-</div>
-      
-    
-      <div class="post-wrapper">
-  <div class="post-wrap right" data-aos="fade-up">
-    
-      <a class="post-link" href="/2025/09/29/%E4%BD%BF%E7%94%A8hexo%E6%90%AD%E5%BB%BAblog%E6%89%80%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/" aria-label="使用hexo搭建blog所遇到的问题" title="使用hexo搭建blog所遇到的问题"></a>
-    
-    
-    <div class="post-cover right">
-      
-        
-        
-          <img data-src="/covers/104923326_p0.png" data-sizes="auto" alt="使用hexo搭建blog所遇到的问题" class="lazyload">
-        
-      
-    </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2025-09-29</span>
-        
-        <span><span class="icon-pencil"></span>546 字</span>
-        <span><span class="icon-clock"></span>3 分钟</span>
-      </div>
-      <h2 class="post-title">使用hexo搭建blog所遇到的问题</h2>
-      <article class="post-article">
-        
-          使用hexo所遇到的问题解决分享关于图片没法加载推荐这几位作者的解决方法
-https://www.cnblogs.com/edisonfish/p/18180672
-https://blog.csdn.net/m0_43401436/article/details/107191688
-https://arcsin2.cloud/2023/02/23/Hexo-%E5%8D%9A%E5%AE%A2%E6%97%A0%E6%B3%95%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/
-使用的是静态本地部
-        
-      </article>
-    </div>
-  </div>
-</div>
-      
-    
-      <div class="post-wrapper">
-  <div class="post-wrap left" data-aos="fade-up">
-    
-      <a class="post-link" href="/2025/09/28/chat%E9%9D%B6%E6%9C%BA/" aria-label="chat靶机" title="chat靶机"></a>
-    
-    
-    <div class="post-cover left">
-      
-        
-        
-          <img data-src="/covers/98122635_p0.png" data-sizes="auto" alt="chat靶机" class="lazyload">
-        
-      
-    </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2025-09-28</span>
-        
-        <span><span class="icon-pencil"></span>678 字</span>
-        <span><span class="icon-clock"></span>3 分钟</span>
-      </div>
-      <h2 class="post-title">chat靶机</h2>
-      <article class="post-article">
-        
-          chat靶机端口信息
-主要是22 2222 8000端口
-http
-打开是某个用户的目录
-没法超越目录只能在这个目录下查看
-
-.ssh里面有私钥
-可以尝试用私钥来免密登录
-公钥里面泄露了用户名称
-
-ssh chat这个端口开放的服务是一个匿名聊天室
-
-用户名可以随便输入
-尝试多次并没有什么可以攻击的地方
-ssh使用私钥来尝试ssh免密登录
-
-虽然使用了私钥 但是并没有提示私钥是否正确 或者 权限问题 所以这个用户没法用私钥登录
-在之前的ssh chat也出现过todd
-可以进行尝试用todd和scycree去爆破密码
-
-这里猜测todd:todd也是比较抽象（todd是群里的大佬）
-但是成功了
-        
-      </article>
-    </div>
-  </div>
-</div>
-      
-    
-      <div class="post-wrapper">
-  <div class="post-wrap right" data-aos="fade-up">
-    
-      <a class="post-link" href="/2025/09/28/team%E9%9D%B6%E6%9C%BA/" aria-label="team靶机" title="team靶机"></a>
-    
-    
-    <div class="post-cover right">
-      
-        
-        
-          <img data-src="/covers/67624284_p0.jpg" data-sizes="auto" alt="team靶机" class="lazyload">
-        
-      
-    </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2025-09-28</span>
-        
-        <span><span class="icon-pencil"></span>377 字</span>
-        <span><span class="icon-clock"></span>2 分钟</span>
-      </div>
-      <h2 class="post-title">team靶机</h2>
-      <article class="post-article">
-        
-          team靶机端口信息
-开了两个http分别访问一下
-http
-80端口的web服务就只是一个静态页面没有用
-
-8000端口的web服务是一个登录框通过目录扫描可以扫到一个api接口目录
-
-
-经过测试 这里面的接口即使是能用的也没有什么有用的信息所以现在只能尝试爆破密码了从常见的用户名 admin root user guest test去爆破看看经过一通爆破
-
-最后发现有账号root:password123
-
-进去看是一个仪表盘翻了一下并没有什么可以直接getshell的点但是在密钥存储这里有点线索
-
-猜测todd和ssh有关可能是账号我们直接hydra爆破一下
-
-爆破出来是todd:pass
         
       </article>
     </div>
@@ -890,10 +907,10 @@ http
     
       <div>
         <span class="icon-brush"></span>
-        16.5k
+        26.4k
         &nbsp;|&nbsp;
         <span class="icon-coffee"></span>
-        01:17
+        02:02
       </div>
     
     
@@ -930,15 +947,15 @@ http
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>文章</div>
-    <div class="sidebar-state-number">26</div>
+    <div class="sidebar-state-number">29</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
-    <div class="sidebar-state-number">6</div>
+    <div class="sidebar-state-number">7</div>
   </div>
   <div class="sidebar-state-tag">
     <div>标签</div>
-    <div class="sidebar-state-number">15</div>
+    <div class="sidebar-state-number">19</div>
   </div>
 </div>
 <div class="sidebar-social">
